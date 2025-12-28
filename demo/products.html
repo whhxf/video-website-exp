@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Products - SunTech Electric</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #141419;
+            --surface-elevated: #1c1c24;
+            --border: rgba(255,255,255,0.08);
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --whatsapp: #25D366;
+            --gold: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        /* ===== 导航 ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .navbar-inner {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; max-width: 1200px; margin: 0 auto;
+        }
+        .navbar-back {
+            width: 36px; height: 36px; background: var(--surface-elevated);
+            border: none; border-radius: 50%; color: var(--text);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .navbar-back svg { width: 20px; height: 20px; fill: currentColor; }
+        .navbar-title { font-weight: 600; font-size: 1.1rem; flex: 1; }
+        .navbar-booth {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: var(--gold);
+        }
+
+        /* ===== 筛选栏 ===== */
+        .filter-bar {
+            position: fixed; top: 60px; left: 0; right: 0; z-index: 99;
+            background: var(--surface); border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+        }
+        .filter-row {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .filter-row::-webkit-scrollbar { display: none; }
+        .filter-chip {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 14px; background: var(--surface-elevated);
+            border: 1px solid var(--border); border-radius: 20px;
+            font-size: 0.85rem; white-space: nowrap; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-chip:hover { border-color: var(--accent); }
+        .filter-chip.active { background: rgba(59, 130, 246, 0.15); border-color: var(--accent); color: var(--accent); }
+        .filter-chip svg { width: 14px; height: 14px; fill: currentColor; }
+
+        .search-box {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 14px; background: var(--surface-elevated);
+            border: 1px solid var(--border); border-radius: 10px;
+            margin-top: 8px;
+        }
+        .search-box svg { width: 18px; height: 18px; fill: var(--text-secondary); }
+        .search-box input {
+            flex: 1; background: transparent; border: none; color: var(--text);
+            font-size: 0.95rem; outline: none;
+        }
+        .search-box input::placeholder { color: var(--text-secondary); }
+
+        /* ===== 产品列表 ===== */
+        .products-container {
+            padding-top: 170px; padding-bottom: 80px;
+        }
+        .products-header {
+            padding: 16px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .products-count { font-size: 0.9rem; color: var(--text-secondary); }
+        .view-toggle {
+            display: flex; gap: 4px; background: var(--surface); padding: 4px; border-radius: 8px;
+        }
+        .view-btn {
+            width: 32px; height: 32px; background: transparent;
+            border: none; border-radius: 6px; cursor: pointer; color: var(--text-secondary);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .view-btn.active { background: var(--surface-elevated); color: var(--text); }
+        .view-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0 16px;
+        }
+        .products-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+
+        /* 产品卡片 */
+        .product-card {
+            background: var(--surface); border-radius: 12px; overflow: hidden;
+            border: 1px solid var(--border); text-decoration: none; color: inherit;
+            transition: all 0.2s;
+        }
+        .product-card:hover { border-color: var(--accent); }
+        
+        .product-img {
+            aspect-ratio: 1; background: var(--surface-elevated);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; position: relative;
+        }
+        .product-badge {
+            position: absolute; top: 6px; left: 6px;
+            padding: 3px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600;
+        }
+        .badge-hot { background: var(--red); color: white; }
+        .badge-new { background: var(--accent); color: white; }
+        
+        .product-info { padding: 10px; }
+        .product-name { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; line-height: 1.3; }
+        .product-spec { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .product-price { font-size: 0.8rem; color: var(--gold); font-weight: 600; }
+
+        /* 列表视图 */
+        .list-view .product-card {
+            display: flex; gap: 12px;
+        }
+        .list-view .product-img {
+            width: 100px; aspect-ratio: 1; flex-shrink: 0; font-size: 2rem;
+        }
+        .list-view .product-info {
+            flex: 1; display: flex; flex-direction: column; justify-content: center;
+        }
+        .list-view .product-name { font-size: 0.95rem; }
+        .list-view .product-spec { font-size: 0.8rem; }
+
+        /* ===== 底部栏 ===== */
+        .bottom-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+            padding: 12px 16px; padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex; gap: 10px;
+        }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 20px; border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; border: none; text-decoration: none; flex: 1;
+        }
+        .btn svg { width: 18px; height: 18px; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+        /* ===== 响应式 ===== */
+        @media (min-width: 768px) {
+            .products-grid { grid-template-columns: repeat(4, 1fr); }
+            .products-grid.list-view { grid-template-columns: repeat(2, 1fr); }
+            .bottom-bar {
+                max-width: 480px; left: 50%; transform: translateX(-50%);
+                border-radius: 16px 16px 0 0;
+            }
+        }
+        @media (min-width: 1024px) {
+            .products-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 顶部导航 ===== -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <button class="navbar-back" onclick="history.back()">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </button>
+            <span class="navbar-title">All Products</span>
+            <div class="navbar-booth">Hall 3.1 · B25</div>
+        </div>
+    </nav>
+
+    <!-- ===== 筛选栏 ===== -->
+    <div class="filter-bar">
+        <div class="filter-row">
+            <div class="filter-chip active" data-cat="all">All</div>
+            <div class="filter-chip" data-cat="panel">
+                <span>💡</span> Panel Lights
+            </div>
+            <div class="filter-chip" data-cat="downlight">
+                <span>🔆</span> Downlights
+            </div>
+            <div class="filter-chip" data-cat="highbay">
+                <span>🏭</span> High Bay
+            </div>
+            <div class="filter-chip" data-cat="track">
+                <span>🎯</span> Track Lights
+            </div>
+            <div class="filter-chip" data-cat="smart">
+                <span>📱</span> Smart
+            </div>
+            <div class="filter-chip" data-cat="outdoor">
+                <span>🌙</span> Outdoor
+            </div>
+        </div>
+        <div class="search-box">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" placeholder="Search products..." id="searchInput">
+        </div>
+    </div>
+
+    <!-- ===== 产品列表 ===== -->
+    <div class="products-container">
+        <div class="products-header">
+            <span class="products-count">232 Products</span>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">
+                    <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zm10-10h8v8h-8V3zm0 10h8v8h-8v-8z"/></svg>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- 产品将通过JS渲染 -->
+        </div>
+    </div>
+
+    <!-- ===== 底部栏 ===== -->
+    <div class="bottom-bar">
+        <a href="index.html" class="btn btn-outline">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+        </a>
+        <button class="btn btn-whatsapp" onclick="directWhatsApp()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.547 4.107 1.508 5.838L0 24l6.335-1.652A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+            WhatsApp
+        </button>
+    </div>
+
+    <script>
+        // 产品数据
+        const products = [
+            { id: 1, name: 'LED Panel Light 600x600', spec: '40W · 4000K · 120lm/W · IP44', cat: 'panel', icon: '💡', badge: 'hot', price: '$12.5-15.8' },
+            { id: 2, name: 'LED Panel Light 300x1200', spec: '36W · CCT Tunable · UGR<19', cat: 'panel', icon: '💡', badge: '', price: '$14.2-18.5' },
+            { id: 3, name: 'Frameless Panel Light', spec: '48W · Edge-lit · 0-10V Dim', cat: 'panel', icon: '💡', badge: 'new', price: '$18.0-22.0' },
+            { id: 4, name: 'Back-lit Panel Light', spec: '40W · Flicker-free · TUV', cat: 'panel', icon: '💡', badge: '', price: '$11.0-14.5' },
+            { id: 5, name: 'Ultra-thin Downlight', spec: '15W · CCT Tunable · CRI>90', cat: 'downlight', icon: '🔆', badge: 'new', price: '$3.8-5.2' },
+            { id: 6, name: 'Anti-glare Downlight', spec: '20W · UGR<16 · 60° Beam', cat: 'downlight', icon: '🔆', badge: '', price: '$6.5-8.8' },
+            { id: 7, name: 'Gimbal Downlight', spec: '12W · 360° Rotation · COB', cat: 'downlight', icon: '🔆', badge: '', price: '$5.2-7.0' },
+            { id: 8, name: 'Surface Mount Downlight', spec: '18W · IP44 · Die-cast Alu', cat: 'downlight', icon: '🔆', badge: '', price: '$4.5-6.5' },
+            { id: 9, name: 'UFO High Bay 100W', spec: '100W · 150lm/W · IP65 · 5yr', cat: 'highbay', icon: '🏭', badge: '', price: '$28.0-35.0' },
+            { id: 10, name: 'UFO High Bay 150W', spec: '150W · 150lm/W · IP65 · MW', cat: 'highbay', icon: '🏭', badge: 'hot', price: '$42.0-52.0' },
+            { id: 11, name: 'UFO High Bay 200W', spec: '200W · 160lm/W · IP66 · DALI', cat: 'highbay', icon: '🏭', badge: '', price: '$55.0-68.0' },
+            { id: 12, name: 'Linear High Bay', spec: '150W · Modular · IP54', cat: 'highbay', icon: '🏭', badge: '', price: '$48.0-58.0' },
+            { id: 13, name: 'Magnetic Track Light', spec: '20W · 48V · 360° Rotation', cat: 'track', icon: '🎯', badge: 'hot', price: '$15.0-20.0' },
+            { id: 14, name: 'Track Spotlight COB', spec: '30W · CRI>95 · 15°-60°', cat: 'track', icon: '🎯', badge: '', price: '$12.0-16.0' },
+            { id: 15, name: 'Linear Track System', spec: '24W/m · RGBW · Seamless', cat: 'track', icon: '🎯', badge: 'new', price: '$25.0-32.0' },
+            { id: 16, name: 'Smart RGBW Bulb', spec: '12W · WiFi+BLE · Voice', cat: 'smart', icon: '📱', badge: '', price: '$4.5-6.0' },
+            { id: 17, name: 'Smart Panel 600x600', spec: '40W · Tuya · CCT+DIM', cat: 'smart', icon: '📱', badge: '', price: '$22.0-28.0' },
+            { id: 18, name: 'Smart Downlight', spec: '15W · Zigbee3.0 · RGBCCT', cat: 'smart', icon: '📱', badge: 'new', price: '$8.0-11.0' },
+            { id: 19, name: 'Solar Street Light', spec: '60W · LiFePO4 · PIR', cat: 'outdoor', icon: '🌙', badge: '', price: '$85.0-120.0' },
+            { id: 20, name: 'LED Flood Light', spec: '100W · IP66 · IK08', cat: 'outdoor', icon: '🌙', badge: '', price: '$18.0-25.0' },
+            { id: 21, name: 'Wall Pack Light', spec: '50W · DLC · Photocell', cat: 'outdoor', icon: '🌙', badge: '', price: '$22.0-30.0' },
+            { id: 22, name: 'Parking Lot Light', spec: '150W · Type III · IP66', cat: 'outdoor', icon: '🌙', badge: '', price: '$65.0-85.0' },
+            { id: 23, name: 'LED Tube T8', spec: '18W · 1200mm · Ballast Bypass', cat: 'panel', icon: '💡', badge: '', price: '$2.8-4.0' },
+            { id: 24, name: 'LED Strip Light', spec: '14.4W/m · IP67 · RGBW', cat: 'smart', icon: '📱', badge: '', price: '$8.0-12.0/m' },
+        ];
+
+        // 渲染产品
+        function renderProducts(filter = 'all', search = '') {
+            const grid = document.getElementById('productsGrid');
+            let filtered = products;
+            
+            if (filter !== 'all') {
+                filtered = filtered.filter(p => p.cat === filter);
+            }
+            if (search) {
+                const s = search.toLowerCase();
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(s) || 
+                    p.spec.toLowerCase().includes(s)
+                );
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <a href="product-detail.html?id=${p.id}" class="product-card">
+                    <div class="product-img">
+                        ${p.icon}
+                        ${p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-spec">${p.spec}</div>
+                        <div class="product-price">${p.price}</div>
+                    </div>
+                </a>
+            `).join('');
+
+            document.querySelector('.products-count').textContent = `${filtered.length} Products`;
+        }
+
+        // 初始化
+        renderProducts();
+
+        // 分类筛选
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                renderProducts(chip.dataset.cat, document.getElementById('searchInput').value);
+            });
+        });
+
+        // 搜索
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeCat = document.querySelector('.filter-chip.active').dataset.cat;
+            renderProducts(activeCat, e.target.value);
+        });
+
+        // 视图切换
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const grid = document.getElementById('productsGrid');
+                if (btn.dataset.view === 'list') {
+                    grid.classList.add('list-view');
+                } else {
+                    grid.classList.remove('list-view');
+                }
+            });
+        });
+
+        // URL参数
+        const params = new URLSearchParams(location.search);
+        const cat = params.get('cat');
+        if (cat) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            const target = document.querySelector(`.filter-chip[data-cat="${cat}"]`);
+            if (target) {
+                target.classList.add('active');
+                renderProducts(cat);
+            }
+        }
+
+        // WhatsApp
+        function directWhatsApp() {
+            const msg = encodeURIComponent(`Hi! I'm browsing your product catalog at Canton Fair.\n\nI'd like to get pricing for multiple items.\n\nThank you!`);
+            window.open(`https://wa.me/8613800138000?text=${msg}`, '_blank');
+        }
+    </script>
+</body>
+</html>
+

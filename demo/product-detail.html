@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LED Panel Light PRO - SunTech Electric</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #141419;
+            --surface-elevated: #1c1c24;
+            --border: rgba(255,255,255,0.08);
+            --text: #ffffff;
+            --text-secondary: #8b8b9a;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --whatsapp: #25D366;
+            --gold: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ===== 导航 ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .navbar-inner {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; max-width: 1200px; margin: 0 auto;
+        }
+        .navbar-back {
+            width: 36px; height: 36px; background: var(--surface-elevated);
+            border: none; border-radius: 50%; color: var(--text);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .navbar-back svg { width: 20px; height: 20px; fill: currentColor; }
+        .navbar-title { font-weight: 600; font-size: 1rem; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .navbar-share {
+            width: 36px; height: 36px; background: var(--surface-elevated);
+            border: none; border-radius: 50%; color: var(--text);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .navbar-share svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* ===== 主容器 ===== */
+        .main-container {
+            padding-top: 60px; padding-bottom: 100px;
+            max-width: 1200px; margin: 0 auto;
+        }
+
+        /* ===== 图片轮播 ===== */
+        .gallery {
+            position: relative; background: var(--surface);
+        }
+        .gallery-main {
+            aspect-ratio: 4/3; background: var(--surface-elevated);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 6rem; position: relative; overflow: hidden;
+        }
+        .gallery-badge {
+            position: absolute; top: 12px; left: 12px;
+            padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+            background: var(--red); color: white;
+        }
+        .gallery-video-btn {
+            position: absolute; bottom: 12px; right: 12px;
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 14px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            border: none; border-radius: 20px; color: white; font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .gallery-video-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        
+        .gallery-thumbs {
+            display: flex; gap: 8px; padding: 12px; overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .gallery-thumbs::-webkit-scrollbar { display: none; }
+        .gallery-thumb {
+            width: 60px; height: 60px; flex-shrink: 0;
+            background: var(--surface-elevated); border-radius: 8px;
+            border: 2px solid transparent; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+        }
+        .gallery-thumb.active { border-color: var(--accent); }
+        .gallery-thumb.video {
+            position: relative;
+        }
+        .gallery-thumb.video::after {
+            content: '▶'; position: absolute;
+            font-size: 0.8rem; color: white;
+        }
+
+        /* ===== 产品基本信息 ===== */
+        .product-header {
+            padding: 20px 16px; background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+        .product-category {
+            font-size: 0.8rem; color: var(--accent); margin-bottom: 6px;
+        }
+        .product-title {
+            font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; line-height: 1.3;
+        }
+        .product-model {
+            font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;
+        }
+        .product-price {
+            display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;
+        }
+        .price-range {
+            font-size: 1.5rem; font-weight: 700; color: var(--gold);
+        }
+        .price-unit {
+            font-size: 0.85rem; color: var(--text-secondary);
+        }
+        .product-moq {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; background: var(--surface-elevated);
+            border-radius: 6px; font-size: 0.85rem;
+        }
+
+        /* ===== 快速规格 ===== */
+        .quick-specs {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1px; background: var(--border); margin-top: 16px;
+        }
+        .quick-spec {
+            background: var(--surface); padding: 12px 8px; text-align: center;
+        }
+        .quick-spec-value {
+            font-size: 1.1rem; font-weight: 600; color: var(--accent);
+        }
+        .quick-spec-label {
+            font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;
+        }
+
+        /* ===== 内容区块 ===== */
+        .content-section {
+            padding: 20px 16px; background: var(--surface);
+            margin-top: 8px;
+        }
+        .section-title {
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .section-title svg { width: 20px; height: 20px; fill: var(--accent); }
+
+        /* ===== Tab 切换 ===== */
+        .tabs {
+            display: flex; gap: 4px; background: var(--surface);
+            padding: 12px 16px; margin-top: 8px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab {
+            padding: 10px 18px; background: var(--surface-elevated);
+            border: 1px solid var(--border); border-radius: 20px;
+            font-size: 0.9rem; font-weight: 500; cursor: pointer;
+            white-space: nowrap; transition: all 0.2s;
+        }
+        .tab.active {
+            background: rgba(59, 130, 246, 0.15); border-color: var(--accent); color: var(--accent);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ===== 规格参数表 ===== */
+        .specs-table {
+            width: 100%; border-collapse: collapse;
+        }
+        .specs-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+        .specs-table th,
+        .specs-table td {
+            padding: 12px; text-align: left; font-size: 0.9rem;
+        }
+        .specs-table th {
+            width: 40%; color: var(--text-secondary); font-weight: 500;
+            background: var(--surface-elevated);
+        }
+        .specs-table td {
+            font-weight: 500;
+        }
+        .specs-group {
+            padding: 12px; background: rgba(59, 130, 246, 0.1);
+            font-weight: 600; font-size: 0.85rem; color: var(--accent);
+        }
+
+        /* ===== 应用场景 ===== */
+        .applications-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+        }
+        .app-card {
+            background: var(--surface-elevated); border-radius: 12px;
+            overflow: hidden; border: 1px solid var(--border);
+        }
+        .app-img {
+            aspect-ratio: 16/10; background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+        }
+        .app-info { padding: 10px; }
+        .app-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+        .app-desc { font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* ===== 产品视频 ===== */
+        .video-card {
+            background: var(--surface-elevated); border-radius: 12px;
+            overflow: hidden; margin-bottom: 12px; cursor: pointer;
+        }
+        .video-preview {
+            aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; position: relative;
+        }
+        .video-play-btn {
+            width: 60px; height: 60px; background: rgba(255,255,255,0.1);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 8px;
+        }
+        .video-play-btn svg { width: 24px; height: 24px; fill: white; margin-left: 3px; }
+        .video-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .video-duration {
+            position: absolute; bottom: 8px; right: 8px;
+            background: rgba(0,0,0,0.8); padding: 2px 8px; border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        /* ===== 下载资料 ===== */
+        .downloads-list {
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .download-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px; background: var(--surface-elevated);
+            border-radius: 10px; border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .download-item:hover { border-color: var(--accent); }
+        .download-icon {
+            width: 40px; height: 40px; background: rgba(59, 130, 246, 0.15);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+        .download-icon svg { width: 20px; height: 20px; fill: var(--accent); }
+        .download-info { flex: 1; }
+        .download-name { font-weight: 600; font-size: 0.9rem; }
+        .download-size { font-size: 0.8rem; color: var(--text-secondary); }
+        .download-btn {
+            padding: 8px 14px; background: var(--accent);
+            border: none; border-radius: 6px; color: white;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+        }
+
+        /* ===== 相关产品 ===== */
+        .related-scroll {
+            display: flex; gap: 12px; overflow-x: auto;
+            padding-bottom: 8px; -webkit-overflow-scrolling: touch;
+        }
+        .related-scroll::-webkit-scrollbar { display: none; }
+        .related-card {
+            flex-shrink: 0; width: 140px;
+            background: var(--surface-elevated); border-radius: 10px;
+            overflow: hidden; border: 1px solid var(--border);
+            text-decoration: none; color: inherit;
+        }
+        .related-img {
+            aspect-ratio: 1; background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+        }
+        .related-info { padding: 10px; }
+        .related-name { font-size: 0.8rem; font-weight: 500; line-height: 1.3; }
+        .related-price { font-size: 0.75rem; color: var(--gold); margin-top: 4px; }
+
+        /* ===== 底部操作栏 ===== */
+        .bottom-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+            padding: 12px 16px; padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            background: rgba(10, 10, 15, 0.98); backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex; gap: 10px; align-items: center;
+        }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 20px; border-radius: 10px; font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; border: none; text-decoration: none;
+        }
+        .btn svg { width: 20px; height: 20px; }
+        .btn-whatsapp { background: var(--whatsapp); color: white; flex: 1; }
+        .btn-primary { background: var(--accent); color: white; flex: 1; }
+        .btn-icon {
+            width: 48px; height: 48px; padding: 0; flex-shrink: 0;
+            background: var(--surface-elevated); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text);
+        }
+
+        /* ===== 询价弹窗 ===== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; align-items: flex-end; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .modal {
+            background: var(--surface); border-radius: 20px 20px 0 0;
+            padding: 20px; width: 100%; max-width: 480px;
+            transform: translateY(100%); transition: transform 0.3s;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-overlay.show .modal { transform: translateY(0); }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+        }
+        .modal-title { font-size: 1.1rem; font-weight: 600; }
+        .modal-close {
+            width: 32px; height: 32px; background: var(--surface-elevated);
+            border: none; border-radius: 50%; color: var(--text); font-size: 1.2rem; cursor: pointer;
+        }
+        .modal-product {
+            display: flex; gap: 12px; padding: 12px;
+            background: var(--surface-elevated); border-radius: 10px; margin-bottom: 16px;
+        }
+        .modal-product-img {
+            width: 60px; height: 60px; background: var(--bg); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
+        .modal-product-info { flex: 1; }
+        .modal-product-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+        .modal-product-spec { font-size: 0.8rem; color: var(--text-secondary); }
+        .modal-form { display: flex; flex-direction: column; gap: 10px; }
+        .modal-form input, .modal-form textarea, .modal-form select {
+            padding: 14px; background: var(--surface-elevated); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text); font-size: 0.95rem; resize: none;
+        }
+        .modal-form input::placeholder, .modal-form textarea::placeholder { color: var(--text-secondary); }
+        .modal-form input:focus, .modal-form textarea:focus, .modal-form select:focus {
+            outline: none; border-color: var(--accent);
+        }
+        .modal-form .btn { margin-top: 8px; }
+        .modal-skip {
+            text-align: center; margin-top: 12px; font-size: 0.85rem;
+        }
+        .modal-skip a { color: var(--text-secondary); text-decoration: none; }
+
+        /* ===== 响应式 ===== */
+        @media (min-width: 768px) {
+            .main-container {
+                display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+                padding: 80px 24px 120px;
+            }
+            .gallery { position: sticky; top: 80px; border-radius: 16px; overflow: hidden; }
+            .product-content { grid-column: 2; }
+            .product-header { border-radius: 16px; }
+            .content-section { border-radius: 12px; }
+            .tabs { border-radius: 12px 12px 0 0; }
+            .applications-grid { grid-template-columns: repeat(3, 1fr); }
+            .bottom-bar {
+                max-width: 500px; left: 50%; transform: translateX(-50%);
+                border-radius: 16px 16px 0 0;
+            }
+            .modal { border-radius: 20px; margin: auto; }
+            .modal-overlay { align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 顶部导航 ===== -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <button class="navbar-back" onclick="history.back()">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            </button>
+            <span class="navbar-title">LED Panel Light PRO 600x600</span>
+            <button class="navbar-share" onclick="shareProduct()">
+                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== 主容器 ===== -->
+    <div class="main-container">
+        <!-- 左侧：图片画廊 -->
+        <div class="gallery">
+            <div class="gallery-main" id="galleryMain">
+                💡
+                <span class="gallery-badge">HOT</span>
+                <button class="gallery-video-btn" onclick="playProductVideo()">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    Product Video
+                </button>
+            </div>
+            <div class="gallery-thumbs">
+                <div class="gallery-thumb active">💡</div>
+                <div class="gallery-thumb">📐</div>
+                <div class="gallery-thumb">🔧</div>
+                <div class="gallery-thumb">📦</div>
+                <div class="gallery-thumb video">🎬</div>
+            </div>
+        </div>
+
+        <!-- 右侧：产品信息 -->
+        <div class="product-content">
+            <!-- 基本信息 -->
+            <div class="product-header">
+                <div class="product-category">Panel Lights › Commercial</div>
+                <h1 class="product-title">LED Panel Light PRO 600x600</h1>
+                <div class="product-model">Model: ST-PL600-40W-4K | SKU: PL-2024-0156</div>
+                
+                <div class="product-price">
+                    <span class="price-range">$12.50 - $15.80</span>
+                    <span class="price-unit">/ piece</span>
+                </div>
+                <div class="product-moq">
+                    📦 MOQ: 100 pcs &nbsp;|&nbsp; 🚚 Lead time: 15-20 days
+                </div>
+
+                <!-- 快速规格 -->
+                <div class="quick-specs">
+                    <div class="quick-spec">
+                        <div class="quick-spec-value">40W</div>
+                        <div class="quick-spec-label">Power</div>
+                    </div>
+                    <div class="quick-spec">
+                        <div class="quick-spec-value">4000K</div>
+                        <div class="quick-spec-label">CCT</div>
+                    </div>
+                    <div class="quick-spec">
+                        <div class="quick-spec-value">120</div>
+                        <div class="quick-spec-label">lm/W</div>
+                    </div>
+                    <div class="quick-spec">
+                        <div class="quick-spec-value">IP44</div>
+                        <div class="quick-spec-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 导航 -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Specifications</div>
+                <div class="tab" data-tab="apps">Applications</div>
+                <div class="tab" data-tab="videos">Videos</div>
+                <div class="tab" data-tab="downloads">Downloads</div>
+            </div>
+
+            <!-- 规格参数 -->
+            <div class="content-section tab-content active" id="tab-specs">
+                <table class="specs-table">
+                    <tr><td colspan="2" class="specs-group">Electrical Parameters</td></tr>
+                    <tr><th>Input Voltage</th><td>AC 100-277V, 50/60Hz</td></tr>
+                    <tr><th>Power</th><td>40W ± 5%</td></tr>
+                    <tr><th>Power Factor</th><td>≥ 0.95</td></tr>
+                    <tr><th>THD</th><td>< 15%</td></tr>
+                    
+                    <tr><td colspan="2" class="specs-group">Optical Parameters</td></tr>
+                    <tr><th>Luminous Flux</th><td>4800 lm ± 5%</td></tr>
+                    <tr><th>Efficacy</th><td>120 lm/W</td></tr>
+                    <tr><th>CCT Options</th><td>3000K / 4000K / 5000K / 6500K</td></tr>
+                    <tr><th>CRI</th><td>≥ 80 (Ra90 optional)</td></tr>
+                    <tr><th>Beam Angle</th><td>120°</td></tr>
+                    <tr><th>UGR</th><td>< 19</td></tr>
+                    
+                    <tr><td colspan="2" class="specs-group">Physical Parameters</td></tr>
+                    <tr><th>Dimensions</th><td>595 x 595 x 10mm</td></tr>
+                    <tr><th>Weight</th><td>2.8 kg</td></tr>
+                    <tr><th>Material</th><td>Aluminum frame + PMMA diffuser</td></tr>
+                    <tr><th>LED Type</th><td>SMD 2835</td></tr>
+                    
+                    <tr><td colspan="2" class="specs-group">Environment & Safety</td></tr>
+                    <tr><th>IP Rating</th><td>IP44</td></tr>
+                    <tr><th>Operating Temp</th><td>-20°C ~ +45°C</td></tr>
+                    <tr><th>Lifespan</th><td>50,000 hours (L70)</td></tr>
+                    <tr><th>Warranty</th><td>5 Years</td></tr>
+                    
+                    <tr><td colspan="2" class="specs-group">Certifications</td></tr>
+                    <tr><th>Certificates</th><td>CE, RoHS, TUV, CB, SAA, UL (optional)</td></tr>
+                    
+                    <tr><td colspan="2" class="specs-group">Dimming Options</td></tr>
+                    <tr><th>Dimming</th><td>0-10V / DALI / Triac / Non-dim</td></tr>
+                    <tr><th>Smart Control</th><td>Tuya / Zigbee 3.0 (optional)</td></tr>
+                </table>
+            </div>
+
+            <!-- 应用场景 -->
+            <div class="content-section tab-content" id="tab-apps">
+                <h3 class="section-title">
+                    <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 12.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    Ideal Application Scenarios
+                </h3>
+                <div class="applications-grid">
+                    <div class="app-card">
+                        <div class="app-img">🏢</div>
+                        <div class="app-info">
+                            <div class="app-name">Office Buildings</div>
+                            <div class="app-desc">Open office, conference rooms, corridors</div>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-img">🏥</div>
+                        <div class="app-info">
+                            <div class="app-name">Healthcare</div>
+                            <div class="app-desc">Hospitals, clinics, laboratories</div>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-img">🏫</div>
+                        <div class="app-info">
+                            <div class="app-name">Education</div>
+                            <div class="app-desc">Classrooms, libraries, lecture halls</div>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-img">🛒</div>
+                        <div class="app-info">
+                            <div class="app-name">Retail</div>
+                            <div class="app-desc">Supermarkets, showrooms, malls</div>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-img">🏨</div>
+                        <div class="app-info">
+                            <div class="app-name">Hospitality</div>
+                            <div class="app-desc">Hotels, restaurants, lobbies</div>
+                        </div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-img">🏭</div>
+                        <div class="app-info">
+                            <div class="app-name">Industrial</div>
+                            <div class="app-desc">Clean rooms, workshops</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="margin-top: 24px;">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Key Features
+                </h3>
+                <ul style="padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--text);">Ultra-thin Design:</strong> Only 10mm thickness for easy installation in tight spaces</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--text);">Flicker-free:</strong> IEEE 1789 compliant, safe for long-term use</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--text);">Uniform Lighting:</strong> LGP technology ensures no dark spots</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--text);">Easy Installation:</strong> Recessed, surface mount, or suspended</li>
+                    <li style="margin-bottom: 8px;"><strong style="color: var(--text);">Energy Efficient:</strong> 70% energy savings vs fluorescent</li>
+                </ul>
+            </div>
+
+            <!-- 视频 -->
+            <div class="content-section tab-content" id="tab-videos">
+                <h3 class="section-title">
+                    <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                    Product Videos
+                </h3>
+                <div class="video-card" onclick="playVideo('product-intro')">
+                    <div class="video-preview">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <span class="video-label">Product Introduction</span>
+                        <span class="video-duration">2:15</span>
+                    </div>
+                </div>
+                <div class="video-card" onclick="playVideo('installation')">
+                    <div class="video-preview">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <span class="video-label">Installation Guide</span>
+                        <span class="video-duration">3:42</span>
+                    </div>
+                </div>
+                <div class="video-card" onclick="playVideo('aging-test')">
+                    <div class="video-preview">
+                        <div class="video-play-btn">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <span class="video-label">Quality Aging Test</span>
+                        <span class="video-duration">1:28</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 下载资料 -->
+            <div class="content-section tab-content" id="tab-downloads">
+                <h3 class="section-title">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zm-3-7v4h-2v-4h-2l3-3 3 3h-2z"/></svg>
+                    Download Resources
+                </h3>
+                <div class="downloads-list">
+                    <div class="download-item" onclick="downloadFile('datasheet')">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        </div>
+                        <div class="download-info">
+                            <div class="download-name">Product Datasheet</div>
+                            <div class="download-size">PDF · 2.3 MB</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                    <div class="download-item" onclick="downloadFile('ies')">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+                        </div>
+                        <div class="download-info">
+                            <div class="download-name">IES Photometric File</div>
+                            <div class="download-size">IES · 45 KB</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                    <div class="download-item" onclick="downloadFile('certificate')">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        </div>
+                        <div class="download-info">
+                            <div class="download-name">CE/TUV Certificates</div>
+                            <div class="download-size">PDF · 1.8 MB</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                    <div class="download-item" onclick="downloadFile('manual')">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                        </div>
+                        <div class="download-info">
+                            <div class="download-name">Installation Manual</div>
+                            <div class="download-size">PDF · 856 KB</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                    <div class="download-item" onclick="downloadFile('cad')">
+                        <div class="download-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-7-2h2V7h-4v2h2z"/></svg>
+                        </div>
+                        <div class="download-info">
+                            <div class="download-name">CAD Drawing (DWG)</div>
+                            <div class="download-size">DWG · 320 KB</div>
+                        </div>
+                        <button class="download-btn">Download</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 相关产品 -->
+            <div class="content-section">
+                <h3 class="section-title">
+                    <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                    Related Products
+                </h3>
+                <div class="related-scroll">
+                    <a href="product-detail.html?id=2" class="related-card">
+                        <div class="related-img">💡</div>
+                        <div class="related-info">
+                            <div class="related-name">Panel Light 300x1200</div>
+                            <div class="related-price">$14.2-18.5</div>
+                        </div>
+                    </a>
+                    <a href="product-detail.html?id=3" class="related-card">
+                        <div class="related-img">💡</div>
+                        <div class="related-info">
+                            <div class="related-name">Frameless Panel</div>
+                            <div class="related-price">$18.0-22.0</div>
+                        </div>
+                    </a>
+                    <a href="product-detail.html?id=4" class="related-card">
+                        <div class="related-img">💡</div>
+                        <div class="related-info">
+                            <div class="related-name">Back-lit Panel</div>
+                            <div class="related-price">$11.0-14.5</div>
+                        </div>
+                    </a>
+                    <a href="product-detail.html?id=5" class="related-card">
+                        <div class="related-img">🔆</div>
+                        <div class="related-info">
+                            <div class="related-name">Ultra-thin Downlight</div>
+                            <div class="related-price">$3.8-5.2</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 底部操作栏 ===== -->
+    <div class="bottom-bar">
+        <button class="btn btn-icon" onclick="addToInquiry()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+        </button>
+        <button class="btn btn-primary" onclick="openQuoteModal()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+            Request Quote
+        </button>
+        <button class="btn btn-whatsapp" onclick="directWhatsApp()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+        </button>
+    </div>
+
+    <!-- ===== 询价弹窗 ===== -->
+    <div class="modal-overlay" id="quoteModal" onclick="closeQuoteModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <span class="modal-title">Request Quotation</span>
+                <button class="modal-close" onclick="closeQuoteModal()">×</button>
+            </div>
+            <div class="modal-product">
+                <div class="modal-product-img">💡</div>
+                <div class="modal-product-info">
+                    <div class="modal-product-name">LED Panel Light PRO 600x600</div>
+                    <div class="modal-product-spec">40W · 4000K · 120lm/W</div>
+                </div>
+            </div>
+            <form class="modal-form" onsubmit="submitQuote(event)">
+                <input type="text" placeholder="Your Name *" required id="qName">
+                <input type="text" placeholder="Company Name" id="qCompany">
+                <input type="tel" placeholder="WhatsApp Number *" required id="qWhatsApp">
+                <select id="qQuantity">
+                    <option value="">Expected Quantity</option>
+                    <option value="100-500">100 - 500 pcs</option>
+                    <option value="500-1000">500 - 1,000 pcs</option>
+                    <option value="1000-5000">1,000 - 5,000 pcs</option>
+                    <option value="5000+">5,000+ pcs</option>
+                </select>
+                <textarea placeholder="Additional requirements (CCT, dimming, packaging...)" rows="3" id="qNote"></textarea>
+                <button type="submit" class="btn btn-whatsapp">
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                    Send & Open WhatsApp
+                </button>
+            </form>
+            <div class="modal-skip">
+                <a href="#" onclick="directWhatsApp(); return false;">Skip form, chat directly →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab 切换
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Gallery 缩略图
+        document.querySelectorAll('.gallery-thumb').forEach((thumb, i) => {
+            thumb.addEventListener('click', () => {
+                document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                // 实际项目中切换图片
+            });
+        });
+
+        // 询价弹窗
+        function openQuoteModal() {
+            document.getElementById('quoteModal').classList.add('show');
+        }
+        function closeQuoteModal(e) {
+            if (!e || e.target.id === 'quoteModal') {
+                document.getElementById('quoteModal').classList.remove('show');
+            }
+        }
+
+        // 提交询价
+        function submitQuote(e) {
+            e.preventDefault();
+            const name = document.getElementById('qName').value;
+            const company = document.getElementById('qCompany').value;
+            const quantity = document.getElementById('qQuantity').value;
+            const note = document.getElementById('qNote').value;
+            
+            let msg = `Hi! I'm ${name}`;
+            if (company) msg += ` from ${company}`;
+            msg += `.\n\nI'm interested in:\n📦 LED Panel Light PRO 600x600\n💰 40W · 4000K · 120lm/W`;
+            if (quantity) msg += `\n📊 Quantity: ${quantity}`;
+            if (note) msg += `\n📝 Note: ${note}`;
+            msg += `\n\nPlease send me the best price and lead time.\n\nThank you!`;
+            
+            window.open(`https://wa.me/8613800138000?text=${encodeURIComponent(msg)}`, '_blank');
+            closeQuoteModal();
+        }
+
+        // 直接WhatsApp
+        function directWhatsApp() {
+            const msg = `Hi! I'm interested in LED Panel Light PRO 600x600 (40W, 4000K).\n\nCould you please send me pricing and MOQ?\n\nThank you!`;
+            window.open(`https://wa.me/8613800138000?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // 视频播放
+        function playVideo(id) {
+            alert(`Playing video: ${id}\n\n(In production, this opens video player)`);
+        }
+        function playProductVideo() {
+            playVideo('product-intro');
+        }
+
+        // 下载文件
+        function downloadFile(type) {
+            alert(`Downloading: ${type}\n\n(In production, this triggers download or opens inquiry form)`);
+        }
+
+        // 分享
+        function shareProduct() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'LED Panel Light PRO',
+                    text: 'Check out this product from SunTech Electric',
+                    url: location.href
+                });
+            } else {
+                // 复制链接
+                navigator.clipboard.writeText(location.href);
+                alert('Link copied to clipboard!');
+            }
+        }
+
+        // 加入询价单
+        function addToInquiry() {
+            alert('Added to inquiry list!\n\n(In production, this saves to local storage for batch inquiry)');
+        }
+    </script>
+</body>
+</html>
+
