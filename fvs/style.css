@@ -1,0 +1,289 @@
+:root {
+    --primary-color: #007bff;
+    --bg-color: #121212;
+    --panel-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --led-red: #ff0000;
+    --led-bg: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+main {
+    background-color: var(--panel-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* 视频容器样式 */
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+}
+
+#factory-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* LED 跑马灯样式 */
+.led-overlay {
+    position: absolute;
+    top: 15%; /* 模拟 LED 挂在工厂墙上或设备上方的位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 60px;
+    background-color: var(--led-bg);
+    border: 4px solid #333;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2), inset 0 0 10px rgba(255, 0, 0, 0.5);
+    z-index: 10;
+}
+
+/* 模拟 LED 点阵质感 */
+.led-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(0,0,0,0) 1px, rgba(0,0,0,0.8) 1px);
+    background-size: 3px 3px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.led-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.led-content {
+    white-space: nowrap;
+    position: absolute;
+    color: var(--led-red);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 32px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--led-red);
+    animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+/* 倒计时覆盖层 */
+.countdown-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    transition: opacity 0.3s;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.countdown-box {
+    text-align: center;
+    background: #252525;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #444;
+}
+
+.timer {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+.progress-bar {
+    width: 200px;
+    height: 6px;
+    background-color: #444;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 20px auto 0;
+}
+
+.progress-inner {
+    height: 100%;
+    width: 100%;
+    background-color: var(--primary-color);
+    transition: width 1s linear;
+}
+
+/* 控制面板样式 */
+.control-panel {
+    padding: 30px;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+#user-input:focus {
+    border-color: var(--primary-color);
+}
+
+#send-btn {
+    padding: 12px 30px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#send-btn:hover {
+    background-color: #0056b3;
+}
+
+#send-btn:disabled {
+    background-color: #444;
+    cursor: not-allowed;
+}
+
+.tips {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .video-container {
+        border-radius: 8px;
+    }
+
+    .led-overlay {
+        width: 80%;
+        height: 40px;
+        top: 10%;
+        border-width: 2px;
+    }
+
+    .led-content {
+        font-size: 20px;
+    }
+
+    .control-panel {
+        padding: 20px 15px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #user-input {
+        width: 100%;
+        font-size: 16px; /* 防止 iOS 自动放大 */
+    }
+
+    #send-btn {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .timer {
+        font-size: 3rem;
+    }
+
+    .countdown-box {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+

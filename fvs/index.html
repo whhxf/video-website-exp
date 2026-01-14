@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频验厂互动 Demo - 建立海外采购商信任</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>视频验厂实时互动验证系统</h1>
+            <p class="subtitle">Real-time Factory Verification System</p>
+        </header>
+
+        <main>
+            <div class="video-container">
+                <!-- 视频播放区 -->
+                <video id="factory-video" autoplay loop muted playsinline>
+                    <source src="videoplayback.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+
+                <!-- LED 跑马灯显示屏覆盖层 -->
+                <div class="led-overlay">
+                    <div class="led-screen">
+                        <div id="led-text" class="led-content">欢迎来到我们的智慧工厂！Welcome to our smart factory!</div>
+                    </div>
+                </div>
+
+                <!-- 倒计时提示层 -->
+                <div id="countdown-overlay" class="countdown-overlay hidden">
+                    <div class="countdown-box">
+                        <p>正在同步文字到工厂现场...</p>
+                        <div class="timer"><span id="timer-seconds">10</span>s</div>
+                        <div class="progress-bar">
+                            <div id="progress-inner" class="progress-inner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="input-group">
+                    <input type="text" id="user-input" maxlength="50" placeholder="在此输入验证文字 (例如: Hello Kingsway)">
+                    <button id="send-btn">发送验证文字</button>
+                </div>
+                <div class="tips">
+                    <p>* 为了模拟真实网络传输和物理显示屏响应，文字将在 10 秒后显示在视频画面中的 LED 屏上。</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Kingsway Video</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
