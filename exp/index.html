@@ -1,0 +1,940 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stage Lighting Pro - Global Exhibition Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-card: white;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        .dark {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Sidebar Active State */
+        .sidebar-item.active {
+            background-color: var(--bg-card);
+            color: #4f46e5;
+            font-weight: 700;
+            border-left: 4px solid #4f46e5;
+        }
+
+        .sidebar-item.recommended-nav {
+            color: #f59e0b;
+        }
+        .sidebar-item.recommended-nav.active {
+            border-left-color: #f59e0b;
+            color: #f59e0b;
+        }
+
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+
+        /* PC Layout Adjustments */
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 100%;
+                margin: 0;
+                box-shadow: none;
+                height: 100vh;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+            }
+            .sticky-header {
+                width: 100%;
+                left: 0;
+                transform: none;
+            }
+            .fixed-bottom {
+                width: 100%;
+                left: 0;
+                transform: none;
+                display: flex;
+                justify-content: center;
+                pointer-events: none;
+            }
+            .fixed-bottom-content {
+                max-width: 600px;
+                width: 100%;
+                pointer-events: auto;
+            }
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 1rem;
+            padding-bottom: 1rem;
+        }
+        .carousel-item {
+            flex: 0 0 calc(100% - 2rem);
+            scroll-snap-align: center;
+        }
+        @media (min-width: 640px) {
+            .carousel-item {
+                flex: 0 0 calc(50% - 1rem);
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-item {
+                flex: 0 0 calc(33.333% - 1rem);
+            }
+        }
+
+        .video-aspect { aspect-ratio: 16 / 9; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+
+        .app-layout {
+            display: flex;
+            height: calc(100vh - 64px);
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 80px;
+            flex-shrink: 0;
+            background-color: var(--bg-primary);
+            overflow-y: auto;
+            border-right: 1px solid var(--border-color);
+        }
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: var(--bg-card);
+        }
+
+        /* Dark mode overrides for Tailwind */
+        .dark .bg-white { background-color: #1e293b !important; }
+        .dark .bg-slate-50 { background-color: #334155 !important; }
+        .dark .bg-slate-100 { background-color: #334155 !important; }
+        .dark .bg-slate-200 { background-color: #475569 !important; }
+        .dark .text-slate-900 { color: #f1f5f9 !important; }
+        .dark .text-slate-700 { color: #e2e8f0 !important; }
+        .dark .text-slate-600 { color: #cbd5e1 !important; }
+        .dark .text-slate-500 { color: #94a3b8 !important; }
+        .dark .text-slate-400 { color: #64748b !important; }
+        .dark .border-slate-100 { border-color: #334155 !important; }
+        .dark .border-slate-200 { border-color: #475569 !important; }
+
+        /* Dynamic Product Cover Styles */
+        .product-cover {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            width: 100%;
+            background-color: #f1f5f9;
+            aspect-ratio: 16 / 9; /* All product covers are 16:9 */
+        }
+        
+        .product-cover img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Review Carousel Styles */
+        .review-carousel-item {
+            flex: 0 0 calc(50% - 1rem);
+            scroll-snap-align: center;
+        }
+        @media (min-width: 640px) {
+            .review-carousel-item {
+                flex: 0 0 calc(33.333% - 1rem);
+            }
+        }
+        @media (min-width: 1024px) {
+            .review-carousel-item {
+                flex: 0 0 calc(20% - 1rem);
+            }
+        }
+        .portrait-video { aspect-ratio: 9 / 16; }
+
+        /* Print Styles */
+        .print-only { display: none; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+            .print-card { border: 1px solid #eee; break-inside: avoid; }
+            .app-container { max-width: 100%; box-shadow: none; }
+        }
+    </style>
+</head>
+<body class="text-slate-900 transition-colors duration-300">
+
+    <div class="app-container">
+        <!-- Header -->
+        <nav class="sticky-header sticky top-0 z-50 bg-white border-b border-slate-200 px-4 h-16 flex justify-between items-center no-print transition-colors">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+                <div class="flex items-center gap-2 shrink-0">
+                    <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-200">SL</div>
+                    <div class="hidden lg:block">
+                        <h1 class="font-bold text-base leading-none">STAGE LIGHTING PRO</h1>
+                        <p class="text-[10px] text-slate-400 mt-0.5 uppercase tracking-tighter">Premium Stage Solutions</p>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-[200px] sm:max-w-sm relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors"></i>
+                    </div>
+                    <input type="text" placeholder="Search..." class="w-full bg-slate-100 border-none rounded-xl py-2 pl-9 pr-3 text-xs focus:ring-2 focus:ring-indigo-600/20 focus:bg-white transition-all outline-none dark:bg-slate-800 dark:text-slate-200">
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 shrink-0 ml-2">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors shrink-0">
+                    <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
+                    <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+                </button>
+                <div class="flex bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded-full text-[9px] font-bold border border-indigo-100 items-center gap-1 shrink-0">
+                    <i data-lucide="map-pin" class="w-3 h-3"></i>
+                    <span class="whitespace-nowrap">Hall 3.1 - B25</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- App Layout -->
+        <div class="app-layout no-print">
+            <!-- Sidebar Navigation (Ordering System Style) -->
+            <aside class="sidebar no-scrollbar">
+                <nav class="flex flex-col">
+                    <button onclick="scrollToSection('factory')" class="sidebar-item active flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="factory">
+                        <i data-lucide="factory" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-medium leading-tight">Factory Tour</span>
+                    </button>
+                    <button onclick="scrollToSection('strength')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="strength">
+                        <i data-lucide="shield-check" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-medium leading-tight">Strength</span>
+                    </button>
+                    <button onclick="scrollToSection('reviews')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="reviews">
+                        <i data-lucide="message-square" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-medium leading-tight">Reviews</span>
+                    </button>
+                    <div class="h-px bg-slate-200 mx-4 my-2"></div>
+                    <!-- Recommended Section -->
+                    <button onclick="scrollToSection('recommended')" class="sidebar-item recommended-nav flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-amber-50" data-section="recommended">
+                        <i data-lucide="award" class="w-6 h-6 mb-1 text-amber-500 opacity-80 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-bold leading-tight">Best Sellers</span>
+                    </button>
+                    <button onclick="scrollToSection('moving-heads')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="moving-heads">
+                        <i data-lucide="refresh-cw" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-medium leading-tight">Moving Heads</span>
+                    </button>
+                    <button onclick="scrollToSection('static-lights')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="static-lights">
+                        <i data-lucide="sun" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-medium leading-tight">Static Lights</span>
+                    </button>
+                    <button onclick="scrollToSection('accessories')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="accessories">
+                        <i data-lucide="settings" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
+                        <span class="text-[10px] font-medium leading-tight">Accessories</span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Main Content Scrollable -->
+            <main class="content-area no-scrollbar">
+                
+                <!-- Section: Factory Tour (Carousel) -->
+                <section id="factory" class="pt-6 px-4 mb-12 scroll-mt-20">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold">Factory Virtual Tour</h2>
+                        <p class="text-xs text-slate-500">Explore our manufacturing excellence</p>
+                    </div>
+                    <div class="carousel-container no-scrollbar">
+                        <!-- Video 1 -->
+                        <div class="carousel-item">
+                            <div onclick="playVideo('VID-01')" class="video-aspect bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                                    <div class="flex items-center gap-3 text-white mb-2">
+                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                                            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
+                                        </div>
+                                        <span class="font-bold">Automated SMT Lines</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-300">Precision manufacturing & quality control</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Video 2 -->
+                        <div class="carousel-item">
+                            <div onclick="playVideo('VID-02')" class="video-aspect bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                                    <div class="flex items-center gap-3 text-white mb-2">
+                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                                            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
+                                        </div>
+                                        <span class="font-bold">R&D Center</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-300">Innovative optical & thermal design</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Video 3 -->
+                        <div class="carousel-item">
+                            <div onclick="playVideo('VID-03')" class="video-aspect bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                                    <div class="flex items-center gap-3 text-white mb-2">
+                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
+                                            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
+                                        </div>
+                                        <span class="font-bold">Aging Test Room</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-300">72-hour non-stop reliability testing</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Strength & Trust (Carousel) -->
+                <section id="strength" class="px-4 mb-12 scroll-mt-20">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold">Why Pros Choose Us?</h2>
+                        <p class="text-xs text-slate-500">Industry leading standards & global trust</p>
+                    </div>
+                    <div class="carousel-container no-scrollbar">
+                        <!-- Stat 1 -->
+                        <div class="carousel-item">
+                            <div class="bg-indigo-600 rounded-3xl p-8 text-white h-full flex flex-col justify-between shadow-xl">
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="award" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-black italic mb-1">15+</div>
+                                    <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Years of Experience</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Stat 2 -->
+                        <div class="carousel-item">
+                            <div class="bg-amber-500 rounded-3xl p-8 text-white h-full flex flex-col justify-between shadow-xl">
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="globe" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-black italic mb-1">500+</div>
+                                    <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Global Projects</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Stat 3 -->
+                        <div class="carousel-item">
+                            <div class="bg-emerald-500 rounded-3xl p-8 text-white h-full flex flex-col justify-between shadow-xl">
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="check-circle" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-black italic mb-1">ISO</div>
+                                    <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Certified Quality</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Customer Video Reviews (Vertical Carousel) -->
+                <section id="reviews" class="px-4 mb-12 scroll-mt-20">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold">Client Reviews</h2>
+                        <p class="text-xs text-slate-500">See what our global partners say</p>
+                    </div>
+                    <div class="carousel-container no-scrollbar">
+                        <!-- Review 1 -->
+                        <div class="carousel-item review-carousel-item">
+                            <div onclick="playVideo('REV-01')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
+                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
+                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                                    </div>
+                                    <p class="text-white text-[11px] font-bold mb-1">"Best beam quality for our stadium show!"</p>
+                                    <p class="text-slate-300 text-[9px]">Event Director, USA</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Review 2 -->
+                        <div class="carousel-item review-carousel-item">
+                            <div onclick="playVideo('REV-02')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
+                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
+                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                                    </div>
+                                    <p class="text-white text-[11px] font-bold mb-1">"The most reliable moving heads we've used."</p>
+                                    <p class="text-slate-300 text-[9px]">Stage Manager, Germany</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Review 3 -->
+                        <div class="carousel-item review-carousel-item">
+                            <div onclick="playVideo('REV-03')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
+                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
+                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                                    </div>
+                                    <p class="text-white text-[11px] font-bold mb-1">"Incredible support and quality control."</p>
+                                    <p class="text-slate-300 text-[9px]">Rental Company, Brazil</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Review 4 -->
+                        <div class="carousel-item review-carousel-item">
+                            <div onclick="playVideo('REV-04')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
+                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
+                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                                    </div>
+                                    <p class="text-white text-[11px] font-bold mb-1">"Perfect for our global tour."</p>
+                                    <p class="text-slate-300 text-[9px]">Technical Lead, UK</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Product Categories -->
+                <div id="product-sections" class="px-4 pb-32">
+                <section id="recommended" class="pt-4 scroll-mt-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i data-lucide="award" class="w-5 h-5 text-amber-500"></i>
+                        <h3 class="font-bold text-sm uppercase tracking-widest text-amber-600">Best Sellers</h3>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4" id="recommended-grid">
+                        <!-- JS Render -->
+                    </div>
+                </section>
+
+                <section id="moving-heads" class="pt-8 scroll-mt-6">
+                    <h3 class="font-bold text-sm mb-4 uppercase tracking-widest text-slate-400">Moving Heads</h3>
+                    <div class="grid grid-cols-1 gap-4" id="moving-heads-grid">
+                        <!-- JS Render -->
+                    </div>
+                </section>
+
+                <section id="static-lights" class="pt-8 scroll-mt-6">
+                    <h3 class="font-bold text-sm mb-4 uppercase tracking-widest text-slate-400">Static Lights</h3>
+                    <div class="grid grid-cols-1 gap-4" id="static-lights-grid">
+                        <!-- JS Render -->
+                    </div>
+                </section>
+
+                <section id="accessories" class="pt-8 scroll-mt-6">
+                    <h3 class="font-bold text-sm mb-4 uppercase tracking-widest text-slate-400">Accessories</h3>
+                    <div class="grid grid-cols-1 gap-4" id="accessories-grid">
+                        <!-- JS Render -->
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Persistent Bottom Bar -->
+    <div class="fixed-bottom fixed bottom-6 left-0 right-0 z-40 px-4 no-print">
+        <div class="fixed-bottom-content flex gap-3">
+            <button onclick="toggleFavoritesModal()" class="flex-1 bg-white border border-slate-200 shadow-2xl rounded-2xl py-3 px-4 flex items-center justify-between group active:scale-95 transition-transform dark:bg-slate-800 dark:border-slate-700">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <i data-lucide="heart" class="text-rose-500 fill-rose-500"></i>
+                        <span id="fav-count-badge" class="absolute -top-2 -right-2 bg-indigo-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-white">0</span>
+                    </div>
+                    <span class="font-bold text-slate-700 dark:text-slate-200">Favorites</span>
+                </div>
+                <i data-lucide="chevron-up" class="w-4 h-4 text-slate-400 group-hover:-translate-y-0.5 transition-transform"></i>
+            </button>
+            <button onclick="openWhatsApp()" class="bg-indigo-600 text-white shadow-2xl shadow-indigo-200 rounded-2xl py-3 px-6 flex items-center gap-2 font-bold active:scale-95 transition-transform">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                <span>Quote</span>
+            </button>
+        </div>
+    </div>
+    </div> <!-- Close app-container -->
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[60] pointer-events-none no-print">
+        <div id="product-modal-backdrop" onclick="closeProductModal()" class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
+        <div id="product-modal-content" class="absolute bottom-0 left-0 right-0 bg-white dark:bg-slate-900 rounded-t-[32px] max-h-[90vh] overflow-y-auto translate-y-full transition-transform duration-300 pointer-events-auto mx-auto max-w-lg">
+            <div id="product-detail-body"></div>
+        </div>
+    </div>
+
+    <!-- Favorites Drawer -->
+    <div id="favorites-modal" class="fixed inset-0 z-50 pointer-events-none no-print">
+        <div id="modal-backdrop" onclick="toggleFavoritesModal()" class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+        <div id="modal-content" class="absolute bottom-0 left-0 right-0 bg-white dark:bg-slate-900 rounded-t-[32px] max-h-[85vh] overflow-y-auto translate-y-full transition-transform duration-300 pointer-events-auto flex flex-col mx-auto max-w-lg">
+            <div class="w-12 h-1 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-6"></div>
+            <div class="px-6 pb-6 flex-1 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">My Interest List <span id="fav-count-text" class="text-slate-400 font-normal text-sm">(0)</span></h3>
+                    <button onclick="toggleFavoritesModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x"></i></button>
+                </div>
+                <div id="favorites-list" class="space-y-4 mb-8"></div>
+                <div id="share-form" class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 hidden">
+                    <h4 class="font-bold mb-4 flex items-center gap-2 text-indigo-600"><i data-lucide="user" class="w-4 h-4"></i>Get Accurate Quote</h4>
+                    <div class="space-y-4">
+                        <input type="text" id="cust-name" placeholder="Your Name" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500/20">
+                        <div class="grid grid-cols-2 gap-4">
+                            <select id="cust-role" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none appearance-none">
+                                <option value="">Job Role</option>
+                                <option value="Buyer">Buyer</option>
+                                <option value="Tech Director">Tech Director</option>
+                                <option value="CEO">Owner / CEO</option>
+                                <option value="Engineer">Engineer</option>
+                                <option value="Distributor">Distributor</option>
+                            </select>
+                            <select id="cust-country" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none appearance-none">
+                                <option value="">Country</option>
+                                <option value="USA">USA</option><option value="UK">UK</option><option value="Germany">Germany</option><option value="UAE">UAE</option><option value="Brazil">Brazil</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex gap-3">
+                <button onclick="shareToWhatsApp(true)" class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-4 rounded-2xl font-bold">Direct Share</button>
+                <button onclick="shareToWhatsApp(false)" class="flex-[2] bg-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-100">
+                    <i data-lucide="send" class="w-5 h-5"></i><span>Send to Sales</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print View -->
+    <div class="print-only p-10">
+        <div class="flex justify-between border-b-2 border-slate-900 pb-6 mb-8">
+            <div>
+                <h1 class="text-3xl font-black">STAGE LIGHTING PRO</h1>
+                <p class="text-slate-500 uppercase tracking-widest text-sm mt-1">International Exhibition 2026</p>
+            </div>
+            <div class="text-right">
+                <p class="font-bold">Hall 3.1 - B25</p>
+                <p class="text-slate-400 text-xs">Prolight + Sound</p>
+            </div>
+        </div>
+        <div id="print-customer-info" class="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl mb-10 border border-slate-200"></div>
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2 underline decoration-indigo-500 underline-offset-8">Selected Product Inquiry</h2>
+        <div id="print-product-list" class="space-y-8"></div>
+        <div class="mt-16 pt-10 border-t border-slate-200">
+            <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-slate-400">Sales Consultation Notes:</h3>
+            <div class="h-40 border-2 border-dashed border-slate-200 rounded-3xl p-6 text-slate-300 italic">Project Type, Budget, Lead Time, Customization Requirements...</div>
+        </div>
+        <div class="mt-16 flex items-center justify-between p-8 bg-slate-900 text-white rounded-3xl">
+            <div>
+                <p class="text-indigo-400 font-bold mb-1">Stay Connected</p>
+                <p class="text-2xl font-bold mb-1">Chat with Mr. Lee</p>
+                <p class="opacity-60 text-sm">WhatsApp: +86 138-xxxx-xxxx</p>
+            </div>
+            <div class="w-32 h-32 bg-white p-3 rounded-2xl flex items-center justify-center text-slate-900 text-center text-[10px] font-bold">QR CODE<br>WhatsApp</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Data Definition
+        const products = [
+            {
+                id: "SL-001", cat: "moving-heads", recommended: true,
+                name: "350W Super Beam", model: "BEAM-350",
+                imgs: [
+                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400",
+                    "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400",
+                    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400"
+                ],
+                video: "./videoplayback.webm",
+                tagline: "17R Source | 8° Ultra-sharp | Silent Fan",
+                specs: { 
+                    Power: "350W", 
+                    Angle: "8°", 
+                    Channel: "16/20CH",
+                    Source: "OSRAM 17R",
+                    Color: "14 Colors + Open",
+                    Gobo: "17 Gobos + Open",
+                    Prism: "8+16 Facet Prism",
+                    Weight: "18kg"
+                }
+            },
+            {
+                id: "SL-002", cat: "moving-heads", recommended: false,
+                name: "200W LED Wash", model: "WASH-200",
+                imgs: [
+                    "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400",
+                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400"
+                ],
+                video: "./videoplayback.webm",
+                tagline: "RGBW 4-in-1 | 8-50° Zoom | Soft Mix",
+                specs: { 
+                    Power: "200W", 
+                    Zoom: "8-50°", 
+                    Weight: "12kg",
+                    LED: "19x15W RGBW",
+                    Control: "DMX512/Auto",
+                    Strobe: "1-25 fps",
+                    Cooling: "Heat-pipe System",
+                    Protection: "IP20"
+                }
+            },
+            {
+                id: "SL-003", cat: "static-lights", recommended: true,
+                name: "54x3W LED Par", model: "PAR-54",
+                imgs: [
+                    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400",
+                    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400"
+                ],
+                video: "./videoplayback.webm",
+                tagline: "Best Seller | Rental Pro | Die-cast Aluminum",
+                specs: { 
+                    LED: "54x3W", 
+                    Color: "RGBW", 
+                    Angle: "25°",
+                    Shell: "Die-cast Aluminum",
+                    Input: "AC100-240V",
+                    Mode: "DMX/Sound/Master",
+                    Lifetime: "50,000 hrs",
+                    Size: "22x22x29cm"
+                }
+            },
+            {
+                id: "SL-004", cat: "static-lights", recommended: false,
+                name: "2500W Follow Spot", model: "FOLLOW-2500",
+                imgs: [
+                    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400",
+                    "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=400"
+                ],
+                video: "./videoplayback.webm",
+                tagline: "Long Throw | Theatre Grade | Manual Focus",
+                specs: { 
+                    Range: "50-300m", 
+                    Source: "2500W Bulb",
+                    Color: "5 Colors + White",
+                    Dimming: "0-100% Manual",
+                    Iris: "Adjustable",
+                    Stand: "Included",
+                    Weight: "25kg",
+                    Voltage: "220V"
+                }
+            },
+            {
+                id: "SL-005", cat: "accessories", recommended: false,
+                name: "Pro Lighting Console", model: "CONSOLE-PRO",
+                imgs: [
+                    "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=400",
+                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400"
+                ],
+                video: "./videoplayback.webm",
+                tagline: "8192 CH | 15.6\" Touch | Built-in Effects",
+                specs: { 
+                    DMX: "8 Universe", 
+                    Screen: "15.6\" Touch",
+                    Storage: "128G SSD",
+                    RAM: "8GB DDR4",
+                    Encoders: "4 Optical",
+                    Sliders: "10 Playback",
+                    System: "Linux Embedded",
+                    Ports: "Ethernet/USB/Artnet"
+                }
+            }
+        ];
+
+        let favorites = JSON.parse(localStorage.getItem('fav_list') || '[]');
+
+        function init() {
+            renderGrids();
+            updateUI();
+            setupSidebarScroll();
+            lucide.createIcons();
+            initTheme();
+        }
+
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                // Update active state manually for immediate feedback
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-section') === id) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        function renderGrids() {
+            // Render Recommended (Best Sellers)
+            const recommendedGrid = document.getElementById('recommended-grid');
+            recommendedGrid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4";
+            recommendedGrid.innerHTML = products.filter(p => p.recommended).map(p => renderProductCard(p)).join('');
+
+            // Render Categories
+            const cats = ['moving-heads', 'static-lights', 'accessories'];
+            cats.forEach(cat => {
+                const grid = document.getElementById(`${cat}-grid`);
+                grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4";
+                grid.innerHTML = products.filter(p => p.cat === cat).map(p => renderProductCard(p)).join('');
+            });
+            lucide.createIcons();
+            initImageSwitching();
+        }
+
+        function renderProductCard(p) {
+            return `
+                <div class="flex flex-col p-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-sm animate-fade-in relative group cursor-pointer" onclick="showProductDetail('${p.id}')">
+                    ${p.recommended ? `
+                        <div class="absolute top-1 left-1 bg-amber-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-md shadow-lg z-10 flex items-center gap-0.5 uppercase tracking-tighter">
+                            <i data-lucide="award" class="w-2 h-2"></i> Hot
+                        </div>
+                    ` : ''}
+                    <div class="product-cover mb-2" id="cover-${p.id}">
+                        ${p.imgs.map((img, idx) => `<img src="${img}" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ${idx === 0 ? 'opacity-100' : 'opacity-0'}" data-index="${idx}">`).join('')}
+                    </div>
+                    <div class="flex-1 min-w-0 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-[11px] truncate dark:text-white">${p.name}</h4>
+                            <p class="text-[9px] text-indigo-600 font-bold mb-0.5">${p.model}</p>
+                            <p class="text-[9px] text-slate-400 line-clamp-1">${p.tagline}</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-[8px] bg-slate-50 dark:bg-slate-700 px-1.5 py-0.5 rounded border border-slate-100 dark:border-slate-600 text-slate-500">Stock</span>
+                            <button onclick="event.stopPropagation(); toggleFavorite('${p.id}')" class="w-7 h-7 rounded-lg flex items-center justify-center transition-all ${favorites.includes(p.id) ? 'bg-rose-50 text-rose-500' : 'bg-slate-50 text-slate-300'}">
+                                <i data-lucide="heart" class="w-3.5 h-3.5 ${favorites.includes(p.id) ? 'fill-rose-500' : ''}"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initImageSwitching() {
+            const covers = document.querySelectorAll('.product-cover');
+            covers.forEach(cover => {
+                const imgs = cover.querySelectorAll('img');
+                if (imgs.length <= 1) return;
+                
+                let currentIdx = 0;
+                setInterval(() => {
+                    imgs[currentIdx].classList.remove('opacity-100');
+                    imgs[currentIdx].classList.add('opacity-0');
+                    currentIdx = (currentIdx + 1) % imgs.length;
+                    imgs[currentIdx].classList.remove('opacity-0');
+                    imgs[currentIdx].classList.add('opacity-100');
+                }, 3000); // Switch every 3 seconds
+            });
+        }
+
+        function setupSidebarScroll() {
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            const mainContent = document.querySelector('.content-area');
+            const sections = document.querySelectorAll('section');
+
+            mainContent.addEventListener('scroll', () => {
+                let current = "";
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (mainContent.scrollTop >= sectionTop - 150) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                sidebarItems.forEach(item => {
+                    item.classList.remove("active");
+                    if (item.getAttribute('data-section') === current) {
+                        item.classList.add("active");
+                    }
+                });
+            });
+        }
+
+        function showProductDetail(id) {
+            const p = products.find(x => x.id === id);
+            const detailBody = document.getElementById('product-detail-body');
+            detailBody.innerHTML = `
+                <div class="relative">
+                    <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/20 backdrop-blur rounded-full flex items-center justify-center text-white"><i data-lucide="x"></i></button>
+                    <div class="aspect-video">
+                         <video src="${p.video}" muted playsinline loop autoplay class="w-full h-full object-cover"></video>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div><p class="text-indigo-600 font-bold text-sm">${p.model}</p><h2 class="text-2xl font-bold dark:text-white">${p.name}</h2></div>
+                            <button onclick="toggleFavorite('${p.id}'); showProductDetail('${p.id}')" class="w-12 h-12 rounded-2xl flex items-center justify-center active:scale-90 bg-rose-50">
+                                <i data-lucide="heart" class="w-6 h-6 ${favorites.includes(p.id) ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}"></i>
+                            </button>
+                        </div>
+                        <p class="text-slate-500 mb-8 text-sm">${p.tagline}</p>
+                        
+                        <div class="mb-8">
+                            <h3 class="font-bold text-sm mb-4 dark:text-slate-300 uppercase tracking-widest text-indigo-600">Product Gallery</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                ${p.imgs.map(img => `<img src="${img}" class="rounded-xl w-full h-32 object-cover">`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="font-bold text-sm mb-4 dark:text-slate-300 uppercase tracking-widest text-indigo-600">Technical Specifications</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                ${Object.entries(p.specs).map(([k, v]) => `<div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700"><p class="text-[10px] text-slate-400 uppercase font-bold">${k}</p><p class="font-bold text-[11px] text-slate-700 dark:text-slate-200">${v}</p></div>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <button onclick="closeProductModal(); toggleFavorite('${p.id}')" class="w-full py-4 rounded-2xl font-bold border-2 ${favorites.includes(p.id) ? 'border-rose-100 text-rose-500' : 'border-indigo-600 text-indigo-600'}">${favorites.includes(p.id) ? 'Remove from Interests' : 'Add to Interests'}</button>
+                    </div>
+                </div>
+            `;
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('pointer-events-none');
+            document.getElementById('product-modal-backdrop').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('product-modal-content').classList.remove('translate-y-full');
+            lucide.createIcons();
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal-content').classList.add('translate-y-full');
+            document.getElementById('product-modal-backdrop').classList.add('opacity-0');
+            setTimeout(() => document.getElementById('product-modal').classList.add('pointer-events-none'), 300);
+        }
+
+        function toggleFavorite(id) {
+            const idx = favorites.indexOf(id);
+            if (idx > -1) favorites.splice(idx, 1); else favorites.push(id);
+            localStorage.setItem('fav_list', JSON.stringify(favorites));
+            renderGrids(); renderFavoritesList(); updateUI();
+        }
+
+        function updateUI() {
+            const count = favorites.length;
+            const badge = document.getElementById('fav-count-badge');
+            if (badge) badge.textContent = count;
+            const text = document.getElementById('fav-count-text');
+            if (text) text.textContent = `(${count})`;
+            const form = document.getElementById('share-form');
+            if (form) form.classList.toggle('hidden', count === 0);
+        }
+
+        function renderFavoritesList() {
+            const container = document.getElementById('favorites-list');
+            if (!container) return;
+            if (favorites.length === 0) {
+                container.innerHTML = `<div class="py-12 text-center text-slate-400 space-y-3"><i data-lucide="heart" class="w-12 h-12 mx-auto opacity-10"></i><p>No favorites yet</p></div>`;
+            } else {
+                container.innerHTML = favorites.map(id => {
+                    const p = products.find(x => x.id === id);
+                    if (!p) return '';
+                    return `<div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700"><img src="${p.imgs[0]}" class="w-12 h-12 rounded-lg object-cover"><div class="flex-1"><h4 class="font-bold text-xs dark:text-white">${p.name}</h4><p class="text-[10px] text-slate-400">${p.model}</p></div><button onclick="toggleFavorite('${p.id}')" class="text-slate-300 p-2"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>`;
+                }).join('');
+            }
+            lucide.createIcons();
+        }
+
+        function toggleFavoritesModal() {
+            const modal = document.getElementById('favorites-modal');
+            const isOpen = !modal.classList.contains('pointer-events-none');
+            if (isOpen) {
+                document.getElementById('modal-content').classList.add('translate-y-full');
+                document.getElementById('modal-backdrop').classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('pointer-events-none'), 300);
+            } else {
+                modal.classList.remove('pointer-events-none');
+                document.getElementById('modal-backdrop').classList.remove('opacity-0', 'pointer-events-none');
+                renderFavoritesList();
+                setTimeout(() => document.getElementById('modal-content').classList.remove('translate-y-full'), 10);
+            }
+        }
+
+        function shareToWhatsApp(skip) {
+            if (favorites.length === 0) return alert("Select products first");
+            const name = skip ? "" : document.getElementById('cust-name').value;
+            const role = skip ? "" : document.getElementById('cust-role').value;
+            const country = skip ? "" : document.getElementById('cust-country').value;
+            const list = favorites.map(id => products.find(p => p.id === id).name).join(', ');
+            
+            // Generate link to the Sales View page
+            let path = window.location.pathname;
+            if (path.endsWith('/') || !path.includes('.')) {
+                path += 'sales-view.html';
+            } else {
+                path = path.replace(/[^\/]*\.html$/, 'sales-view.html');
+            }
+            const salesViewUrl = window.location.origin + path 
+                + `?ids=${favorites.join(',')}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&country=${encodeURIComponent(country)}`;
+
+            let msg = `Hi, ${name ? "I'm " + name + (role ? " (" + role + ")" : "") + (country ? " from " + country : "") + ". " : ""}I'm interested in: ${list}\n\nView my inquiry detail: ${salesViewUrl}`;
+            window.open(`https://wa.me/8613800138000?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function openWhatsApp() { window.open(`https://wa.me/8613800138000?text=${encodeURIComponent("Hi! Visiting your booth. Send catalog please.")}`, '_blank'); }
+        function playVideo(id) { alert("Demo Mode: Loading HQ Trusted Video - " + id); }
+
+        window.onbeforeprint = () => {
+            const name = document.getElementById('cust-name').value || "Global Pro Client";
+            document.getElementById('print-customer-info').innerHTML = `<div><p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Client Profile</p><p class="text-lg font-bold">${name}</p><p class="text-xs opacity-60">${document.getElementById('cust-role').value || "Buyer"} · ${document.getElementById('cust-country').value || "Worldwide"}</p></div><div class="text-right"><p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Inquiry Date</p><p class="font-bold">${new Date().toLocaleDateString()}</p></div>`;
+            document.getElementById('print-product-list').innerHTML = favorites.map((id, i) => {
+                const p = products.find(x => x.id === id);
+                return `<div class="print-card p-6 rounded-3xl border border-slate-200 flex gap-6 items-center">
+                    <div class="w-24 h-24 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-300 font-black italic">IMAGE</div>
+                    <div class="flex-1"><div class="flex justify-between mb-2"><h4 class="text-lg font-bold">${i + 1}. ${p.name}</h4><span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-[10px] font-bold">${p.model}</span></div><p class="text-xs text-slate-500 mb-4">${p.tagline}</p><div class="flex gap-10 text-[10px] font-bold"><span>QTY: _________</span><span>NOTES: _____________________________</span></div></div>
+                </div>`;
+            }).join('');
+        };
+
+        window.onload = init;
+    </script>
+</body>
+</html>

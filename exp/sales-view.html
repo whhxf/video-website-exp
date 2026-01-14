@@ -3,216 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales View - Customer Inquiry</title>
+    <title>Sales Dashboard - Lead Review</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        
         @media print {
             .no-print { display: none !important; }
             body { background-color: white !important; padding: 0 !important; margin: 0 !important; }
-            .print-border { border: 1px solid #e2e8f0 !important; }
             
-            /* 核心：防止区块被切断 */
             .print-section {
                 break-inside: avoid;
                 page-break-inside: avoid;
                 margin-bottom: 2rem !important;
             }
             
-            /* 确保背景颜色能打印出来 */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
             
-            /* 强制某些重要区块在新页起始（如果需要）*/
-            .print-new-page {
-                page-break-before: always;
-            }
-
-            /* 移除浏览器默认页眉页脚（部分支持） */
             @page {
-                margin: 1cm;
+                margin: 1.5cm;
             }
+        }
+
+        /* Responsive max-width for screen */
+        .screen-container {
+            max-width: 1000px;
+            margin: 0 auto;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-12">
 
-    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-[40px] overflow-hidden border border-slate-100 no-print mb-8">
-        <div class="bg-indigo-600 p-8 text-white flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-black italic">SALES DASHBOARD</h1>
-                <p class="text-indigo-100 text-sm opacity-80 uppercase tracking-widest font-bold">Inquiry Management</p>
-            </div>
-            <button onclick="window.print()" class="bg-white text-indigo-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 shadow-lg active:scale-95 transition-transform">
-                <i data-lucide="printer" class="w-5 h-5"></i>
-                Print for Exhibition
-            </button>
-        </div>
-        
-        <div class="p-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Customer Name</p>
-                    <p id="disp-name" class="text-xl font-bold text-slate-800">-</p>
-                </div>
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Job Role</p>
-                    <p id="disp-role" class="text-xl font-bold text-slate-800">-</p>
-                </div>
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Region</p>
-                    <p id="disp-country" class="text-xl font-bold text-slate-800">-</p>
-                </div>
-            </div>
-
-            <h2 class="text-lg font-bold mb-6 flex items-center gap-3">
-                <i data-lucide="shopping-cart" class="text-indigo-600"></i>
-                Requested Product List
-            </h2>
-            
-            <div id="product-list" class="space-y-4">
-                <!-- JS Render -->
-            </div>
-
-            <!-- Digital Action Button (Visible on Screen only) -->
-            <div class="mt-12 p-8 bg-indigo-50 rounded-3xl border border-indigo-100 flex items-center justify-between no-print">
+    <div class="screen-container no-print">
+        <div class="bg-white shadow-2xl rounded-[48px] overflow-hidden border border-slate-100 mb-12">
+            <div class="bg-slate-900 p-10 text-white flex justify-between items-center">
                 <div>
-                    <h3 class="font-bold text-indigo-900">Need Immediate Assistance?</h3>
-                    <p class="text-sm text-indigo-600">Start a live chat with our sales manager right now.</p>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-xs">SL</div>
+                        <h1 class="text-xl font-black italic tracking-tight uppercase">Sales Review Hub</h1>
+                    </div>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Exhibition Lead Detail</p>
                 </div>
-                <button onclick="contactSalesNow()" class="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-xl shadow-indigo-200 active:scale-95 transition-transform">
-                    <i data-lucide="message-square" class="w-6 h-6"></i>
-                    Chat on WhatsApp
+                <button onclick="window.print()" class="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 shadow-xl hover:bg-indigo-500 transition-all active:scale-95">
+                    <i data-lucide="printer" class="w-5 h-5"></i>
+                    Print Lead Sheet
                 </button>
+            </div>
+            
+            <div class="p-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-inner">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-3 tracking-widest">Prospect Name</p>
+                        <p id="disp-name" class="text-2xl font-black text-slate-900">-</p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-inner">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-3 tracking-widest">Job Role</p>
+                        <p id="disp-role" class="text-2xl font-black text-slate-900">-</p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-inner">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-3 tracking-widest">Region</p>
+                        <p id="disp-country" class="text-2xl font-black text-slate-900">-</p>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-black mb-8 flex items-center gap-4 text-slate-800 uppercase italic tracking-tight">
+                    <i data-lucide="package-check" class="text-indigo-600 w-8 h-8"></i>
+                    Customer Selection List
+                </h2>
+                
+                <div id="product-list" class="grid grid-cols-1 gap-6">
+                    <!-- JS Render -->
+                </div>
+
+                <div class="mt-16 p-10 bg-indigo-50 rounded-[40px] border border-indigo-100 flex items-center justify-between shadow-lg shadow-indigo-900/5">
+                    <div>
+                        <h3 class="text-xl font-black text-indigo-950 mb-1">Follow up via WhatsApp?</h3>
+                        <p class="text-sm text-indigo-600 font-medium">Quickly reply to the customer with personalized greetings.</p>
+                    </div>
+                    <button onclick="contactSalesNow()" class="bg-green-600 text-white px-10 py-5 rounded-[24px] font-black flex items-center gap-4 shadow-xl hover:bg-green-500 transition-all active:scale-95 uppercase italic tracking-widest text-sm">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        Open Chat
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Print View (Hidden on screen) -->
-    <div class="hidden print:block p-10 bg-white">
-        <div class="flex justify-between border-b-4 border-slate-900 pb-8 mb-10">
+    <!-- Print View -->
+    <div class="hidden print:block p-12 bg-white">
+        <div class="flex justify-between border-b-8 border-slate-900 pb-10 mb-12">
             <div>
-                <h1 class="text-4xl font-black">STAGE LIGHTING PRO</h1>
-                <p class="text-slate-500 uppercase tracking-[0.2em] text-xs mt-2 font-bold">Exhibition Lead Management System</p>
+                <h1 class="text-5xl font-black tracking-tighter">STAGE LIGHTING PRO</h1>
+                <p class="text-slate-500 uppercase tracking-[0.3em] text-xs mt-3 font-black">Professional Exhibition Lead Management</p>
             </div>
-            <div class="text-right">
-                <p class="text-xl font-black">Hall 3.1 - B25</p>
-                <p class="text-slate-400 text-xs font-bold mt-1">PROLIGHT + SOUND 2026</p>
+            <div class="text-right flex flex-col justify-center">
+                <p class="text-2xl font-black">Hall 3.1 - B25</p>
+                <p class="text-slate-400 text-xs font-black mt-1 uppercase">PROLIGHT + SOUND 2026</p>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-8 mb-12">
-            <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200">
-                <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 italic">Prospect Profile</p>
-                <p id="print-name" class="text-2xl font-black text-slate-900">-</p>
-                <p class="text-sm font-bold text-slate-500 mt-1">
+        <div class="grid grid-cols-2 gap-10 mb-16">
+            <div class="bg-slate-50 p-10 rounded-[40px] border-2 border-slate-200 shadow-sm">
+                <p class="text-[10px] text-slate-400 font-black uppercase mb-3 italic tracking-widest">Customer Profile</p>
+                <p id="print-name" class="text-4xl font-black text-slate-900 mb-2">-</p>
+                <p class="text-lg font-black text-slate-500 uppercase tracking-tight">
                     <span id="print-role">-</span> · <span id="print-country">-</span>
                 </p>
             </div>
-            <div class="flex flex-col justify-end text-right">
-                <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Inquiry Date</p>
-                <p class="text-lg font-bold" id="print-date">-</p>
+            <div class="flex flex-col justify-center text-right pr-6">
+                <p class="text-[10px] text-slate-400 font-black uppercase mb-2">Record Generated On</p>
+                <p class="text-xl font-black text-slate-900" id="print-date">-</p>
             </div>
         </div>
 
-        <h3 class="text-xl font-black mb-8 underline decoration-4 decoration-indigo-500 underline-offset-8 uppercase italic">Selected Product Lineup</h3>
+        <h3 class="text-2xl font-black mb-10 underline decoration-8 decoration-indigo-500 underline-offset-[12px] uppercase italic tracking-tighter">Requested Product Lineup</h3>
         
-        <div id="print-list" class="space-y-6">
+        <div id="print-list" class="space-y-8 mb-16">
             <!-- JS Render -->
         </div>
 
-        <div class="mt-16 pt-10 border-t-2 border-slate-100 print-section">
-            <h4 class="text-[12px] font-black uppercase tracking-widest text-slate-600 mb-6 flex items-center gap-2">
-                <i data-lucide="edit-3" class="w-4 h-4"></i>
-                Customer Requirement Record (Sales Notes)
+        <div class="print-section mt-20 pt-12 border-t-4 border-slate-900">
+            <h4 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900 mb-8 flex items-center gap-3">
+                <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                Booth Negotiation & Requirement Record
             </h4>
             
-            <div class="border-2 border-slate-900 rounded-[32px] p-8 space-y-8 bg-slate-50/30">
-                <!-- Project Type Checkboxes -->
+            <div class="border-4 border-slate-900 rounded-[48px] p-12 space-y-12 bg-slate-50/50">
                 <div>
-                    <p class="text-xs font-bold text-slate-500 mb-4 uppercase tracking-tighter">Application Scenario / Project Type:</p>
-                    <div class="flex flex-wrap gap-8">
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 border-2 border-slate-400 rounded flex items-center justify-center text-[10px] font-bold">□</div>
-                            <span class="text-sm font-bold text-slate-800">Concert / Touring</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 border-2 border-slate-400 rounded flex items-center justify-center text-[10px] font-bold">□</div>
-                            <span class="text-sm font-bold text-slate-800">Theater / Venue</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 border-2 border-slate-400 rounded flex items-center justify-center text-[10px] font-bold">□</div>
-                            <span class="text-sm font-bold text-slate-800">Club / Bar / KTV</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 border-2 border-slate-400 rounded flex items-center justify-center text-[10px] font-bold">□</div>
-                            <span class="text-sm font-bold text-slate-800">Rental / Production</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-6 h-6 border-2 border-slate-400 rounded flex items-center justify-center text-[10px] font-bold">□</div>
-                            <span class="text-sm font-bold text-slate-800">Other</span>
-                        </div>
+                    <p class="text-xs font-black text-slate-500 mb-6 uppercase tracking-widest italic">Target Application / Project Type:</p>
+                    <div class="flex flex-wrap gap-10">
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 border-4 border-slate-400 rounded-lg"></div><span class="text-lg font-black text-slate-800">Touring</span></div>
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 border-4 border-slate-400 rounded-lg"></div><span class="text-lg font-black text-slate-800">Theater</span></div>
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 border-4 border-slate-400 rounded-lg"></div><span class="text-lg font-black text-slate-800">Club/KTV</span></div>
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 border-4 border-slate-400 rounded-lg"></div><span class="text-lg font-black text-slate-800">Rental</span></div>
+                        <div class="flex items-center gap-4"><div class="w-8 h-8 border-4 border-slate-400 rounded-lg"></div><span class="text-lg font-black text-slate-800">Other</span></div>
                     </div>
                 </div>
 
-                <!-- Specific Fields with Lines -->
-                <div class="grid grid-cols-2 gap-12">
-                    <div class="border-b-2 border-slate-300 pb-2">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Budget Range (USD):</p>
-                        <div class="h-8"></div>
+                <div class="grid grid-cols-2 gap-16">
+                    <div class="border-b-4 border-slate-300 pb-4">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Budget Estimate (USD):</p>
+                        <div class="h-10"></div>
                     </div>
-                    <div class="border-b-2 border-slate-300 pb-2">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Target Delivery Date:</p>
-                        <div class="h-8"></div>
+                    <div class="border-b-4 border-slate-300 pb-4">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Required Delivery Date:</p>
+                        <div class="h-10"></div>
                     </div>
                 </div>
 
-                <!-- Other Requirements -->
-                <div class="border-b-2 border-slate-300 pb-2">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Specific Customization / Technical Requirements:</p>
-                    <div class="h-16"></div>
+                <div class="border-b-4 border-slate-300 pb-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Special Customization / Technical Notes:</p>
+                    <div class="h-24"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Sales Contact Info for Paper -->
-        <div class="mt-12 flex items-stretch justify-between p-10 bg-slate-900 text-white rounded-[40px] border-4 border-indigo-500 shadow-2xl print-section">
-            <div class="flex flex-col justify-center">
-                <p class="text-indigo-400 font-black mb-1 uppercase tracking-widest text-xs">Let's Discuss Further</p>
-                <p class="text-4xl font-black mb-4">Contact: Mr. Lee (小李)</p>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-4 bg-white/10 p-3 rounded-2xl border border-white/5">
-                        <i data-lucide="message-circle" class="w-6 h-6 text-green-400 fill-green-400/20"></i> 
-                        <div>
-                            <p class="text-[10px] text-slate-400 font-bold uppercase leading-none mb-1">WhatsApp (Add to Chat)</p>
-                            <p class="text-lg font-bold tracking-tight">+86 138-0013-8000</p>
-                        </div>
+        <div class="print-section mt-16 flex items-center justify-between p-12 bg-slate-900 text-white rounded-[56px] border-[10px] border-indigo-600 shadow-2xl">
+            <div class="flex-1">
+                <p class="text-indigo-400 font-black mb-2 uppercase tracking-[0.2em] text-xs">Direct Support</p>
+                <p class="text-5xl font-black mb-6 tracking-tighter italic">Contact: Mr. Lee (小李)</p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-5">
+                        <i data-lucide="phone" class="w-8 h-8 text-indigo-400"></i> 
+                        <p class="text-2xl font-black tracking-tight">+86 138-0013-8000</p>
                     </div>
-                    <div class="flex items-center gap-4 bg-white/10 p-3 rounded-2xl border border-white/5">
-                        <i data-lucide="mail" class="w-6 h-6 text-indigo-400"></i> 
-                        <div>
-                            <p class="text-[10px] text-slate-400 font-bold uppercase leading-none mb-1">Professional Email</p>
-                            <p class="text-lg font-bold tracking-tight">sales@stagelightingpro.com</p>
-                        </div>
+                    <div class="flex items-center gap-5">
+                        <i data-lucide="mail" class="w-8 h-8 text-indigo-400"></i> 
+                        <p class="text-2xl font-black tracking-tight uppercase">sales@stagelightingpro.com</p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col items-center justify-center gap-4 pl-10 border-l border-white/20">
-                <div class="w-40 h-40 bg-white p-3 rounded-[32px] flex items-center justify-center shadow-2xl shadow-indigo-500/20">
-                    <div class="w-full h-full border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-2 text-slate-400">
-                        <i data-lucide="qr-code" class="w-16 h-16"></i>
-                        <span class="text-[8px] font-black uppercase text-center">Scan to Add<br>WhatsApp</span>
+            <div class="w-64 flex flex-col items-center justify-center gap-4 border-l-2 border-white/10 pl-10">
+                <div class="w-48 h-48 bg-white p-4 rounded-[40px] flex items-center justify-center shadow-2xl">
+                    <div class="w-full h-full border-4 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center gap-3 text-slate-300">
+                        <i data-lucide="qr-code" class="w-20 h-20"></i>
+                        <span class="text-[10px] font-black uppercase text-center leading-none">Scan to<br>Save Contact</span>
                     </div>
                 </div>
-                <p class="text-[10px] font-bold opacity-60 italic tracking-wider">Booth: Hall 3.1 - B25</p>
+                <p class="text-xs font-black opacity-40 italic tracking-[0.3em] uppercase">Booth Hall 3.1 - B25</p>
             </div>
         </div>
-    </div>
     </div>
 
     <script>
@@ -228,7 +204,7 @@
             const params = new URLSearchParams(window.location.search);
             const ids = (params.get('ids') || '').split(',').filter(x => x);
             const name = params.get('name') || 'Valued Client';
-            const role = params.get('role') || 'Professional Buyer';
+            const role = params.get('role') || 'Buyer';
             const country = params.get('country') || 'Worldwide';
 
             document.getElementById('disp-name').textContent = name;
@@ -242,36 +218,34 @@
 
             const selectedProducts = products.filter(p => ids.includes(p.id));
             
-            // Render screen list
             document.getElementById('product-list').innerHTML = selectedProducts.map(p => `
-                <div class="flex gap-6 p-6 bg-slate-50 border border-slate-100 rounded-3xl items-center">
-                    <div class="w-20 h-20 bg-slate-200 rounded-2xl flex-shrink-0 flex items-center justify-center font-black italic text-slate-300">IMAGE</div>
+                <div class="flex gap-8 p-8 bg-slate-50 border border-slate-100 rounded-[40px] items-center group hover:bg-white hover:shadow-xl transition-all duration-500">
+                    <div class="w-24 h-24 bg-slate-200 rounded-[24px] flex-shrink-0 flex items-center justify-center font-black italic text-slate-300 text-xs">IMAGE</div>
                     <div class="flex-1">
-                        <div class="flex justify-between mb-1">
-                            <h4 class="font-bold text-slate-800">${p.name}</h4>
-                            <span class="text-indigo-600 font-black text-xs">${p.model}</span>
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-xl font-black text-slate-900 italic tracking-tighter">${p.name}</h4>
+                            <span class="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">${p.model}</span>
                         </div>
-                        <p class="text-xs text-slate-400 mb-3">${p.tagline}</p>
-                        <div class="flex gap-4">
-                            ${Object.entries(p.specs).map(([k,v]) => `<span class="text-[9px] font-bold bg-white px-2 py-1 rounded-lg border border-slate-200 text-slate-500">${k}: ${v}</span>`).join('')}
+                        <p class="text-sm text-slate-500 mb-4 font-medium">${p.tagline}</p>
+                        <div class="flex gap-4 flex-wrap">
+                            ${Object.entries(p.specs).map(([k,v]) => `<span class="text-[10px] font-black bg-white px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 uppercase tracking-tighter">${k}: ${v}</span>`).join('')}
                         </div>
                     </div>
                 </div>
             `).join('');
 
-            // Render print list
             document.getElementById('print-list').innerHTML = selectedProducts.map((p, i) => `
-                <div class="p-8 bg-white border-2 border-slate-100 rounded-[32px] flex gap-8 items-center print-section">
-                    <div class="w-28 h-28 bg-slate-50 rounded-[28px] flex items-center justify-center text-slate-200 font-black italic text-sm">PRODUCT<br>PHOTO</div>
+                <div class="p-10 bg-white border-4 border-slate-100 rounded-[48px] flex gap-10 items-center print-section">
+                    <div class="w-32 h-32 bg-slate-50 rounded-[32px] flex items-center justify-center text-slate-200 font-black italic text-sm">PHOTO</div>
                     <div class="flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-black">${i+1}. ${p.name}</h4>
-                            <span class="bg-indigo-600 text-white px-4 py-1.5 rounded-2xl text-[10px] font-black uppercase tracking-widest">${p.model}</span>
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-3xl font-black tracking-tighter">${i+1}. ${p.name}</h4>
+                            <span class="bg-slate-900 text-white px-5 py-2 rounded-[20px] text-xs font-black uppercase tracking-widest">${p.model}</span>
                         </div>
-                        <p class="text-sm text-slate-500 mb-6 font-medium">${p.tagline}</p>
-                        <div class="flex gap-12 text-[10px] font-black text-slate-800 uppercase tracking-tighter">
-                            <span>Target Qty: _________</span>
-                            <span>Notes: ________________________________</span>
+                        <p class="text-lg text-slate-500 mb-8 font-bold italic">${p.tagline}</p>
+                        <div class="flex gap-16 text-xs font-black text-slate-900 uppercase tracking-widest">
+                            <span class="border-b-2 border-slate-200 pb-1">Target Qty: _________</span>
+                            <span class="border-b-2 border-slate-200 pb-1">Special Notes: ________________________________</span>
                         </div>
                     </div>
                 </div>
@@ -283,7 +257,7 @@
         function contactSalesNow() {
             const params = new URLSearchParams(window.location.search);
             const name = params.get('name') || 'Client';
-            const msg = encodeURIComponent(`Hi Mr. Lee, I'm ${name}. I'm reviewing my favorite products from your booth. I have some questions about the configuration and pricing. Can we talk?`);
+            const msg = encodeURIComponent(`Hello, I am ${name}. I am reviewing the inquiry list from your booth. I'd like to discuss further details.`);
             window.open(`https://wa.me/8613800138000?text=${msg}`, '_blank');
         }
 
