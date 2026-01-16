@@ -517,9 +517,10 @@
                 </div>
                 <div id="favorites-list" class="space-y-4 mb-8"></div>
                 <div id="share-form" class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 hidden">
-                    <h4 class="font-bold mb-4 flex items-center gap-2 text-indigo-600"><i data-lucide="user" class="w-4 h-4"></i>Get Accurate Quote</h4>
+                    <h4 class="font-bold mb-4 flex items-center gap-2 text-indigo-600"><i data-lucide="user" class="w-4 h-4"></i>Receive Inquiry Details</h4>
                     <div class="space-y-4">
                         <input type="text" id="cust-name" placeholder="Your Name" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500/20">
+                        <input type="email" id="cust-email" placeholder="Your Email Address (Required)" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500/20">
                         <div class="grid grid-cols-2 gap-4">
                             <select id="cust-role" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none appearance-none">
                                 <option value="">Job Role</option>
@@ -538,9 +539,9 @@
                 </div>
             </div>
             <div class="p-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex gap-3">
-                <button onclick="shareToWhatsApp(true)" class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-4 rounded-2xl font-bold">Direct Share</button>
-                <button onclick="shareToWhatsApp(false)" class="flex-[2] bg-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-100">
-                    <i data-lucide="send" class="w-5 h-5"></i><span>Send to Sales</span>
+                <button onclick="shareToWhatsApp(false)" class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-4 rounded-2xl font-bold">Contact Sales</button>
+                <button onclick="sendToEmail()" class="flex-[2] bg-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-100">
+                    <i data-lucide="mail" class="w-5 h-5"></i><span>Send to Email</span>
                 </button>
             </div>
         </div>
@@ -569,7 +570,7 @@
             <div>
                 <p class="text-indigo-400 font-bold mb-1">Stay Connected</p>
                 <p class="text-2xl font-bold mb-1">Chat with Mr. Lee</p>
-                <p class="opacity-60 text-sm">WhatsApp: +86 138-xxxx-xxxx</p>
+                <p class="opacity-60 text-sm">WhatsApp: +86 137-1934-3427</p>
             </div>
             <div class="w-32 h-32 bg-white p-3 rounded-2xl flex items-center justify-center text-slate-900 text-center text-[10px] font-bold">QR CODE<br>WhatsApp</div>
         </div>
@@ -901,6 +902,7 @@
         function shareToWhatsApp(skip) {
             if (favorites.length === 0) return alert("Select products first");
             const name = skip ? "" : document.getElementById('cust-name').value;
+            const email = skip ? "" : document.getElementById('cust-email').value;
             const role = skip ? "" : document.getElementById('cust-role').value;
             const country = skip ? "" : document.getElementById('cust-country').value;
             const list = favorites.map(id => products.find(p => p.id === id).name).join(', ');
@@ -913,13 +915,42 @@
                 path = path.replace(/[^\/]*\.html$/, 'sales-view.html');
             }
             const salesViewUrl = window.location.origin + path 
-                + `?ids=${favorites.join(',')}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&country=${encodeURIComponent(country)}`;
+                + `?ids=${favorites.join(',')}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&country=${encodeURIComponent(country)}&email=${encodeURIComponent(email)}`;
 
             let msg = `Hi, ${name ? "I'm " + name + (role ? " (" + role + ")" : "") + (country ? " from " + country : "") + ". " : ""}I'm interested in: ${list}\n\nView my inquiry detail: ${salesViewUrl}`;
             window.open(`https://wa.me/8613719343427?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function openWhatsApp() { window.open(`https://wa.me/8613800138000?text=${encodeURIComponent("Hi! Visiting your booth. Send catalog please.")}`, '_blank'); }
+        function sendToEmail() {
+            if (favorites.length === 0) return alert("Select products first");
+            const email = document.getElementById('cust-email').value;
+            if (!email) {
+                alert("Please enter your email address to receive the list");
+                document.getElementById('cust-email').focus();
+                return;
+            }
+            
+            const name = document.getElementById('cust-name').value;
+            const role = document.getElementById('cust-role').value;
+            const country = document.getElementById('cust-country').value;
+            const list = favorites.map(id => products.find(p => p.id === id).name).join(', ');
+            
+            let path = window.location.pathname;
+            if (path.endsWith('/') || !path.includes('.')) {
+                path += 'sales-view.html';
+            } else {
+                path = path.replace(/[^\/]*\.html$/, 'sales-view.html');
+            }
+            const salesViewUrl = window.location.origin + path 
+                + `?ids=${favorites.join(',')}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&country=${encodeURIComponent(country)}&email=${encodeURIComponent(email)}`;
+
+            const subject = "My Interested Products List";
+            const body = `Hi ${name || ""},\n\nHere are the products you were interested in during the exhibition:\n\n${list}\n\nYou can view the detailed list and specifications here:\n${salesViewUrl}\n\nOur sales team will also follow up with you soon.`;
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function openWhatsApp() { window.open(`https://wa.me/8613719343427?text=${encodeURIComponent("Hi! Visiting your booth. Send catalog please.")}`, '_blank'); }
         function playVideo(id) { alert("Demo Mode: Loading HQ Trusted Video - " + id); }
 
         window.onbeforeprint = () => {

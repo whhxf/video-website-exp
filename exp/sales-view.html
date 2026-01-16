@@ -56,10 +56,14 @@
             </div>
             
             <div class="p-10">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
                     <div class="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-inner">
                         <p class="text-[10px] text-slate-400 font-black uppercase mb-3 tracking-widest">Prospect Name</p>
                         <p id="disp-name" class="text-2xl font-black text-slate-900">-</p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-inner">
+                        <p class="text-[10px] text-slate-400 font-black uppercase mb-3 tracking-widest">Email Address</p>
+                        <p id="disp-email" class="text-xl font-black text-slate-900 truncate">-</p>
                     </div>
                     <div class="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-inner">
                         <p class="text-[10px] text-slate-400 font-black uppercase mb-3 tracking-widest">Job Role</p>
@@ -111,6 +115,7 @@
             <div class="bg-slate-50 p-10 rounded-[40px] border-2 border-slate-200 shadow-sm">
                 <p class="text-[10px] text-slate-400 font-black uppercase mb-3 italic tracking-widest">Customer Profile</p>
                 <p id="print-name" class="text-4xl font-black text-slate-900 mb-2">-</p>
+                <p id="print-email" class="text-xl font-black text-indigo-600 mb-4 tracking-tight">-</p>
                 <p class="text-lg font-black text-slate-500 uppercase tracking-tight">
                     <span id="print-role">-</span> · <span id="print-country">-</span>
                 </p>
@@ -204,14 +209,17 @@
             const params = new URLSearchParams(window.location.search);
             const ids = (params.get('ids') || '').split(',').filter(x => x);
             const name = params.get('name') || 'Valued Client';
+            const email = params.get('email') || '-';
             const role = params.get('role') || 'Buyer';
             const country = params.get('country') || 'Worldwide';
 
             document.getElementById('disp-name').textContent = name;
+            document.getElementById('disp-email').textContent = email;
             document.getElementById('disp-role').textContent = role;
             document.getElementById('disp-country').textContent = country;
 
             document.getElementById('print-name').textContent = name;
+            document.getElementById('print-email').textContent = email;
             document.getElementById('print-role').textContent = role;
             document.getElementById('print-country').textContent = country;
             document.getElementById('print-date').textContent = new Date().toLocaleDateString();
@@ -258,7 +266,7 @@
             const params = new URLSearchParams(window.location.search);
             const name = params.get('name') || 'Client';
             const msg = encodeURIComponent(`Hello, I am ${name}. I am reviewing the inquiry list from your booth. I'd like to discuss further details.`);
-            window.open(`https://wa.me/8613800138000?text=${msg}`, '_blank');
+            window.open(`https://wa.me/8613719343427?text=${msg}`, '_blank');
         }
 
         window.onload = init;
