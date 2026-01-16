@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kingsway Video - 可购物视频小部件</title>
+    <meta name="description" content="Kingsway Video 可购物视频 - 用5种方式把视频搬进独立站，让转化自然发生">
+</head>
+<body>
+<!-- Kingsway Video 可购物视频 - Elementor 版本 -->
+<!-- 将整段代码复制到 Elementor 的 HTML 组件中即可使用 -->
+
+<div class="kvideo-wrapper">
+    <!-- 首屏展示 -->
+    <section class="kvideo-hero">
+        <div class="kvideo-hero-container">
+            <div class="kvideo-hero-content">
+                <div class="kvideo-hero-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    独立站视频营销解决方案
+                </div>
+                <h1 class="kvideo-hero-title">用5种方式把视频搬进独立站<br>让转化自然发生</h1>
+                <p class="kvideo-hero-subtitle">用 Kingsway Video 把视频直接嵌入站点内，让访客建立信任、边看边买，转化自然发生。</p>
+                <ul class="kvideo-hero-features">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        1. 单个视频嵌入 / 2. 故事流 / 3. 轮播展示 / 4. 网格墙 / 5. 悬浮视频
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        类 TikTok 弹窗：滑动切换、商品卡片、热点标签
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        支持 Shopify、独立站，10 分钟上线
+                    </li>
+                </ul>
+                <div class="kvideo-hero-actions">
+
+                    <a href="https://console.kingswayvideo.com/#/register?utm_source=shoppable-video-demo" class="kvideo-btn-primary" target="_blank">免费体验</a>
+                    <a href="#kvideo-stories-demo" class="kvideo-btn-secondary">查看演示</a>
+                </div>
+            </div>
+            <div class="kvideo-hero-showcase">
+                <h2 class="kvideo-title">1. 单个视频嵌入</h2>
+                <div class="kvideo-hero-video">
+
+                    <video muted loop playsinline poster="https://static.kingswayvideo.com/w1o9d6ta/vod/12af1b702b/cover.jpg" preload="metadata" loading="lazy">
+                        <source src="https://video.kingswayvideo.com/w1o9d6ta/05856fd092/404_720_1.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="kvideo-hero-metrics">
+                    <div class="kvideo-metric-chip">平均提升 25% 转化率</div>
+                    <div class="kvideo-metric-chip">10分钟集成</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 故事流展示 -->
+    <section id="kvideo-stories-demo" class="kvideo-section kvideo-bg-white">
+        <h2 class="kvideo-title">2. 故事流</h2>
+        <p class="kvideo-description">点击观看详情</p>
+        <div class="kvideo-stories-wrapper">
+            <button class="kvideo-nav-btn kvideo-prev" onclick="kvideoScrollStories(-1)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="kvideo-stories-container" id="kvideo-stories-container"></div>
+            <button class="kvideo-nav-btn kvideo-next" onclick="kvideoScrollStories(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- 轮播展示 -->
+    <section id="kvideo-carousel-demo" class="kvideo-section">
+        <h2 class="kvideo-title">3. 轮播展示</h2>
+        <p class="kvideo-description">沉浸式展示您的产品视频</p>
+        <div class="kvideo-carousel-wrapper">
+            <button class="kvideo-nav-btn kvideo-prev" onclick="kvideoScrollCarousel(-1)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="kvideo-carousel-container" id="kvideo-carousel-container"></div>
+            <button class="kvideo-nav-btn kvideo-next" onclick="kvideoScrollCarousel(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- 网格墙展示 -->
+    <section id="kvideo-grid-demo" class="kvideo-section  kvideo-bg-white">
+        <h2 class="kvideo-title">4. 网格墙</h2>
+        <p class="kvideo-description">整齐展示大量视频内容</p>
+        <div class="kvideo-grid-container" id="kvideo-grid-container"></div>
+    </section>
+
+    <!-- 核心功能特性 -->
+    <section id="kvideo-features" class="kvideo-section">
+        <h2 class="kvideo-features-title">核心功能特性</h2>
+        <div class="kvideo-feature-grid">
+            <div class="kvideo-feature-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kvideo-feature-icon"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <h3>灵活的视频展示方式</h3>
+                <p>Stories、轮播、网格、悬浮等多种布局，适配任何页面场景</p>
+            </div>
+            <div class="kvideo-feature-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kvideo-feature-icon"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <h3>视频内一键购物</h3>
+                <p>在视频中添加商品标签，用户无需跳转即可加购下单</p>
+            </div>
+            <div class="kvideo-feature-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kvideo-feature-icon"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                <h3>类TikTok观看体验</h3>
+                <p>全屏播放，上下滑动切换，让用户沉浸在您的内容中</p>
+            </div>
+            <div class="kvideo-feature-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kvideo-feature-icon"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                <h3>平均提升25%转化率</h3>
+                <p>真实客户数据显示，可购物视频显著提升页面转化效果</p>
+            </div>
+            <div class="kvideo-feature-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kvideo-feature-icon"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <h3>10分钟完成集成</h3>
+                <p>简单的代码嵌入，支持Shopify、WordPress等所有主流平台</p>
+            </div>
+            <div class="kvideo-feature-card">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kvideo-feature-icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <h3>对网站速度零影响</h3>
+                <p>懒加载和CDN加速，确保您的网站依然快速流畅</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 悬浮视频（优化版 - 懒加载）-->
+    <div class="kvideo-floating" id="kvideo-floating" onclick="kvideoOpenModal(0)">
+
+        <video loop muted playsinline poster="https://static.kingswayvideo.com/w1o9d6ta/vod/12af1b702b/cover.jpg" preload="none">
+            <source src="https://video.kingswayvideo.com/w1o9d6ta/05856fd092/404_720_1.mp4" type="video/mp4">
+        </video>
+    </div>
+    <!-- 悬浮视频（优化版 - 懒加载）-->
+    <div class="kvideo-floating-text" id="kvideo-floating" onclick="kvideoOpenModal(0)">
+
+        <span>5. 悬浮视频</span>
+    </div>
+
+    <!-- 视频播放器弹窗 -->
+    <div class="kvideo-modal" id="kvideo-modal">
+        <div class="kvideo-modal-controls">
+            <button class="kvideo-control-btn" onclick="kvideoMinimize()" title="收缩">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15h-6v6"/><path d="M6 9h6V3"/></svg>
+            </button>
+            <button class="kvideo-control-btn" onclick="kvideoToggleMute()" title="静音">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="kvideo-volume-icon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            </button>
+            <button class="kvideo-control-btn" onclick="kvideoCloseModal()" title="关闭">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <div id="kvideo-feed-container" class="kvideo-feed-container"></div>
+
+        <div class="kvideo-modal-overlay">
+            <div class="kvideo-nav-buttons">
+                <button class="kvideo-nav-button" onclick="kvideoNavigate(-1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </button>
+                <button class="kvideo-nav-button" onclick="kvideoNavigate(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+            </div>
+            <div class="kvideo-swipe-hint" id="kvideo-swipe-hint">
+                <span>上下滑动切换</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 画中画视频 -->
+    <div class="kvideo-pip" id="kvideo-pip" onclick="kvideoRestorePiP()">
+        <button class="kvideo-pip-btn kvideo-pip-expand" onclick="kvideoRestorePiP(event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        </button>
+        <button class="kvideo-pip-btn" onclick="kvideoClosePiP(event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <video autoplay playsinline loop></video>
+    </div>
+</div>
+
+<style>
+/* Kingsway Video 可购物视频样式 - 作用域限定版本 */
+.kvideo-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+    color: #100146;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.kvideo-wrapper * {
+    box-sizing: border-box;
+}
+
+/* 首屏样式 */
+.kvideo-hero {
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+}
+
+.kvideo-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.kvideo-hero-content {
+    flex: 1 1 500px;
+}
+
+.kvideo-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(92, 0, 203, 0.12);
+    color: #5C00CB;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.kvideo-hero-badge svg {
+    fill: currentColor;
+}
+
+.kvideo-hero-title {
+    font-size: 44px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    background: linear-gradient(135deg, #5C00CB 0%, #7C3AED 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+}
+
+.kvideo-hero-subtitle {
+    font-size: 20px;
+    color: #6B7280;
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+}
+
+.kvideo-hero-features {
+    list-style: none;
+    margin: 0 0 32px 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.kvideo-hero-features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #100146;
+}
+
+.kvideo-hero-features svg {
+    flex-shrink: 0;
+    color: #5C00CB;
+}
+
+.kvideo-hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.kvideo-btn-primary,
+.kvideo-btn-secondary {
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+    cursor: pointer;
+}
+
+a.kvideo-btn-secondary {
+    color: #5C00CB;
+}
+
+a.kvideo-btn-secondary:hover {
+    color: white !important;
+}
+
+.kvideo-btn-primary {
+    background: linear-gradient(135deg, #5C00CB 0%, #7C3AED 100%) !important;
+    color: white !important;
+    border: none;
+}
+
+.kvideo-btn-primary,
+.kvideo-btn-primary *,
+a.kvideo-btn-primary,
+a.kvideo-btn-primary * {
+    color: white !important;
+}
+
+.kvideo-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(92, 0, 203, 0.3);
+    color: white !important;
+}
+
+.kvideo-btn-primary:hover * {
+    color: white !important;
+}
+
+.kvideo-btn-secondary {
+    background: white;
+    color: #5C00CB;
+    border: 2px solid #5C00CB;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.kvideo-btn-secondary:hover {
+    background: #5C00CB !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(92, 0, 203, 0.3);
+}
+
+.kvideo-btn-secondary:hover * {
+    color: white !important;
+}
+
+.kvideo-hero-showcase {
+    flex: 0 1 300px;
+}
+
+.kvideo-hero-video {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 10px 24px rgba(16, 1, 70, 0.12);
+    aspect-ratio: 9 / 16;
+    margin-bottom: 16px;
+}
+
+.kvideo-hero-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.kvideo-hero-metrics {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.kvideo-metric-chip {
+    background: rgba(92,0,203,0.08);
+    color: #5C00CB;
+    padding: 10px 16px;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* 通用样式 */
+.kvideo-section {
+    padding: 90px 20px;
+    background: #F9FAFB;
+}
+
+.kvideo-bg-white {
+    background: white;
+}
+
+.kvideo-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    color: #100146;
+}
+
+.kvideo-description {
+    text-align: center;
+    color: #6B7280;
+    margin: 0 0 40px 0;
+    font-size: 16px;
+}
+
+/* 故事流样式 */
+.kvideo-stories-wrapper {
+    position: relative;
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.kvideo-stories-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    padding: 0 60px;
+}
+
+.kvideo-story-item {
+    flex-shrink: 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    padding: 3px;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(to top right, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5) border-box;
+    border: 3px solid transparent;
+}
+
+.kvideo-story-item:hover {
+    opacity: 0.85;
+}
+
+.kvideo-story-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+}
+
+.kvideo-story-inner video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 轮播样式 */
+.kvideo-carousel-wrapper {
+    position: relative;
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.kvideo-carousel-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    padding: 0 60px;
+}
+
+.kvideo-carousel-card {
+    flex-shrink: 0;
+    width: 300px;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    cursor: pointer;
+}
+
+.kvideo-carousel-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.kvideo-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: opacity 0.3s;
+}
+
+.kvideo-carousel-card:hover .kvideo-play-overlay {
+    opacity: 0;
+}
+
+.kvideo-play-overlay svg {
+    color: white;
+    fill: white;
+}
+
+.kvideo-product-card {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+}
+
+.kvideo-carousel-card:hover .kvideo-product-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.kvideo-product-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.kvideo-product-info h4 {
+    font-size: 14px;
+    margin: 0 0 4px 0;
+    font-weight: 600;
+}
+
+.kvideo-product-info .kvideo-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #5C00CB;
+    margin: 0;
+}
+
+/* 网格样式 */
+.kvideo-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.kvideo-grid-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.kvideo-grid-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.kvideo-grid-card:hover .kvideo-play-overlay {
+    opacity: 0;
+}
+
+.kvideo-grid-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 核心功能特性 */
+.kvideo-features {
+    padding: 80px 20px;
+    background: white;
+}
+
+.kvideo-features-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 60px 0;
+    color: #100146;
+}
+
+.kvideo-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.kvideo-feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+}
+
+.kvideo-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.kvideo-feature-icon {
+    color: #5C00CB;
+    margin-bottom: 16px;
+}
+
+.kvideo-feature-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: #100146;
+}
+
+.kvideo-feature-card p {
+    color: #6B7280;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* 导航按钮（强制样式）*/
+.kvideo-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    border-radius: 50% !important;
+    background: #5C00CB !important;
+    border: none !important;
+    color: white !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(92, 0, 203, 0.3) !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.kvideo-nav-btn::before,
+.kvideo-nav-btn::after {
+    content: none !important;
+    display: none !important;
+}
+
+.kvideo-nav-btn svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: white !important;
+    stroke: white !important;
+    fill: none !important;
+    display: block !important;
+}
+
+.kvideo-nav-btn * {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+.kvideo-nav-btn svg * {
+    color: inherit !important;
+    stroke: white !important;
+}
+
+.kvideo-nav-btn:hover {
+    background: #4A00A6 !important;
+    transform: translateY(-50%) scale(1.1);
+    color: white !important;
+}
+
+.kvideo-nav-btn:hover svg {
+    color: white !important;
+    stroke: white !important;
+}
+
+.kvideo-nav-btn.kvideo-prev {
+    left: 0;
+}
+
+.kvideo-nav-btn.kvideo-next {
+    right: 0;
+}
+
+/* 悬浮视频 */
+.kvideo-floating {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.3s;
+}
+
+.kvideo-floating-text {
+    position: fixed;
+    bottom: 130px;
+    left: 0px;
+    width: 150px;
+    height: 30px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 24px;
+}
+
+.kvideo-floating:hover {
+    transform: scale(1.1);
+}
+
+.kvideo-floating video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 弹窗播放器 */
+.kvideo-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 99999;
+}
+
+.kvideo-modal.kvideo-active {
+    display: block;
+}
+
+.kvideo-modal-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    z-index: 100005;
+}
+
+.kvideo-modal-controls button[title] {
+    position: relative;
+}
+
+.kvideo-modal-controls button[title]::before,
+.kvideo-modal-controls button[title]::after {
+    display: none !important;
+}
+
+.kvideo-control-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    border: none !important;
+    color: white !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s;
+    padding: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.kvideo-control-btn::before,
+.kvideo-control-btn::after {
+    content: none !important;
+    display: none !important;
+}
+
+.kvideo-control-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    color: white !important;
+    stroke: white !important;
+    fill: none !important;
+    display: block !important;
+}
+
+.kvideo-control-btn * {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+.kvideo-control-btn svg * {
+    color: inherit !important;
+}
+
+.kvideo-control-btn:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1);
+    color: white !important;
+}
+
+.kvideo-control-btn:hover svg {
+    color: white !important;
+    stroke: white !important;
+}
+
+.kvideo-feed-container {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+}
+
+.kvideo-feed-container::-webkit-scrollbar {
+    display: none;
+}
+
+.kvideo-feed-item {
+    width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+
+.kvideo-feed-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.kvideo-feed-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 100003;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px 20px 20px 20px;
+    color: white;
+    background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 25%);
+}
+
+.kvideo-progress-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+
+.kvideo-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: white;
+    transition: width 0.1s linear;
+}
+
+.kvideo-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: auto;
+}
+
+.kvideo-product-popup {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    color: black;
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 280px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.kvideo-product-popup img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.kvideo-product-popup h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.kvideo-product-popup .kvideo-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #5C00CB;
+    margin: 0;
+}
+
+.kvideo-add-cart-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    border-radius: 50% !important;
+    background: black !important;
+    color: white !important;
+    border: none !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0;
+    padding: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.kvideo-add-cart-btn::before,
+.kvideo-add-cart-btn::after {
+    content: none !important;
+    display: none !important;
+}
+
+.kvideo-add-cart-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    color: white !important;
+    stroke: white !important;
+    fill: none !important;
+    display: block !important;
+}
+
+.kvideo-add-cart-btn * {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+.kvideo-add-cart-btn svg * {
+    color: inherit !important;
+}
+
+.kvideo-add-cart-btn:hover {
+    background: #333 !important;
+    color: white !important;
+}
+
+.kvideo-add-cart-btn:hover svg {
+    color: white !important;
+    stroke: white !important;
+}
+
+.kvideo-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 100002;
+}
+
+.kvideo-nav-buttons {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: auto;
+}
+
+.kvideo-nav-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+}
+
+.kvideo-nav-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.kvideo-swipe-hint {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    color: white;
+    font-size: 16px;
+    opacity: 0.7;
+    animation: kvideo-fade 2s infinite;
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+@keyframes kvideo-fade {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+}
+
+/* 画中画 */
+.kvideo-pip {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    z-index: 99998;
+    display: none;
+    cursor: pointer;
+}
+
+.kvideo-pip.kvideo-active {
+    display: block;
+}
+
+.kvideo-pip video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.kvideo-pip-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: rgba(0,0,0,0.6) !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.3s;
+    padding: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.kvideo-pip-btn::before,
+.kvideo-pip-btn::after {
+    content: none !important;
+    display: none !important;
+}
+
+.kvideo-pip-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    color: white !important;
+    stroke: white !important;
+    fill: none !important;
+    display: block !important;
+}
+
+.kvideo-pip-btn * {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+.kvideo-pip-btn svg * {
+    color: inherit !important;
+}
+
+.kvideo-pip-btn:hover {
+    background: rgba(0,0,0,0.8) !important;
+    color: white !important;
+}
+
+.kvideo-pip-btn:hover svg {
+    color: white !important;
+    stroke: white !important;
+}
+
+.kvideo-pip-expand {
+    right: 48px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .kvideo-hero-title {
+        font-size: 32px;
+    }
+
+    .kvideo-hero-subtitle {
+        font-size: 18px;
+    }
+
+    .kvideo-hero-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .kvideo-hero-content {
+        text-align: center;
+    }
+
+    .kvideo-hero-features li {
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .kvideo-hero-actions {
+        justify-content: center;
+    }
+
+    .kvideo-hero-showcase {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .kvideo-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .kvideo-feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .kvideo-features-title {
+        font-size: 28px;
+    }
+
+    .kvideo-nav-btn {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        max-width: 40px !important;
+        min-height: 40px !important;
+        max-height: 40px !important;
+    }
+
+    .kvideo-nav-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .kvideo-stories-container,
+    .kvideo-carousel-container {
+        padding: 0 50px;
+    }
+
+    .kvideo-floating {
+        width: 70px;
+        height: 70px;
+    }
+
+    .kvideo-nav-buttons {
+        display: none !important;
+    }
+}
+</style>
+
+<script>
+// Kingsway Video 可购物视频脚本
+(function() {
+    'use strict';
+
+    // 视频数据
+    const kvideoUrls = [
+        'https://video.kingswayvideo.com/w1o9d6ta/05856fd092/404_720_1.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/3092361026/404_720.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/3075fb8026/404_720.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/30755f4026/270_480.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/1f4950a026/854_480.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/1f35efb026/608_1080.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/1f767b2026/608_1080.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/b38d2980f9/608_1080.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/94acf4f0f9/1280_720.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/779fd2b0f9/1280_720.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/37f2aa30f9/1280_720_0.mp4',
+        'https://video.kingswayvideo.com/w1o9d6ta/88b006e0f8/270_480.mp4'
+    ];
+
+    const kvideoData = kvideoUrls.map((url, index) => {
+        const idMatch = url.match(/w1o9d6ta\/([^/]+)/);
+        const id = idMatch ? idMatch[1] : `video_${index}`;
+        const coverImage = `https://static.kingswayvideo.com/w1o9d6ta/vod/${id}/cover.jpg`;
+
+        return {
+            id: id,
+            mp4Url: url,
+            coverImage: coverImage,
+            title: `产品展示视频 ${index + 1}`,
+            product: {
+                name: `示例商品 ${index + 1}`,
+                price: '¥99.00',
+                image: coverImage
+            }
+        };
+    });
+
+    let kvideoCurrentIndex = 0;
+    let kvideoIsMuted = false;
+    let kvideoObserver = null;
+
+    // 生成故事流（优化版 - 自动播放，使用懒加载）
+    function kvideoGenerateStories() {
+        const container = document.getElementById('kvideo-stories-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+        const stories = kvideoData.slice(0, 12);
+
+        stories.forEach((video, index) => {
+            const item = document.createElement('div');
+            item.className = 'kvideo-story-item';
+            item.onclick = () => kvideoOpenModal(index);
+            item.innerHTML = `
+                <div class="kvideo-story-inner">
+                    <video autoplay loop muted playsinline poster="${video.coverImage}" preload="metadata">
+                        <source src="${video.mp4Url}" type="video/mp4">
+                    </video>
+                </div>
+            `;
+
+            container.appendChild(item);
+        });
+
+        // 克隆前几个用于无限滚动效果
+        for(let i = 0; i < 4; i++) {
+            if (container.children[i]) {
+                container.appendChild(container.children[i].cloneNode(true));
+            }
+        }
+    }
+
+    // 生成轮播（优化版 - 懒加载）
+    function kvideoGenerateCarousel() {
+        const container = document.getElementById('kvideo-carousel-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+        const carousel = kvideoData.slice(0, 8);
+
+        carousel.forEach((video, index) => {
+            const card = document.createElement('div');
+            card.className = 'kvideo-carousel-card';
+            card.onclick = () => kvideoOpenModal(index);
+            card.innerHTML = `
+                <video muted loop playsinline poster="${video.coverImage}" preload="metadata" data-src="${video.mp4Url}">
+                </video>
+                <div class="kvideo-play-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </div>
+                ${video.product ? `
+                <div class="kvideo-product-card">
+                    <img src="${video.product.image}" alt="${video.product.name}" loading="lazy">
+                    <div class="kvideo-product-info">
+                        <h4>${video.product.name}</h4>
+                        <div class="kvideo-price">${video.product.price}</div>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            const videoEl = card.querySelector('video');
+            card.addEventListener('mouseenter', () => {
+                if (!videoEl.src && videoEl.dataset.src) {
+                    videoEl.src = videoEl.dataset.src;
+                }
+                videoEl.play().catch(() => {});
+            });
+            card.addEventListener('mouseleave', () => {
+                videoEl.pause();
+                videoEl.currentTime = 0;
+            });
+
+            container.appendChild(card);
+        });
+
+        // 克隆前几个
+        for(let i = 0; i < 3 && i < carousel.length; i++) {
+            const clone = container.children[i].cloneNode(true);
+            const videoEl = clone.querySelector('video');
+            clone.addEventListener('mouseenter', () => {
+                if (!videoEl.src && videoEl.dataset.src) {
+                    videoEl.src = videoEl.dataset.src;
+                }
+                videoEl.play().catch(() => {});
+            });
+            clone.addEventListener('mouseleave', () => {
+                videoEl.pause();
+                videoEl.currentTime = 0;
+            });
+            container.appendChild(clone);
+        }
+    }
+
+    // 生成网格（优化版 - 懒加载）
+    function kvideoGenerateGrid() {
+        const container = document.getElementById('kvideo-grid-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+        kvideoData.forEach((video, index) => {
+            const card = document.createElement('div');
+            card.className = 'kvideo-grid-card';
+            card.onclick = () => kvideoOpenModal(index);
+            card.innerHTML = `
+                <video muted loop playsinline poster="${video.coverImage}" preload="none" data-src="${video.mp4Url}">
+                </video>
+                <div class="kvideo-play-overlay">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </div>
+            `;
+
+            const videoEl = card.querySelector('video');
+            card.addEventListener('mouseenter', () => {
+                if (!videoEl.src && videoEl.dataset.src) {
+                    videoEl.src = videoEl.dataset.src;
+                }
+                videoEl.play().catch(() => {});
+            });
+            card.addEventListener('mouseleave', () => {
+                videoEl.pause();
+            });
+
+            container.appendChild(card);
+        });
+    }
+
+    // 生成视频流
+    function kvideoBuildFeed() {
+        const container = document.getElementById('kvideo-feed-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+        kvideoData.forEach((video, index) => {
+            const item = document.createElement('div');
+            item.className = 'kvideo-feed-item';
+            item.dataset.index = index;
+
+            const videoEl = document.createElement('video');
+            videoEl.muted = false;
+            videoEl.loop = true;
+            videoEl.playsInline = true;
+            videoEl.poster = video.coverImage;
+            videoEl.preload = 'metadata';
+            videoEl.innerHTML = `<source src="${video.mp4Url}" type="video/mp4">`;
+
+            const overlay = document.createElement('div');
+            overlay.className = 'kvideo-feed-overlay';
+            overlay.innerHTML = `
+                <div>
+                    <div class="kvideo-progress-container">
+                        <div class="kvideo-progress-bar"></div>
+                    </div>
+                </div>
+                <div class="kvideo-bottom-content">
+                    ${video.product ? `
+                    <div class="kvideo-product-popup">
+                        <img src="${video.product.image}" alt="${video.product.name}">
+                        <div>
+                            <h4>${video.product.name}</h4>
+                            <div class="kvideo-price">${video.product.price}</div>
+                        </div>
+                        <button class="kvideo-add-cart-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                    ` : '<div></div>'}
+                </div>
+            `;
+
+            videoEl.addEventListener('timeupdate', () => {
+                const progressBar = overlay.querySelector('.kvideo-progress-bar');
+                const progress = (videoEl.currentTime / videoEl.duration) * 100;
+                if (progressBar) progressBar.style.width = `${progress}%`;
+            });
+
+            videoEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (videoEl.paused) {
+                    videoEl.play();
+                } else {
+                    videoEl.pause();
+                }
+            });
+
+            item.appendChild(videoEl);
+            item.appendChild(overlay);
+            container.appendChild(item);
+        });
+    }
+
+    // 设置视频观察器
+    function kvideoSetupObserver() {
+        const container = document.getElementById('kvideo-feed-container');
+        if (!container) return;
+
+        const options = {
+            root: container,
+            threshold: 0.6
+        };
+
+        const callback = (entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    kvideoCurrentIndex = parseInt(entry.target.dataset.index, 10);
+                    video.muted = kvideoIsMuted;
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            });
+        };
+
+        kvideoObserver = new IntersectionObserver(callback, options);
+        const items = document.querySelectorAll('.kvideo-feed-item');
+        items.forEach(item => kvideoObserver.observe(item));
+    }
+
+    // 滚动故事流
+    window.kvideoScrollStories = function(direction) {
+        const container = document.getElementById('kvideo-stories-container');
+        if (!container) return;
+        const scrollAmount = container.clientWidth * 0.8;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    };
+
+    // 滚动轮播
+    window.kvideoScrollCarousel = function(direction) {
+        const container = document.getElementById('kvideo-carousel-container');
+        if (!container) return;
+        const scrollAmount = container.clientWidth;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    };
+
+    // 打开弹窗
+    window.kvideoOpenModal = function(index) {
+        const modal = document.getElementById('kvideo-modal');
+        const container = document.getElementById('kvideo-feed-container');
+        const pip = document.getElementById('kvideo-pip');
+
+        if (pip.classList.contains('kvideo-active')) {
+            const pipVideo = pip.querySelector('video');
+            const videoData = kvideoData[index];
+            if (videoData && pipVideo) {
+                pipVideo.src = videoData.mp4Url;
+                pipVideo.currentTime = 0;
+                pipVideo.muted = kvideoIsMuted;
+                pipVideo.play().catch(() => {});
+            }
+            kvideoCurrentIndex = index;
+            return;
+        }
+
+        kvideoIsMuted = false;
+        const icon = document.getElementById('kvideo-volume-icon');
+        if (icon) {
+            icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+        }
+
+        modal.classList.add('kvideo-active');
+        document.body.style.overflow = 'hidden';
+
+        const targetItem = container.querySelector(`.kvideo-feed-item[data-index="${index}"]`);
+        if (targetItem) {
+            container.scrollTo({ top: targetItem.offsetTop, behavior: 'auto' });
+        }
+
+        // 显示提示
+        setTimeout(() => {
+            const hint = document.getElementById('kvideo-swipe-hint');
+            if (hint) hint.style.display = 'flex';
+        }, 500);
+
+        setTimeout(() => {
+            const hint = document.getElementById('kvideo-swipe-hint');
+            if (hint) hint.style.display = 'none';
+        }, 3500);
+    };
+
+    // 关闭弹窗
+    window.kvideoCloseModal = function() {
+        const modal = document.getElementById('kvideo-modal');
+        const pip = document.getElementById('kvideo-pip');
+
+        modal.classList.remove('kvideo-active');
+        document.body.style.overflow = '';
+
+        const allVideos = document.querySelectorAll('.kvideo-feed-item video');
+        allVideos.forEach(v => v.pause());
+
+        pip.classList.remove('kvideo-active');
+        const pipVideo = pip.querySelector('video');
+        if (pipVideo) {
+            pipVideo.pause();
+            pipVideo.src = '';
+        }
+    };
+
+    // 最小化播放器
+    window.kvideoMinimize = function() {
+        const modal = document.getElementById('kvideo-modal');
+        const pip = document.getElementById('kvideo-pip');
+        const pipVideo = pip.querySelector('video');
+        const currentItem = document.querySelector(`.kvideo-feed-item[data-index="${kvideoCurrentIndex}"]`);
+
+        if (!currentItem) return;
+
+        const video = currentItem.querySelector('video');
+        const source = video.querySelector('source');
+        if (!source) return;
+
+        pipVideo.src = source.src;
+        pipVideo.currentTime = video.currentTime;
+        pipVideo.muted = video.muted;
+        pipVideo.loop = true;
+        video.pause();
+        pipVideo.play().catch(() => {});
+
+        pip.classList.add('kvideo-active');
+        modal.classList.remove('kvideo-active');
+        document.body.style.overflow = '';
+    };
+
+    // 关闭画中画
+    window.kvideoClosePiP = function(event) {
+        event.stopPropagation();
+        const pip = document.getElementById('kvideo-pip');
+        const pipVideo = pip.querySelector('video');
+        pipVideo.pause();
+        pipVideo.src = '';
+        pip.classList.remove('kvideo-active');
+    };
+
+    // 恢复画中画
+    window.kvideoRestorePiP = function(event) {
+        if (event) event.stopPropagation();
+        const pip = document.getElementById('kvideo-pip');
+        if (!pip.classList.contains('kvideo-active')) return;
+
+        const pipVideo = pip.querySelector('video');
+        const modal = document.getElementById('kvideo-modal');
+        modal.classList.add('kvideo-active');
+        document.body.style.overflow = 'hidden';
+
+        const container = document.getElementById('kvideo-feed-container');
+        const currentItem = document.querySelector(`.kvideo-feed-item[data-index="${kvideoCurrentIndex}"]`);
+
+        if (currentItem) {
+            container.scrollTo({ top: currentItem.offsetTop, behavior: 'auto' });
+            const video = currentItem.querySelector('video');
+            video.muted = pipVideo.muted;
+            video.currentTime = pipVideo.currentTime;
+            video.play().catch(() => {});
+        }
+
+        pip.classList.remove('kvideo-active');
+        pipVideo.pause();
+    };
+
+    // 切换静音
+    window.kvideoToggleMute = function() {
+        kvideoIsMuted = !kvideoIsMuted;
+        const icon = document.getElementById('kvideo-volume-icon');
+
+        if (kvideoIsMuted) {
+            icon.innerHTML = '<line x1="11" y1="5" x2="6" y2="9"></line><line x1="6" y1="15" x2="11" y2="19"></line><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+        } else {
+            icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+        }
+
+        const currentItem = document.querySelector(`.kvideo-feed-item[data-index="${kvideoCurrentIndex}"]`);
+        if (currentItem) {
+            const video = currentItem.querySelector('video');
+            video.muted = kvideoIsMuted;
+        }
+    };
+
+    // 导航
+    window.kvideoNavigate = function(direction) {
+        const container = document.getElementById('kvideo-feed-container');
+        if (!container) return;
+        const newScrollTop = container.scrollTop + (direction * container.clientHeight);
+        container.scrollTo({ top: newScrollTop, behavior: 'smooth' });
+    };
+
+    // 键盘导航
+    document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('kvideo-modal');
+        if (!modal || !modal.classList.contains('kvideo-active')) return;
+
+        if (e.key === 'Escape') kvideoCloseModal();
+        if (e.key === 'ArrowUp') kvideoNavigate(-1);
+        if (e.key === 'ArrowDown') kvideoNavigate(1);
+    });
+
+    // 鼠标滚轮导航
+    const modalEl = document.getElementById('kvideo-modal');
+    if (modalEl) {
+        modalEl.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY > 0) kvideoNavigate(1);
+            else kvideoNavigate(-1);
+        });
+    }
+
+    // 延迟加载悬浮视频
+    function kvideoLazyLoadFloating() {
+        const floatingVideo = document.querySelector('#kvideo-floating video');
+        if (floatingVideo && floatingVideo.querySelector('source')) {
+            // 使用 Intersection Observer 懒加载悬浮视频
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        floatingVideo.load();
+                        floatingVideo.play().catch(() => {});
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '50px' });
+            observer.observe(floatingVideo);
+        }
+    }
+
+    // 首屏视频自动播放
+    function kvideoInitHeroVideo() {
+        const heroVideo = document.querySelector('.kvideo-hero-video video');
+        if (heroVideo) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        heroVideo.play().catch(() => {});
+                    } else {
+                        heroVideo.pause();
+                    }
+                });
+            }, { threshold: 0.5 });
+            observer.observe(heroVideo);
+        }
+    }
+
+    // 优化初始化 - 分批加载，减少首屏阻塞
+    function kvideoInit() {
+        // 立即初始化首屏视频
+        kvideoInitHeroVideo();
+
+        // 立即构建 Feed（但不加载视频）
+        kvideoBuildFeed();
+        kvideoSetupObserver();
+
+        // 延迟加载其他内容，避免阻塞主线程
+        requestAnimationFrame(() => {
+            kvideoGenerateStories();
+
+            setTimeout(() => {
+                kvideoGenerateCarousel();
+            }, 100);
+
+            setTimeout(() => {
+                kvideoGenerateGrid();
+            }, 200);
+
+            setTimeout(() => {
+                kvideoLazyLoadFloating();
+            }, 500);
+        });
+    }
+
+    // 页面加载完成后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(kvideoInit, 0);
+        });
+    } else {
+        setTimeout(kvideoInit, 0);
+    }
+})();
+</script>
+</body>
+</html>
