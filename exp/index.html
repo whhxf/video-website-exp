@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,96 +38,89 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Sidebar Active State */
+        /* Sidebar Active State - Text Only */
+        .sidebar-item {
+            padding: 12px 8px;
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        .sidebar-item:hover {
+            background-color: rgba(99, 102, 241, 0.05);
+            color: var(--text-main);
+        }
         .sidebar-item.active {
             background-color: var(--bg-card);
             color: #4f46e5;
             font-weight: 700;
-            border-left: 4px solid #4f46e5;
+            border-left-color: #4f46e5;
         }
 
-        .sidebar-item.recommended-nav {
-            color: #f59e0b;
+        /* Top Nav Primary */
+        .top-nav-primary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 16px;
+            height: 48px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
-        .sidebar-item.recommended-nav.active {
-            border-left-color: #f59e0b;
-            color: #f59e0b;
+        .top-nav-scroll {
+            flex: 1;
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            height: 100%;
+            align-items: center;
+            padding-right: 48px; /* Space for fixed button */
+        }
+        .top-nav-item {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-muted);
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .top-nav-item.active {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+        }
+        .top-nav-all-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 48px;
+            background: linear-gradient(to left, var(--bg-card) 80%, transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
         }
 
         /* Smooth Scroll */
         html { scroll-behavior: smooth; }
 
-        /* PC Layout Adjustments */
-        @media (min-width: 1024px) {
-            .app-container {
-                max-width: 100%;
-                margin: 0;
-                box-shadow: none;
-                height: 100vh;
-                position: relative;
-                display: flex;
-                flex-direction: column;
-            }
-            .sticky-header {
-                width: 100%;
-                left: 0;
-                transform: none;
-            }
-            .fixed-bottom {
-                width: 100%;
-                left: 0;
-                transform: none;
-                display: flex;
-                justify-content: center;
-                pointer-events: none;
-            }
-            .fixed-bottom-content {
-                max-width: 600px;
-                width: 100%;
-                pointer-events: auto;
-            }
-        }
-
-        /* Carousel Styles */
-        .carousel-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            gap: 1rem;
-            padding-bottom: 1rem;
-        }
-        .carousel-item {
-            flex: 0 0 calc(100% - 2rem);
-            scroll-snap-align: center;
-        }
-        @media (min-width: 640px) {
-            .carousel-item {
-                flex: 0 0 calc(50% - 1rem);
-            }
-        }
-        @media (min-width: 1024px) {
-            .carousel-item {
-                flex: 0 0 calc(33.333% - 1rem);
-            }
-        }
-
-        .video-aspect { aspect-ratio: 16 / 9; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-
+        /* App Layout */
         .app-layout {
             display: flex;
-            height: calc(100vh - 64px);
+            height: calc(100vh - 112px); /* Header + TopNav height */
             overflow: hidden;
         }
         .sidebar {
-            width: 80px;
+            width: 90px;
             flex-shrink: 0;
             background-color: var(--bg-primary);
             overflow-y: auto;
@@ -140,72 +132,209 @@
             background-color: var(--bg-card);
         }
 
-        /* Dark mode overrides for Tailwind */
+        /* Card Styles */
+        .video-aspect { aspect-ratio: 16 / 9; }
+        .portrait-video { aspect-ratio: 9 / 16; }
+        
+        .card-cover {
+            position: relative;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background-color: #f1f5f9;
+            aspect-ratio: 16 / 9;
+        }
+        .card-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .play-btn-overlay {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 10;
+        }
+
+        /* TikTok Style Video Player */
+        .tiktok-player {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: black;
+            display: none;
+        }
+        .tiktok-player.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .tiktok-slide-container {
+            flex: 1;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        .tiktok-slide {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: black;
+        }
+        .tiktok-slide video {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain; /* 保持完整显示 */
+        }
+        .tiktok-sidebar {
+            position: absolute;
+            right: 16px;
+            bottom: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 10;
+        }
+        .tiktok-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tiktok-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.1);
+        }
+        .tiktok-btn.liked {
+            background: rgba(239, 68, 68, 0.8);
+        }
+        .tiktok-info {
+            position: absolute;
+            left: 16px;
+            bottom: 80px;
+            right: 80px;
+            color: white;
+            z-index: 10;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .tiktok-close {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 20;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+        }
+        
+        /* Navigation Arrows for Player */
+        .nav-arrow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 20;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+        .nav-arrow.up { top: 80px; }
+        .nav-arrow.down { bottom: 40px; }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* Detail Sheet (Half Modal from Bottom) */
+        .detail-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60vh;
+            background: white;
+            border-radius: 24px 24px 0 0;
+            z-index: 110;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+        .detail-sheet.active {
+            transform: translateY(0);
+        }
+        .dark .detail-sheet {
+            background: #1e293b;
+        }
+        .detail-sheet-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 105;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .detail-sheet-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Dark mode overrides */
         .dark .bg-white { background-color: #1e293b !important; }
         .dark .bg-slate-50 { background-color: #334155 !important; }
         .dark .bg-slate-100 { background-color: #334155 !important; }
-        .dark .bg-slate-200 { background-color: #475569 !important; }
         .dark .text-slate-900 { color: #f1f5f9 !important; }
         .dark .text-slate-700 { color: #e2e8f0 !important; }
         .dark .text-slate-600 { color: #cbd5e1 !important; }
         .dark .text-slate-500 { color: #94a3b8 !important; }
-        .dark .text-slate-400 { color: #64748b !important; }
         .dark .border-slate-100 { border-color: #334155 !important; }
         .dark .border-slate-200 { border-color: #475569 !important; }
 
-        /* Dynamic Product Cover Styles */
-        .product-cover {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.75rem;
-            width: 100%;
-            background-color: #f1f5f9;
-            aspect-ratio: 16 / 9; /* All product covers are 16:9 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .product-cover img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 1s ease-in-out;
-        }
-
-        /* Review Carousel Styles */
-        .review-carousel-item {
-            flex: 0 0 calc(50% - 1rem);
-            scroll-snap-align: center;
-        }
-        @media (min-width: 640px) {
-            .review-carousel-item {
-                flex: 0 0 calc(33.333% - 1rem);
-            }
-        }
-        @media (min-width: 1024px) {
-            .review-carousel-item {
-                flex: 0 0 calc(20% - 1rem);
-            }
-        }
-        .portrait-video { aspect-ratio: 9 / 16; }
-
-        /* Print Styles */
-        .print-only { display: none; }
-        @media print {
-            .no-print { display: none !important; }
-            .print-only { display: block !important; }
-            body { background: white !important; color: black !important; }
-            .print-card { border: 1px solid #eee; break-inside: avoid; }
-            .app-container { max-width: 100%; box-shadow: none; }
-        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
     </style>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BNC1TP6BM"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-6BNC1TP6BM');
     </script>
 </head>
@@ -213,7 +342,7 @@
 
     <div class="app-container">
         <!-- Header -->
-        <nav class="sticky-header sticky top-0 z-50 bg-white border-b border-slate-200 px-4 h-16 flex justify-between items-center no-print transition-colors">
+        <nav class="sticky-header sticky top-0 z-50 bg-white border-b border-slate-200 px-4 h-16 flex justify-between items-center transition-colors">
             <div class="flex items-center gap-3 flex-1 min-w-0">
                 <div class="flex items-center gap-2 shrink-0">
                     <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-200">SL</div>
@@ -237,285 +366,81 @@
                     <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
                     <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
                 </button>
-                <div class="flex bg-indigo-50 text-indigo-700 px-2 py-1.5 rounded-full text-[9px] font-bold border border-indigo-100 items-center gap-1 shrink-0">
-                    <i data-lucide="map-pin" class="w-3 h-3"></i>
-                    <span class="whitespace-nowrap">Hall 3.1 - B25</span>
-                </div>
             </div>
         </nav>
 
+        <!-- Top Navigation (Level 1) -->
+        <div class="top-nav-primary">
+            <div class="top-nav-scroll no-scrollbar" id="top-nav-container">
+                <!-- Rendered by JS -->
+            </div>
+            <div class="top-nav-all-btn" onclick="showAllCategories()">
+                <i data-lucide="grid" class="w-5 h-5 text-slate-600 dark:text-slate-300"></i>
+            </div>
+        </div>
+
         <!-- App Layout -->
-        <div class="app-layout no-print">
-            <!-- Sidebar Navigation (Ordering System Style) -->
+        <div class="app-layout">
+            <!-- Sidebar Navigation (Level 2) -->
             <aside class="sidebar no-scrollbar">
-                <nav class="flex flex-col">
-                    <button onclick="scrollToSection('factory')" class="sidebar-item active flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="factory">
-                        <i data-lucide="factory" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-medium leading-tight">Factory Tour</span>
-                    </button>
-                    <button onclick="scrollToSection('strength')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="strength">
-                        <i data-lucide="shield-check" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-medium leading-tight">Strength</span>
-                    </button>
-                    <button onclick="scrollToSection('reviews')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="reviews">
-                        <i data-lucide="message-square" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-medium leading-tight">Reviews</span>
-                    </button>
-                    <div class="h-px bg-slate-200 mx-4 my-2"></div>
-                    <!-- Recommended Section -->
-                    <button onclick="scrollToSection('recommended')" class="sidebar-item recommended-nav flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-amber-50" data-section="recommended">
-                        <i data-lucide="award" class="w-6 h-6 mb-1 text-amber-500 opacity-80 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-bold leading-tight">Best Sellers</span>
-                    </button>
-                    <button onclick="scrollToSection('moving-heads')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="moving-heads">
-                        <i data-lucide="refresh-cw" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-medium leading-tight">Moving Heads</span>
-                    </button>
-                    <button onclick="scrollToSection('static-lights')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="static-lights">
-                        <i data-lucide="sun" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-medium leading-tight">Static Lights</span>
-                    </button>
-                    <button onclick="scrollToSection('accessories')" class="sidebar-item flex flex-col items-center py-5 px-1 text-center transition-all group border-l-4 border-transparent focus:outline-none focus:bg-indigo-50" data-section="accessories">
-                        <i data-lucide="settings" class="w-6 h-6 mb-1 opacity-70 group-hover:opacity-100"></i>
-                        <span class="text-[10px] font-medium leading-tight">Accessories</span>
-                    </button>
+                <nav class="flex flex-col py-2" id="sidebar-nav">
+                    <!-- Rendered by JS -->
                 </nav>
             </aside>
 
-            <!-- Main Content Scrollable -->
-            <main class="content-area no-scrollbar">
-                
-                <!-- Section: Factory Tour (Carousel) -->
-                <section id="factory" class="pt-6 px-4 mb-12 scroll-mt-20">
-                    <div class="mb-6">
-                        <h2 class="text-xl font-bold">Factory Virtual Tour</h2>
-                        <p class="text-xs text-slate-500">Explore our manufacturing excellence</p>
-                    </div>
-                    <div class="carousel-container no-scrollbar">
-                        <!-- Video 1 -->
-                        <div class="carousel-item">
-                            <div onclick="playVideo('VID-01')" class="video-aspect bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
-                                    <div class="flex items-center gap-3 text-white mb-2">
-                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-                                            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
-                                        </div>
-                                        <span class="font-bold">Automated SMT Lines</span>
-                                    </div>
-                                    <p class="text-[10px] text-slate-300">Precision manufacturing & quality control</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Video 2 -->
-                        <div class="carousel-item">
-                            <div onclick="playVideo('VID-02')" class="video-aspect bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
-                                    <div class="flex items-center gap-3 text-white mb-2">
-                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-                                            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
-                                        </div>
-                                        <span class="font-bold">R&D Center</span>
-                                    </div>
-                                    <p class="text-[10px] text-slate-300">Innovative optical & thermal design</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Video 3 -->
-                        <div class="carousel-item">
-                            <div onclick="playVideo('VID-03')" class="video-aspect bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
-                                    <div class="flex items-center gap-3 text-white mb-2">
-                                        <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center">
-                                            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
-                                        </div>
-                                        <span class="font-bold">Aging Test Room</span>
-                                    </div>
-                                    <p class="text-[10px] text-slate-300">72-hour non-stop reliability testing</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+            <!-- Main Content -->
+            <main class="content-area no-scrollbar flex-1 p-4" id="main-content">
+                <!-- Rendered by JS -->
+            </main>
+        </div>
 
-                <!-- Section: Strength & Trust (Carousel) -->
-                <section id="strength" class="px-4 mb-12 scroll-mt-20">
-                    <div class="mb-6">
-                        <h2 class="text-xl font-bold">Why Pros Choose Us?</h2>
-                        <p class="text-xs text-slate-500">Industry leading standards & global trust</p>
-                    </div>
-                    <div class="carousel-container no-scrollbar">
-                        <!-- Stat 1 -->
-                        <div class="carousel-item">
-                            <div class="bg-indigo-600 rounded-3xl p-8 text-white h-full flex flex-col justify-between shadow-xl">
-                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-4">
-                                    <i data-lucide="award" class="w-6 h-6"></i>
-                                </div>
-                                <div>
-                                    <div class="text-4xl font-black italic mb-1">15+</div>
-                                    <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Years of Experience</p>
-                                </div>
-                            </div>
+        <!-- Persistent Bottom Bar -->
+        <div class="fixed bottom-6 left-0 right-0 z-40 px-4 flex justify-center">
+            <div class="flex gap-3 max-w-lg w-full">
+                <button onclick="toggleFavoritesModal()" class="flex-1 bg-white border border-slate-200 shadow-2xl rounded-2xl py-3 px-4 flex items-center justify-between group active:scale-95 transition-transform dark:bg-slate-800 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <i data-lucide="heart" class="text-rose-500 fill-rose-500"></i>
+                            <span id="fav-count-badge" class="absolute -top-2 -right-2 bg-indigo-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-white">0</span>
                         </div>
-                        <!-- Stat 2 -->
-                        <div class="carousel-item">
-                            <div class="bg-amber-500 rounded-3xl p-8 text-white h-full flex flex-col justify-between shadow-xl">
-                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-4">
-                                    <i data-lucide="globe" class="w-6 h-6"></i>
-                                </div>
-                                <div>
-                                    <div class="text-4xl font-black italic mb-1">500+</div>
-                                    <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Global Projects</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Stat 3 -->
-                        <div class="carousel-item">
-                            <div class="bg-emerald-500 rounded-3xl p-8 text-white h-full flex flex-col justify-between shadow-xl">
-                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-4">
-                                    <i data-lucide="check-circle" class="w-6 h-6"></i>
-                                </div>
-                                <div>
-                                    <div class="text-4xl font-black italic mb-1">ISO</div>
-                                    <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Certified Quality</p>
-                                </div>
-                            </div>
-                        </div>
+                        <span class="font-bold text-slate-700 dark:text-slate-200">Favorites</span>
                     </div>
-                </section>
-
-                <!-- Section: Customer Video Reviews (Vertical Carousel) -->
-                <section id="reviews" class="px-4 mb-12 scroll-mt-20">
-                    <div class="mb-6">
-                        <h2 class="text-xl font-bold">Client Reviews</h2>
-                        <p class="text-xs text-slate-500">See what our global partners say</p>
-                    </div>
-                    <div class="carousel-container no-scrollbar">
-                        <!-- Review 1 -->
-                        <div class="carousel-item review-carousel-item">
-                            <div onclick="playVideo('REV-01')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
-                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
-                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-                                    </div>
-                                    <p class="text-white text-[11px] font-bold mb-1">"Best beam quality for our stadium show!"</p>
-                                    <p class="text-slate-300 text-[9px]">Event Director, USA</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Review 2 -->
-                        <div class="carousel-item review-carousel-item">
-                            <div onclick="playVideo('REV-02')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
-                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
-                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-                                    </div>
-                                    <p class="text-white text-[11px] font-bold mb-1">"The most reliable moving heads we've used."</p>
-                                    <p class="text-slate-300 text-[9px]">Stage Manager, Germany</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Review 3 -->
-                        <div class="carousel-item review-carousel-item">
-                            <div onclick="playVideo('REV-03')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
-                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
-                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-                                    </div>
-                                    <p class="text-white text-[11px] font-bold mb-1">"Incredible support and quality control."</p>
-                                    <p class="text-slate-300 text-[9px]">Rental Company, Brazil</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Review 4 -->
-                        <div class="carousel-item review-carousel-item">
-                            <div onclick="playVideo('REV-04')" class="portrait-video bg-slate-900 rounded-2xl overflow-hidden relative group cursor-pointer shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent flex flex-col justify-end p-4">
-                                    <div class="w-8 h-8 bg-white/20 backdrop-blur rounded-full flex items-center justify-center mb-2">
-                                        <i data-lucide="play" class="w-4 h-4 fill-white"></i>
-                                    </div>
-                                    <p class="text-white text-[11px] font-bold mb-1">"Perfect for our global tour."</p>
-                                    <p class="text-slate-300 text-[9px]">Technical Lead, UK</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Product Categories -->
-                <div id="product-sections" class="px-4 pb-32">
-                <section id="recommended" class="pt-4 scroll-mt-6">
-                    <div class="flex items-center gap-2 mb-4">
-                        <i data-lucide="award" class="w-5 h-5 text-amber-500"></i>
-                        <h3 class="font-bold text-sm uppercase tracking-widest text-amber-600">Best Sellers</h3>
-                    </div>
-                    <div class="grid grid-cols-1 gap-4" id="recommended-grid">
-                        <!-- JS Render -->
-                    </div>
-                </section>
-
-                <section id="moving-heads" class="pt-8 scroll-mt-6">
-                    <h3 class="font-bold text-sm mb-4 uppercase tracking-widest text-slate-400">Moving Heads</h3>
-                    <div class="grid grid-cols-1 gap-4" id="moving-heads-grid">
-                        <!-- JS Render -->
-                    </div>
-                </section>
-
-                <section id="static-lights" class="pt-8 scroll-mt-6">
-                    <h3 class="font-bold text-sm mb-4 uppercase tracking-widest text-slate-400">Static Lights</h3>
-                    <div class="grid grid-cols-1 gap-4" id="static-lights-grid">
-                        <!-- JS Render -->
-                    </div>
-                </section>
-
-                <section id="accessories" class="pt-8 scroll-mt-6">
-                    <h3 class="font-bold text-sm mb-4 uppercase tracking-widest text-slate-400">Accessories</h3>
-                    <div class="grid grid-cols-1 gap-4" id="accessories-grid">
-                        <!-- JS Render -->
-                    </div>
-                </section>
+                    <i data-lucide="chevron-up" class="w-4 h-4 text-slate-400 group-hover:-translate-y-0.5 transition-transform"></i>
+                </button>
+                <button onclick="openWhatsApp()" class="bg-indigo-600 text-white shadow-2xl shadow-indigo-200 rounded-2xl py-3 px-6 flex items-center gap-2 font-bold active:scale-95 transition-transform">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    <span>WhatsApp</span>
+                </button>
             </div>
-
-        </main>
-    </div>
-
-    <!-- Persistent Bottom Bar -->
-    <div class="fixed-bottom fixed bottom-6 left-0 right-0 z-40 px-4 no-print">
-        <div class="fixed-bottom-content flex gap-3">
-            <button onclick="toggleFavoritesModal()" class="flex-1 bg-white border border-slate-200 shadow-2xl rounded-2xl py-3 px-4 flex items-center justify-between group active:scale-95 transition-transform dark:bg-slate-800 dark:border-slate-700">
-                <div class="flex items-center gap-3">
-                    <div class="relative">
-                        <i data-lucide="heart" class="text-rose-500 fill-rose-500"></i>
-                        <span id="fav-count-badge" class="absolute -top-2 -right-2 bg-indigo-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-white">0</span>
-                    </div>
-                    <span class="font-bold text-slate-700 dark:text-slate-200">Favorites</span>
-                </div>
-                <i data-lucide="chevron-up" class="w-4 h-4 text-slate-400 group-hover:-translate-y-0.5 transition-transform"></i>
-            </button>
-            <button onclick="openWhatsApp()" class="bg-indigo-600 text-white shadow-2xl shadow-indigo-200 rounded-2xl py-3 px-6 flex items-center gap-2 font-bold active:scale-95 transition-transform">
-                <i data-lucide="message-circle" class="w-5 h-5"></i>
-                <span>Quote</span>
-            </button>
         </div>
     </div>
-    </div> <!-- Close app-container -->
 
-    <!-- Product Detail Modal -->
-    <div id="product-modal" class="fixed inset-0 z-[60] pointer-events-none no-print">
-        <div id="product-modal-backdrop" onclick="closeProductModal()" class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 pointer-events-none backdrop-blur-sm"></div>
-        <div id="product-modal-content" class="absolute bottom-0 left-0 right-0 bg-white dark:bg-slate-900 rounded-t-[32px] max-h-[90vh] overflow-y-auto translate-y-full transition-transform duration-300 pointer-events-auto mx-auto max-w-lg">
-            <div id="product-detail-body"></div>
+    <!-- TikTok Style Video Player -->
+    <div class="tiktok-player" id="tiktok-player">
+        <div class="tiktok-close" onclick="closeTiktokPlayer()">
+            <i data-lucide="x" class="w-5 h-5"></i>
         </div>
+        
+        <!-- Navigation Arrows -->
+        <div class="nav-arrow up" onclick="scrollTiktok(-1)">
+            <i data-lucide="chevron-up" class="w-6 h-6"></i>
+        </div>
+        <div class="nav-arrow down" onclick="scrollTiktok(1)">
+            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+        </div>
+
+        <div class="tiktok-slide-container no-scrollbar" id="tiktok-slides"></div>
+    </div>
+
+    <!-- Detail Sheet (Half Modal) -->
+    <div class="detail-sheet-backdrop" id="detail-sheet-backdrop" onclick="closeDetailSheet()"></div>
+    <div class="detail-sheet" id="detail-sheet">
+        <div class="w-12 h-1 bg-slate-300 rounded-full mx-auto mt-3 mb-4"></div>
+        <div id="detail-sheet-content" class="px-6 pb-6"></div>
     </div>
 
     <!-- Favorites Drawer -->
-    <div id="favorites-modal" class="fixed inset-0 z-50 pointer-events-none no-print">
+    <div id="favorites-modal" class="fixed inset-0 z-50 pointer-events-none">
         <div id="modal-backdrop" onclick="toggleFavoritesModal()" class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 pointer-events-none"></div>
         <div id="modal-content" class="absolute bottom-0 left-0 right-0 bg-white dark:bg-slate-900 rounded-t-[32px] max-h-[85vh] overflow-y-auto translate-y-full transition-transform duration-300 pointer-events-auto flex flex-col mx-auto max-w-lg">
             <div class="w-12 h-1 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto mt-4 mb-6"></div>
@@ -530,25 +455,13 @@
                     <div class="space-y-4">
                         <input type="text" id="cust-name" placeholder="Your Name" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500/20">
                         <input type="email" id="cust-email" placeholder="Your Email Address (Required)" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500/20">
-                        <div class="grid grid-cols-2 gap-4">
-                            <select id="cust-role" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none appearance-none">
-                                <option value="">Job Role</option>
-                                <option value="Buyer">Buyer</option>
-                                <option value="Tech Director">Tech Director</option>
-                                <option value="CEO">Owner / CEO</option>
-                                <option value="Engineer">Engineer</option>
-                                <option value="Distributor">Distributor</option>
-                            </select>
-                            <select id="cust-country" class="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 outline-none appearance-none">
-                                <option value="">Country</option>
-                                <option value="USA">USA</option><option value="UK">UK</option><option value="Germany">Germany</option><option value="UAE">UAE</option><option value="Brazil">Brazil</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
             </div>
             <div class="p-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex gap-3">
-                <button onclick="shareToWhatsApp(false)" class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-4 rounded-2xl font-bold">Contact Sales</button>
+                <button onclick="shareToWhatsApp(false)" class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-4 rounded-2xl font-bold flex items-center justify-center gap-2">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp
+                </button>
                 <button onclick="sendToEmail()" class="flex-[2] bg-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-100">
                     <i data-lucide="mail" class="w-5 h-5"></i><span>Send to Email</span>
                 </button>
@@ -556,147 +469,100 @@
         </div>
     </div>
 
-    <!-- Print View -->
-    <div class="print-only p-10">
-        <div class="flex justify-between border-b-2 border-slate-900 pb-6 mb-8">
-            <div>
-                <h1 class="text-3xl font-black">STAGE LIGHTING PRO</h1>
-                <p class="text-slate-500 uppercase tracking-widest text-sm mt-1">International Exhibition 2026</p>
+    <!-- All Categories Modal -->
+    <div id="all-cats-modal" class="fixed inset-0 z-[60] pointer-events-none opacity-0 transition-opacity duration-300 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-xs rounded-2xl p-6 transform scale-95 transition-transform duration-200" id="all-cats-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg">All Categories</h3>
+                <button onclick="hideAllCategories()"><i data-lucide="x" class="text-slate-400"></i></button>
             </div>
-            <div class="text-right">
-                <p class="font-bold">Hall 3.1 - B25</p>
-                <p class="text-slate-400 text-xs">Prolight + Sound</p>
-            </div>
-        </div>
-        <div id="print-customer-info" class="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl mb-10 border border-slate-200"></div>
-        <h2 class="text-xl font-bold mb-6 flex items-center gap-2 underline decoration-indigo-500 underline-offset-8">Selected Product Inquiry</h2>
-        <div id="print-product-list" class="space-y-8"></div>
-        <div class="mt-16 pt-10 border-t border-slate-200">
-            <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-slate-400">Sales Consultation Notes:</h3>
-            <div class="h-40 border-2 border-dashed border-slate-200 rounded-3xl p-6 text-slate-300 italic">Project Type, Budget, Lead Time, Customization Requirements...</div>
-        </div>
-        <div class="mt-16 flex items-center justify-between p-8 bg-slate-900 text-white rounded-3xl">
-            <div>
-                <p class="text-indigo-400 font-bold mb-1">Stay Connected</p>
-                <p class="text-2xl font-bold mb-1">Chat with Mr. Lee</p>
-                <p class="opacity-60 text-sm">WhatsApp: +86 137-1934-3427</p>
-            </div>
-            <div class="w-32 h-32 bg-white p-3 rounded-2xl flex items-center justify-center text-slate-900 text-center text-[10px] font-bold">QR CODE<br>WhatsApp</div>
+            <div class="grid grid-cols-2 gap-3" id="all-cats-grid"></div>
         </div>
     </div>
 
     <script>
-        // 1. Data Definition
-        const products = [
+        // ============== DATA ==============
+        
+        // Navigation Structure
+        const navStructure = [
             {
-                id: "SL-001", cat: "moving-heads", recommended: true,
-                name: "350W Super Beam", model: "BEAM-350",
-                imgs: [
-                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400",
-                    "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400",
-                    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400"
-                ],
-                video: "./videoplayback.webm",
-                tagline: "17R Source | 8° Ultra-sharp | Silent Fan",
-                specs: { 
-                    Power: "350W", 
-                    Angle: "8°", 
-                    Channel: "16/20CH",
-                    Source: "OSRAM 17R",
-                    Color: "14 Colors + Open",
-                    Gobo: "17 Gobos + Open",
-                    Prism: "8+16 Facet Prism",
-                    Weight: "18kg"
-                }
+                id: 'about',
+                label: 'About Us',
+                subItems: [
+                    { id: 'factory', label: 'Factory Tour' },
+                    { id: 'why-us', label: 'Why Us' },
+                    { id: 'reviews', label: 'Client Reviews' }
+                ]
             },
             {
-                id: "SL-002", cat: "moving-heads", recommended: false,
-                name: "200W LED Wash", model: "WASH-200",
-                imgs: [
-                    "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400",
-                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400"
-                ],
-                video: "./videoplayback.webm",
-                tagline: "RGBW 4-in-1 | 8-50° Zoom | Soft Mix",
-                specs: { 
-                    Power: "200W", 
-                    Zoom: "8-50°", 
-                    Weight: "12kg",
-                    LED: "19x15W RGBW",
-                    Control: "DMX512/Auto",
-                    Strobe: "1-25 fps",
-                    Cooling: "Heat-pipe System",
-                    Protection: "IP20"
-                }
+                id: 'stage-lights',
+                label: 'Stage lights',
+                subItems: [
+                    { id: 'beam', label: 'Beam light' },
+                    { id: 'spotlight', label: 'Stage spotlight' },
+                    { id: 'par', label: 'Par lights' },
+                    { id: 'wash', label: 'Wash light' },
+                    { id: 'rgb', label: 'Light rgb led' },
+                    { id: 'follow', label: 'Follow spot light' },
+                    { id: 'used', label: 'Used lighting' }
+                ]
             },
             {
-                id: "SL-003", cat: "static-lights", recommended: true,
-                name: "54x3W LED Par", model: "PAR-54",
-                imgs: [
-                    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400",
-                    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400"
-                ],
-                video: "./videoplayback.webm",
-                tagline: "Best Seller | Rental Pro | Die-cast Aluminum",
-                specs: { 
-                    LED: "54x3W", 
-                    Color: "RGBW", 
-                    Angle: "25°",
-                    Shell: "Die-cast Aluminum",
-                    Input: "AC100-240V",
-                    Mode: "DMX/Sound/Master",
-                    Lifetime: "50,000 hrs",
-                    Size: "22x22x29cm"
-                }
-            },
-            {
-                id: "SL-004", cat: "static-lights", recommended: false,
-                name: "2500W Follow Spot", model: "FOLLOW-2500",
-                imgs: [
-                    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400",
-                    "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=400"
-                ],
-                video: "./videoplayback.webm",
-                tagline: "Long Throw | Theatre Grade | Manual Focus",
-                specs: { 
-                    Range: "50-300m", 
-                    Source: "2500W Bulb",
-                    Color: "5 Colors + White",
-                    Dimming: "0-100% Manual",
-                    Iris: "Adjustable",
-                    Stand: "Included",
-                    Weight: "25kg",
-                    Voltage: "220V"
-                }
-            },
-            {
-                id: "SL-005", cat: "accessories", recommended: false,
-                name: "Pro Lighting Console", model: "CONSOLE-PRO",
-                imgs: [
-                    "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=400",
-                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400"
-                ],
-                video: "./videoplayback.webm",
-                tagline: "8192 CH | 15.6\" Touch | Built-in Effects",
-                specs: { 
-                    DMX: "8 Universe", 
-                    Screen: "15.6\" Touch",
-                    Storage: "128G SSD",
-                    RAM: "8GB DDR4",
-                    Encoders: "4 Optical",
-                    Sliders: "10 Playback",
-                    System: "Linux Embedded",
-                    Ports: "Ethernet/USB/Artnet"
-                }
+                id: 'light-show',
+                label: 'Light show',
+                subItems: [
+                    { id: 'all-show', label: 'All Shows' }
+                ]
             }
         ];
 
-        let favorites = JSON.parse(localStorage.getItem('fav_list') || '[]');
+        // Content Data (Mock Data extended)
+        const contentData = {
+            'factory': [
+                { id: "FAC-01", title: "Automated SMT Lines", desc: "Precision manufacturing", thumb: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=600", video: "./videoplayback.webm", type: 'video' },
+                { id: "FAC-02", title: "R&D Center", desc: "Innovative design", thumb: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=600", video: "./videoplayback.webm", type: 'video' }
+            ],
+            'why-us': [
+                { id: "STR-01", title: "15+ Years Experience", desc: "Watch our journey", thumb: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=600", video: "./videoplayback.webm", type: 'video' },
+                { id: "STR-02", title: "500+ Global Projects", desc: "Our products across the world", thumb: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600", video: "./videoplayback.webm", type: 'video' }
+            ],
+            'reviews': [
+                { id: "REV-01", title: "Best beam quality!", author: "Event Director, USA", thumb: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", type: 'video' },
+                { id: "REV-02", title: "Reliable moving heads.", author: "Stage Manager, Germany", thumb: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", type: 'video' }
+            ],
+            // Products mapped by sub-category ID
+            'beam': [
+                { id: "SL-001", name: "350W Super Beam", model: "BEAM-350", thumb: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", specs: { Power: "350W", Angle: "8°" } },
+                { id: "SL-002", name: "280W Beam Spot", model: "BEAM-280", thumb: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", specs: { Power: "280W", Angle: "10°" } }
+            ],
+            'spotlight': [],
+            'par': [
+                { id: "SL-003", name: "54x3W LED Par", model: "PAR-54", thumb: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", specs: { LED: "54x3W", Color: "RGBW" } }
+            ],
+            'wash': [
+                { id: "SL-004", name: "200W LED Wash", model: "WASH-200", thumb: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", specs: { Power: "200W", Zoom: "8-50°" } }
+            ],
+            'follow': [
+                { id: "SL-005", name: "2500W Follow Spot", model: "FOLLOW-2500", thumb: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", specs: { Range: "300m" } }
+            ],
+            'all-show': [
+                { id: "SHOW-01", title: "New Year Gala 2025", desc: "Full stage setup", thumb: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", type: 'video' }
+            ]
+        };
 
+        let currentNavId = 'about';
+        let currentSubId = 'factory';
+        let favorites = JSON.parse(localStorage.getItem('fav_list') || '[]');
+        
+        let currentTiktokList = [];
+        let currentTiktokIndex = 0;
+
+        // ============== INIT ==============
         function init() {
-            renderGrids();
+            renderTopNav();
+            renderAllCatsModal();
+            selectCategory('about');
             updateUI();
-            setupSidebarScroll();
             lucide.createIcons();
             initTheme();
         }
@@ -713,181 +579,304 @@
             lucide.createIcons();
         }
 
-        function scrollToSection(id) {
-            const section = document.getElementById(id);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-                // Update active state manually for immediate feedback
-                document.querySelectorAll('.sidebar-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.getAttribute('data-section') === id) {
-                        item.classList.add('active');
-                    }
-                });
-            }
-        }
-
-        function renderGrids() {
-            // Render Recommended (Best Sellers)
-            const recommendedGrid = document.getElementById('recommended-grid');
-            recommendedGrid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4";
-            recommendedGrid.innerHTML = products.filter(p => p.recommended).map(p => renderProductCard(p)).join('');
-
-            // Render Categories
-            const cats = ['moving-heads', 'static-lights', 'accessories'];
-            cats.forEach(cat => {
-                const grid = document.getElementById(`${cat}-grid`);
-                grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4";
-                grid.innerHTML = products.filter(p => p.cat === cat).map(p => renderProductCard(p)).join('');
-            });
-            lucide.createIcons();
-            initImageSwitching();
-        }
-
-        function renderProductCard(p) {
-            return `
-                <div class="flex flex-col p-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-sm animate-fade-in relative group cursor-pointer" onclick="showProductDetail('${p.id}')">
-                    ${p.recommended ? `
-                        <div class="absolute top-1 left-1 bg-amber-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-md shadow-lg z-10 flex items-center gap-0.5 uppercase tracking-tighter">
-                            <i data-lucide="award" class="w-2 h-2"></i> Hot
-                        </div>
-                    ` : ''}
-                    <div class="product-cover mb-2" id="cover-${p.id}">
-                        ${p.imgs.map((img, idx) => `<img src="${img}" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ${idx === 0 ? 'opacity-100' : 'opacity-0'}" data-index="${idx}">`).join('')}
-                    </div>
-                    <div class="flex-1 min-w-0 flex flex-col justify-between">
-                        <div>
-                            <h4 class="font-bold text-[11px] truncate dark:text-white">${p.name}</h4>
-                            <p class="text-[9px] text-indigo-600 font-bold mb-0.5">${p.model}</p>
-                            <p class="text-[9px] text-slate-400 line-clamp-1">${p.tagline}</p>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-[8px] bg-slate-50 dark:bg-slate-700 px-1.5 py-0.5 rounded border border-slate-100 dark:border-slate-600 text-slate-500">Stock</span>
-                            <button onclick="event.stopPropagation(); toggleFavorite('${p.id}')" class="w-7 h-7 rounded-lg flex items-center justify-center transition-all ${favorites.includes(p.id) ? 'bg-rose-50 text-rose-500' : 'bg-slate-50 text-slate-300'}">
-                                <i data-lucide="heart" class="w-3.5 h-3.5 ${favorites.includes(p.id) ? 'fill-rose-500' : ''}"></i>
-                            </button>
-                        </div>
-                    </div>
+        // ============== NAVIGATION ==============
+        function renderTopNav() {
+            const container = document.getElementById('top-nav-container');
+            container.innerHTML = navStructure.map(item => `
+                <div class="top-nav-item ${item.id === currentNavId ? 'active' : ''}" 
+                     onclick="selectCategory('${item.id}')">
+                    ${item.label}
                 </div>
-            `;
+            `).join('');
         }
 
-        function initImageSwitching() {
-            const covers = document.querySelectorAll('.product-cover');
-            covers.forEach(cover => {
-                const imgs = cover.querySelectorAll('img');
-                if (imgs.length <= 1) return;
+        function selectCategory(navId) {
+            currentNavId = navId;
+            renderTopNav(); // Update active state
+            
+            // Render Sidebar
+            const navItem = navStructure.find(n => n.id === navId);
+            const sidebar = document.getElementById('sidebar-nav');
+            
+            if (navItem && navItem.subItems.length > 0) {
+                sidebar.innerHTML = navItem.subItems.map(sub => `
+                    <div class="sidebar-item ${sub.id === currentSubId ? 'active' : ''}" 
+                         onclick="selectSubCategory('${sub.id}')">
+                        ${sub.label}
+                    </div>
+                `).join('');
                 
-                let currentIdx = 0;
-                setInterval(() => {
-                    imgs[currentIdx].classList.remove('opacity-100');
-                    imgs[currentIdx].classList.add('opacity-0');
-                    currentIdx = (currentIdx + 1) % imgs.length;
-                    imgs[currentIdx].classList.remove('opacity-0');
-                    imgs[currentIdx].classList.add('opacity-100');
-                }, 3000); // Switch every 3 seconds
-            });
-        }
-
-        function setupSidebarScroll() {
-            const sidebarItems = document.querySelectorAll('.sidebar-item');
-            const mainContent = document.querySelector('.content-area');
-            const sections = document.querySelectorAll('section');
-
-            mainContent.addEventListener('scroll', () => {
-                let current = "";
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (mainContent.scrollTop >= sectionTop - 150) {
-                        current = section.getAttribute("id");
-                    }
-                });
-
-                sidebarItems.forEach(item => {
-                    item.classList.remove("active");
-                    if (item.getAttribute('data-section') === current) {
-                        item.classList.add("active");
-                    }
-                });
-            });
-        }
-
-        function showProductDetail(id) {
-            const p = products.find(x => x.id === id);
-            const detailBody = document.getElementById('product-detail-body');
-            detailBody.innerHTML = `
-                <div class="relative">
-                    <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-black/20 backdrop-blur rounded-full flex items-center justify-center text-white"><i data-lucide="x"></i></button>
-                    <div class="aspect-video">
-                         <video src="${p.video}" muted playsinline loop autoplay class="w-full h-full object-cover"></video>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <div><p class="text-indigo-600 font-bold text-sm">${p.model}</p><h2 class="text-2xl font-bold dark:text-white">${p.name}</h2></div>
-                            <button onclick="toggleFavorite('${p.id}'); showProductDetail('${p.id}')" class="w-12 h-12 rounded-2xl flex items-center justify-center active:scale-90 bg-rose-50">
-                                <i data-lucide="heart" class="w-6 h-6 ${favorites.includes(p.id) ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}"></i>
-                            </button>
-                        </div>
-                        <p class="text-slate-500 mb-8 text-sm">${p.tagline}</p>
-                        
-                        <div class="mb-8">
-                            <h3 class="font-bold text-sm mb-4 dark:text-slate-300 uppercase tracking-widest text-indigo-600">Product Gallery</h3>
-                            <div class="grid grid-cols-2 gap-2">
-                                ${p.imgs.map(img => `<img src="${img}" class="rounded-xl w-full h-32 object-cover">`).join('')}
-                            </div>
-                        </div>
-
-                        <div class="mb-8">
-                            <h3 class="font-bold text-sm mb-4 dark:text-slate-300 uppercase tracking-widest text-indigo-600">Technical Specifications</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                ${Object.entries(p.specs).map(([k, v]) => `<div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700"><p class="text-[10px] text-slate-400 uppercase font-bold">${k}</p><p class="font-bold text-[11px] text-slate-700 dark:text-slate-200">${v}</p></div>`).join('')}
-                            </div>
-                        </div>
-                        
-                        <button onclick="closeProductModal(); toggleFavorite('${p.id}')" class="w-full py-4 rounded-2xl font-bold border-2 ${favorites.includes(p.id) ? 'border-rose-100 text-rose-500' : 'border-indigo-600 text-indigo-600'}">${favorites.includes(p.id) ? 'Remove from Interests' : 'Add to Interests'}</button>
-                    </div>
-                </div>
-            `;
-            const modal = document.getElementById('product-modal');
-            modal.classList.remove('pointer-events-none');
-            document.getElementById('product-modal-backdrop').classList.remove('opacity-0', 'pointer-events-none');
-            document.getElementById('product-modal-content').classList.remove('translate-y-full');
+                // Select first sub-item by default if currentSubId not in list
+                const exists = navItem.subItems.find(s => s.id === currentSubId);
+                if (!exists) {
+                    selectSubCategory(navItem.subItems[0].id);
+                } else {
+                    selectSubCategory(currentSubId); // Re-render content
+                }
+            } else {
+                sidebar.innerHTML = '<div class="p-4 text-xs text-slate-400 text-center">No categories</div>';
+                document.getElementById('main-content').innerHTML = '';
+            }
             lucide.createIcons();
         }
 
-        function closeProductModal() {
-            document.getElementById('product-modal-content').classList.add('translate-y-full');
-            document.getElementById('product-modal-backdrop').classList.add('opacity-0');
-            setTimeout(() => document.getElementById('product-modal').classList.add('pointer-events-none'), 300);
+        function selectSubCategory(subId) {
+            currentSubId = subId;
+            
+            // Update Sidebar Active State
+            document.querySelectorAll('.sidebar-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.textContent.trim() === navStructure.find(n => n.id === currentNavId).subItems.find(s => s.id === subId).label) {
+                    el.classList.add('active');
+                }
+            });
+
+            renderContent(subId);
         }
 
+        // ============== RENDER CONTENT ==============
+        function renderContent(subId) {
+            const container = document.getElementById('main-content');
+            const data = contentData[subId] || [];
+            
+            const navItem = navStructure.find(n => n.id === currentNavId);
+            const subItem = navItem.subItems.find(s => s.id === subId);
+
+            let headerHtml = `
+                <div class="mb-6 animate-fade-in">
+                    <h2 class="text-xl font-bold">${subItem.label}</h2>
+                    <p class="text-xs text-slate-500">${navItem.label} > ${subItem.label}</p>
+                </div>
+            `;
+
+            if (data.length === 0) {
+                container.innerHTML = headerHtml + `<div class="text-center py-10 text-slate-400">Coming Soon</div>`;
+                return;
+            }
+
+            const gridHtml = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-fade-in">
+                    ${data.map((item, idx) => renderCard(item, subId, idx)).join('')}
+                </div>
+            `;
+
+            container.innerHTML = headerHtml + gridHtml;
+            lucide.createIcons();
+        }
+
+        function renderCard(item, categoryId, index) {
+            const isFav = favorites.includes(item.id);
+            const isVideo = item.type === 'video' || item.video; // Assume all have video
+            
+            return `
+                <div class="flex flex-col gap-2 group cursor-pointer" onclick="openTiktokPlayer('${categoryId}', ${index})">
+                    <div class="card-cover">
+                        <img src="${item.thumb}" loading="lazy">
+                        <div class="play-btn-overlay">
+                            <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-start px-1">
+                        <div>
+                            <h3 class="font-bold text-sm line-clamp-2 leading-tight">${item.name || item.title}</h3>
+                            <p class="text-xs text-slate-500 mt-0.5">${item.model || item.desc || item.author || ''}</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); toggleFavorite('${item.id}')" 
+                                class="shrink-0 p-1 rounded-full ${isFav ? 'text-rose-500' : 'text-slate-300 hover:text-slate-400'}">
+                            <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-rose-500' : ''}"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============== TIKTOK PLAYER ==============
+        function openTiktokPlayer(categoryId, index) {
+            currentTiktokList = contentData[categoryId];
+            currentTiktokIndex = index;
+            
+            const player = document.getElementById('tiktok-player');
+            const slidesContainer = document.getElementById('tiktok-slides');
+            
+            slidesContainer.innerHTML = currentTiktokList.map((item, idx) => `
+                <div class="tiktok-slide" id="slide-${idx}">
+                    <video src="${item.video}" playsinline loop ${idx === index ? 'autoplay' : ''} onclick="toggleVideoPlay(this)"></video>
+                    
+                    <div class="tiktok-info">
+                        <h3 class="text-lg font-bold mb-1">${item.name || item.title}</h3>
+                        <p class="text-sm opacity-80">${item.model || item.desc || item.author || ''}</p>
+                    </div>
+                    
+                    <div class="tiktok-sidebar">
+                        <div class="tiktok-btn ${favorites.includes(item.id) ? 'liked' : ''}" onclick="toggleFavoriteFromPlayer('${item.id}', this)">
+                            <i data-lucide="heart" class="w-6 h-6 ${favorites.includes(item.id) ? 'fill-white' : ''}"></i>
+                        </div>
+                        <div class="tiktok-btn" onclick="openDetailSheet('${item.id}')">
+                            <i data-lucide="more-horizontal" class="w-6 h-6"></i>
+                        </div>
+                        <div class="tiktok-btn" onclick="openWhatsApp()">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            player.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+            
+            // Scroll to start
+            setTimeout(() => {
+                document.getElementById(`slide-${index}`).scrollIntoView({ behavior: 'auto' });
+            }, 10);
+
+            // Snap scroll listener
+            slidesContainer.onscroll = debounce(() => {
+                const slides = document.querySelectorAll('.tiktok-slide');
+                const height = slidesContainer.clientHeight;
+                const scroll = slidesContainer.scrollTop;
+                const idx = Math.round(scroll / height);
+                
+                if (idx !== currentTiktokIndex && slides[idx]) {
+                    // Pause prev
+                    const prevVideo = slides[currentTiktokIndex].querySelector('video');
+                    if (prevVideo) prevVideo.pause();
+                    
+                    // Play new
+                    const newVideo = slides[idx].querySelector('video');
+                    if (newVideo) newVideo.play();
+                    
+                    currentTiktokIndex = idx;
+                }
+            }, 100);
+        }
+
+        function scrollTiktok(dir) {
+            const container = document.getElementById('tiktok-slides');
+            const height = container.clientHeight;
+            container.scrollBy({ top: dir * height, behavior: 'smooth' });
+        }
+
+        function closeTiktokPlayer() {
+            document.getElementById('tiktok-player').classList.remove('active');
+            document.body.style.overflow = '';
+            document.querySelectorAll('video').forEach(v => v.pause());
+        }
+
+        function toggleVideoPlay(video) {
+            video.paused ? video.play() : video.pause();
+        }
+
+        function toggleFavoriteFromPlayer(id, btn) {
+            toggleFavorite(id);
+            const isFav = favorites.includes(id);
+            btn.classList.toggle('liked', isFav);
+            btn.querySelector('i').classList.toggle('fill-white', isFav);
+        }
+
+        // ============== UTILS ==============
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // ============== DETAIL SHEET ==============
+        function openDetailSheet(id) {
+            const item = currentTiktokList.find(i => i.id === id);
+            if (!item) return;
+
+            const content = document.getElementById('detail-sheet-content');
+            
+            // Build specs HTML if available
+            let specsHtml = '';
+            if (item.specs) {
+                specsHtml = `
+                    <div class="mb-4">
+                        <h3 class="font-bold text-xs mb-3 uppercase tracking-widest text-indigo-600">Specifications</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            ${Object.entries(item.specs).map(([k, v]) => `
+                                <div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg">
+                                    <p class="text-[9px] text-slate-400 uppercase">${k}</p>
+                                    <p class="font-bold text-[10px]">${v}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = `
+                <div class="mb-4">
+                    <p class="text-indigo-600 font-bold text-sm">${item.model || 'Item Detail'}</p>
+                    <h2 class="text-xl font-bold">${item.name || item.title}</h2>
+                    <p class="text-slate-500 text-sm mt-1">${item.desc || item.author || ''}</p>
+                </div>
+                
+                ${specsHtml}
+                
+                <div class="flex gap-2">
+                    <button onclick="toggleFavorite('${item.id}'); openDetailSheet('${item.id}')" class="flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2 ${favorites.includes(item.id) ? 'bg-rose-50 text-rose-500' : 'bg-slate-100 text-slate-600'}">
+                        <i data-lucide="heart" class="w-4 h-4 ${favorites.includes(item.id) ? 'fill-rose-500' : ''}"></i>
+                        ${favorites.includes(item.id) ? 'Saved' : 'Save'}
+                    </button>
+                    <button onclick="closeDetailSheet()" class="flex-1 py-3 rounded-xl font-bold bg-indigo-600 text-white">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('detail-sheet-backdrop').classList.add('active');
+            document.getElementById('detail-sheet').classList.add('active');
+            lucide.createIcons();
+        }
+
+        function closeDetailSheet() {
+            document.getElementById('detail-sheet-backdrop').classList.remove('active');
+            document.getElementById('detail-sheet').classList.remove('active');
+        }
+
+        // ============== FAVORITES & SHARED ==============
         function toggleFavorite(id) {
             const idx = favorites.indexOf(id);
-            if (idx > -1) favorites.splice(idx, 1); else favorites.push(id);
+            if (idx > -1) favorites.splice(idx, 1);
+            else favorites.push(id);
             localStorage.setItem('fav_list', JSON.stringify(favorites));
-            renderGrids(); renderFavoritesList(); updateUI();
+            
+            // Refresh view
+            if (document.getElementById('main-content').innerHTML) {
+                renderContent(currentSubId);
+            }
+            updateUI();
+            renderFavoritesList();
         }
 
         function updateUI() {
             const count = favorites.length;
-            const badge = document.getElementById('fav-count-badge');
-            if (badge) badge.textContent = count;
-            const text = document.getElementById('fav-count-text');
-            if (text) text.textContent = `(${count})`;
-            const form = document.getElementById('share-form');
-            if (form) form.classList.toggle('hidden', count === 0);
+            document.getElementById('fav-count-badge').textContent = count;
+            document.getElementById('fav-count-text').textContent = `(${count})`;
+            document.getElementById('share-form').classList.toggle('hidden', count === 0);
         }
 
         function renderFavoritesList() {
             const container = document.getElementById('favorites-list');
-            if (!container) return;
             if (favorites.length === 0) {
                 container.innerHTML = `<div class="py-12 text-center text-slate-400 space-y-3"><i data-lucide="heart" class="w-12 h-12 mx-auto opacity-10"></i><p>No favorites yet</p></div>`;
             } else {
+                // Flatten all data for lookup
+                const allItems = [].concat(...Object.values(contentData));
+                
                 container.innerHTML = favorites.map(id => {
-                    const p = products.find(x => x.id === id);
-                    if (!p) return '';
-                    return `<div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700"><img src="${p.imgs[0]}" class="w-12 h-12 rounded-lg object-cover"><div class="flex-1"><h4 class="font-bold text-xs dark:text-white">${p.name}</h4><p class="text-[10px] text-slate-400">${p.model}</p></div><button onclick="toggleFavorite('${p.id}')" class="text-slate-300 p-2"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>`;
+                    const item = allItems.find(x => x.id === id);
+                    if (!item) return '';
+                    return `<div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700"><img src="${item.thumb}" class="w-12 h-12 rounded-lg object-cover"><div class="flex-1"><h4 class="font-bold text-xs dark:text-white">${item.name || item.title}</h4></div><button onclick="toggleFavorite('${item.id}')" class="text-slate-300 p-2"><i data-lucide="trash-2" class="w-4 h-4"></i></button></div>`;
                 }).join('');
             }
             lucide.createIcons();
@@ -908,71 +897,56 @@
             }
         }
 
-        function shareToWhatsApp(skip) {
-            if (favorites.length === 0) return alert("Select products first");
-            const name = skip ? "" : document.getElementById('cust-name').value;
-            const email = skip ? "" : document.getElementById('cust-email').value;
-            const role = skip ? "" : document.getElementById('cust-role').value;
-            const country = skip ? "" : document.getElementById('cust-country').value;
-            const list = favorites.map(id => products.find(p => p.id === id).name).join(', ');
-            
-            // Generate link to the Sales View page
-            let path = window.location.pathname;
-            if (path.endsWith('/') || !path.includes('.')) {
-                path += 'sales-view.html';
-            } else {
-                path = path.replace(/[^\/]*\.html$/, 'sales-view.html');
-            }
-            const salesViewUrl = window.location.origin + path 
-                + `?ids=${favorites.join(',')}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&country=${encodeURIComponent(country)}&email=${encodeURIComponent(email)}`;
+        // ============== ALL CATEGORIES MODAL ==============
+        function renderAllCatsModal() {
+            const grid = document.getElementById('all-cats-grid');
+            grid.innerHTML = navStructure.map(item => `
+                <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl cursor-pointer hover:bg-slate-100" onclick="selectCategory('${item.id}'); hideAllCategories()">
+                    <span class="font-bold text-sm">${item.label}</span>
+                </div>
+            `).join('');
+        }
 
-            let msg = `Hi, ${name ? "I'm " + name + (role ? " (" + role + ")" : "") + (country ? " from " + country : "") + ". " : ""}I'm interested in: ${list}\n\nView my inquiry detail: ${salesViewUrl}`;
+        function showAllCategories() {
+            const modal = document.getElementById('all-cats-modal');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+        }
+
+        function hideAllCategories() {
+            const modal = document.getElementById('all-cats-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('pointer-events-none'), 300);
+        }
+
+        // ============== CONTACT ==============
+        function shareToWhatsApp(skip) {
+            if (favorites.length === 0) return alert("Select items first");
+            const name = skip ? "" : document.getElementById('cust-name').value;
+            // Flatten logic again
+            const allItems = [].concat(...Object.values(contentData));
+            const list = favorites.map(id => allItems.find(p => p.id === id)?.name || allItems.find(p => p.id === id)?.title).filter(Boolean).join(', ');
+            let msg = `Hi, ${name ? "I'm " + name + ". " : ""}I'm interested in: ${list}`;
             window.open(`https://wa.me/8613719343427?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function sendToEmail() {
-            if (favorites.length === 0) return alert("Select products first");
+            if (favorites.length === 0) return alert("Select items first");
             const email = document.getElementById('cust-email').value;
             if (!email) {
-                alert("Please enter your email address to receive the list");
-                document.getElementById('cust-email').focus();
+                alert("Please enter your email address");
                 return;
             }
-            
             const name = document.getElementById('cust-name').value;
-            const role = document.getElementById('cust-role').value;
-            const country = document.getElementById('cust-country').value;
-            const list = favorites.map(id => products.find(p => p.id === id).name).join(', ');
-            
-            let path = window.location.pathname;
-            if (path.endsWith('/') || !path.includes('.')) {
-                path += 'sales-view.html';
-            } else {
-                path = path.replace(/[^\/]*\.html$/, 'sales-view.html');
-            }
-            const salesViewUrl = window.location.origin + path 
-                + `?ids=${favorites.join(',')}&name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&country=${encodeURIComponent(country)}&email=${encodeURIComponent(email)}`;
-
-            const subject = "My Interested Products List";
-            const body = `Hi ${name || ""},\n\nHere are the products you were interested in during the exhibition:\n\n${list}\n\nYou can view the detailed list and specifications here:\n${salesViewUrl}\n\nOur sales team will also follow up with you soon.`;
-            
+            const allItems = [].concat(...Object.values(contentData));
+            const list = favorites.map(id => allItems.find(p => p.id === id)?.name || allItems.find(p => p.id === id)?.title).filter(Boolean).join(', ');
+            const subject = "My Interested Products";
+            const body = `Hi ${name || ""},\n\nProducts I'm interested in:\n${list}`;
             window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
 
-        function openWhatsApp() { window.open(`https://wa.me/8613719343427?text=${encodeURIComponent("Hi! Visiting your booth. Send catalog please.")}`, '_blank'); }
-        function playVideo(id) { alert("Demo Mode: Loading HQ Trusted Video - " + id); }
-
-        window.onbeforeprint = () => {
-            const name = document.getElementById('cust-name').value || "Global Pro Client";
-            document.getElementById('print-customer-info').innerHTML = `<div><p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Client Profile</p><p class="text-lg font-bold">${name}</p><p class="text-xs opacity-60">${document.getElementById('cust-role').value || "Buyer"} · ${document.getElementById('cust-country').value || "Worldwide"}</p></div><div class="text-right"><p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Inquiry Date</p><p class="font-bold">${new Date().toLocaleDateString()}</p></div>`;
-            document.getElementById('print-product-list').innerHTML = favorites.map((id, i) => {
-                const p = products.find(x => x.id === id);
-                return `<div class="print-card p-6 rounded-3xl border border-slate-200 flex gap-6 items-center">
-                    <div class="w-24 h-24 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-300 font-black italic">IMAGE</div>
-                    <div class="flex-1"><div class="flex justify-between mb-2"><h4 class="text-lg font-bold">${i + 1}. ${p.name}</h4><span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full text-[10px] font-bold">${p.model}</span></div><p class="text-xs text-slate-500 mb-4">${p.tagline}</p><div class="flex gap-10 text-[10px] font-bold"><span>QTY: _________</span><span>NOTES: _____________________________</span></div></div>
-                </div>`;
-            }).join('');
-        };
+        function openWhatsApp() {
+            window.open(`https://wa.me/8613719343427?text=${encodeURIComponent("Hi! Visiting your booth. Send catalog please.")}`, '_blank');
+        }
 
         window.onload = init;
     </script>

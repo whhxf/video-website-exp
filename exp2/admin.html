@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KINGSWAY 视频管理后台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .sidebar-item.active { background-color: #7c3aed; color: white; }
+        .sidebar-item:not(.active):hover { background-color: #f1f5f9; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .brand-purple { color: #7c3aed; }
+        .bg-brand-purple { background-color: #7c3aed; }
+        .subtab-item.active { color: #7c3aed; border-color: #7c3aed; }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
+            <div class="p-6 border-b border-slate-100 flex items-center gap-3">
+                <div class="w-8 h-8 bg-brand-purple rounded-lg flex items-center justify-center text-white font-bold">K</div>
+                <h1 class="font-bold text-lg tracking-tight">KINGSWAY</h1>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1 no-scrollbar">
+                <button onclick="showTab('home')" class="sidebar-item active w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all" data-tab="home">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="font-semibold text-sm">首页</span>
+                </button>
+                <button onclick="showTab('pages')" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all" data-tab="pages">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                    <span class="font-semibold text-sm">页面</span>
+                </button>
+                <button onclick="showTab('navigation')" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all" data-tab="navigation">
+                    <i data-lucide="navigation" class="w-5 h-5"></i>
+                    <span class="font-semibold text-sm">导航</span>
+                </button>
+                <button onclick="showTab('analytics')" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all" data-tab="analytics">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    <span class="font-semibold text-sm">分析</span>
+                </button>
+                <button onclick="showTab('settings')" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all" data-tab="settings">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span class="font-semibold text-sm">设置</span>
+                </button>
+            </nav>
+            <div class="p-4 border-t border-slate-100">
+                <div class="bg-slate-50 rounded-xl p-3 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-purple flex items-center justify-center text-white text-[10px] font-bold">AD</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-bold truncate">管理员账号</p>
+                        <p class="text-[10px] text-slate-400">系统所有者</p>
+                    </div>
+                    <i data-lucide="log-out" class="w-4 h-4 text-slate-400 cursor-pointer"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-[#f8fafc] no-scrollbar">
+            <!-- Top Header -->
+            <div class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-50">
+                <div class="flex items-center gap-4">
+                    <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400 cursor-pointer"></i>
+                    <span class="text-sm font-medium text-slate-600" id="current-path">首页 / 控制台</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 text-xs font-bold text-slate-400">
+                        <i data-lucide="database" class="w-4 h-4"></i>
+                        <span>2406.6 积分</span>
+                        <i data-lucide="help-circle" class="w-3 h-3 text-slate-300"></i>
+                    </div>
+                    <div class="px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full text-[10px] font-bold text-white flex items-center gap-1">
+                        <span class="bg-white/20 px-1 rounded">VIP</span> Kingsway Max
+                    </div>
+                    <div class="flex items-center gap-2 cursor-pointer">
+                        <span class="text-xs font-medium">简体中文</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+                    </div>
+                    <div class="h-8 w-[1px] bg-slate-200"></div>
+                    <div class="text-xs font-medium text-slate-500">whhxf911@gmail.com</div>
+                </div>
+            </div>
+
+            <div class="p-8">
+                <!-- Header Actions -->
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold" id="page-title">首页</h2>
+                        <p class="text-sm text-slate-400" id="page-subtitle">欢迎回来，这是您的视频独立站概览</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="showPreviewModal()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold hover:bg-slate-50 transition-all">
+                            <i data-lucide="qr-code" class="w-4 h-4"></i>
+                            获取推广链接/QR
+                        </button>
+                        <a href="demo.html" target="_blank" class="px-4 py-2 bg-brand-purple text-white rounded-xl text-sm font-semibold shadow-lg shadow-purple-200 hover:opacity-90 transition-all">
+                            查看预览站点
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tab: Home -->
+                <div id="tab-home" class="tab-content active">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[calc(100vh-200px)]">
+                        <!-- Left Panel: Page/Block Order -->
+                        <div class="lg:col-span-7 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col overflow-hidden">
+                            <!-- Scrollable Content Area -->
+                            <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="text-xl font-bold text-slate-800">首页</h3>
+                                            <p class="text-sm text-slate-400 mt-1">第一眼就抓住他们。使用区块编辑首屏。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-wrap gap-3 mt-6">
+                                        <button class="flex items-center gap-2 px-4 py-2 bg-purple-50 text-brand-purple rounded-full text-xs font-bold hover:bg-purple-100 transition-all border border-purple-100">
+                                            <i data-lucide="layout-template" class="w-3.5 h-3.5"></i>
+                                            新建页面添加
+                                        </button>
+                                        <button class="flex items-center gap-2 px-4 py-2 bg-purple-50 text-brand-purple rounded-full text-xs font-bold hover:bg-purple-100 transition-all border border-purple-100">
+                                            <i data-lucide="grid-3x3" class="w-3.5 h-3.5"></i>
+                                            选择页面添加
+                                        </button>
+                                        <button class="flex items-center gap-2 px-4 py-2 bg-purple-50 text-brand-purple rounded-full text-xs font-bold hover:bg-purple-100 transition-all border border-purple-100">
+                                            <i data-lucide="component" class="w-3.5 h-3.5"></i>
+                                            添加区块
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">首页顺序</h4>
+                                    <div class="space-y-3" id="home-blocks-list">
+                                        <!-- Block 1: Fixed Hero -->
+                                        <div class="group flex items-center gap-4 p-4 bg-purple-50/30 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-50 transition-all" onclick="selectBlock('hero')">
+                                            <div class="w-8 h-8 flex items-center justify-center text-slate-300">
+                                                <i data-lucide="grip-vertical" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-bold text-slate-700">xinjian</p>
+                                            </div>
+                                            <div class="flex items-center gap-3">
+                                                <i data-lucide="eye" class="w-4 h-4 text-slate-400 hover:text-brand-purple"></i>
+                                            </div>
+                                        </div>
+                                        <!-- Block 2: Optional -->
+                                        <div class="group flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 cursor-pointer hover:bg-slate-100 transition-all" onclick="selectBlock('1234')">
+                                            <div class="w-8 h-8 flex items-center justify-center text-slate-400 cursor-grab active:cursor-grabbing">
+                                                <i data-lucide="grip-vertical" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="flex-1 flex items-center gap-3">
+                                                <i data-lucide="grid-3x3" class="w-4 h-4 text-slate-400"></i>
+                                                <p class="text-sm font-bold text-slate-700">1234</p>
+                                            </div>
+                                            <div class="flex items-center gap-4 text-slate-400">
+                                                <i data-lucide="share-2" class="w-4 h-4 hover:text-brand-purple"></i>
+                                                <i data-lucide="eye" class="w-4 h-4 hover:text-brand-purple"></i>
+                                                <i data-lucide="trash-2" class="w-4 h-4 hover:text-red-500"></i>
+                                            </div>
+                                        </div>
+                                        <!-- Placeholder for more scrolling content -->
+                                        <div class="h-24 bg-slate-50/50 rounded-2xl border border-dashed border-slate-100 flex items-center justify-center text-slate-300 text-xs">此处可继续添加更多区块</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fixed Footer Area -->
+                            <div class="p-6 border-t border-slate-100 bg-white rounded-b-[32px] shrink-0">
+                                <button class="w-32 py-3 bg-brand-purple text-white rounded-full text-sm font-bold shadow-lg shadow-purple-200 hover:opacity-90 transition-all">保存</button>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Block Settings -->
+                        <div class="lg:col-span-5 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col overflow-hidden">
+                            <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar" id="block-settings-panel">
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-800" id="setting-block-title">首屏</h3>
+                                    <p class="text-sm text-slate-400 mt-1">配置该区块的显示内容和交互样式</p>
+                                </div>
+
+                                <div class="space-y-6">
+                                    <!-- Title Input -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">标题</label>
+                                        <input type="text" value="xinjian" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                                    </div>
+                                    <!-- ... rest of titles/settings ... -->
+
+
+                                    <!-- Font Settings -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">标题设置</label>
+                                        <div class="flex gap-2">
+                                            <div class="flex-1 flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-3 py-2">
+                                                <i data-lucide="type" class="w-4 h-4 text-slate-400"></i>
+                                                <select class="bg-transparent text-xs w-full outline-none">
+                                                    <option>Arial</option>
+                                                    <option>Plus Jakarta Sans</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex-1 flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-3 py-2">
+                                                <select class="bg-transparent text-xs w-full outline-none">
+                                                    <option>12px</option>
+                                                    <option>16px</option>
+                                                    <option>24px</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Title Layout -->
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">标题布局</label>
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <button class="p-4 rounded-2xl border-2 border-brand-purple bg-purple-50/50 flex flex-col items-center gap-2 group transition-all">
+                                                <div class="w-full h-12 bg-white rounded-lg border border-slate-100 flex items-center px-2">
+                                                    <div class="w-1/2 h-2 bg-brand-purple rounded"></div>
+                                                </div>
+                                                <span class="text-[10px] font-bold text-brand-purple">Left</span>
+                                            </button>
+                                            <button class="p-4 rounded-2xl border-2 border-transparent bg-slate-50 flex flex-col items-center gap-2 group hover:border-slate-200 transition-all">
+                                                <div class="w-full h-12 bg-white rounded-lg border border-slate-100 flex items-center justify-end px-2">
+                                                    <div class="w-1/2 h-2 bg-slate-200 rounded"></div>
+                                                </div>
+                                                <span class="text-[10px] font-bold text-slate-400">Right</span>
+                                            </button>
+                                            <button class="p-4 rounded-2xl border-2 border-transparent bg-slate-50 flex flex-col items-center gap-2 group hover:border-slate-200 transition-all">
+                                                <div class="w-full h-12 bg-white rounded-lg border border-slate-100 flex flex-col items-center justify-center gap-1">
+                                                    <div class="w-2/3 h-2 bg-slate-200 rounded"></div>
+                                                </div>
+                                                <span class="text-[10px] font-bold text-slate-400">Top</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">盒子描述</label>
+                                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 space-y-3">
+                                            <div class="flex gap-4 border-b border-slate-200 pb-2">
+                                                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-slate-400 cursor-pointer"></i>
+                                                <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-slate-400 cursor-pointer"></i>
+                                                <div class="h-4 w-[1px] bg-slate-200 mx-1"></div>
+                                                <select class="bg-transparent text-[10px] outline-none font-bold">
+                                                    <option>段落</option>
+                                                </select>
+                                                <div class="h-4 w-[1px] bg-slate-200 mx-1"></div>
+                                                <select class="bg-transparent text-[10px] outline-none font-bold">
+                                                    <option>系统字体</option>
+                                                </select>
+                                                <div class="h-4 w-[1px] bg-slate-200 mx-1"></div>
+                                                <select class="bg-transparent text-[10px] outline-none font-bold">
+                                                    <option>16px</option>
+                                                </select>
+                                            </div>
+                                            <textarea class="w-full bg-transparent text-sm min-h-[100px] outline-none resize-none" placeholder="输入描述内容..."></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Background Image -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">区块背景图</label>
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-24 h-16 bg-slate-100 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400 cursor-pointer hover:bg-slate-50 transition-all">
+                                                <i data-lucide="image-plus" class="w-6 h-6"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-[10px] text-slate-400">支持 JPG, PNG, WEBP 格式，建议尺寸 1920x1080px</p>
+                                                <button class="mt-1 text-xs font-bold text-brand-purple hover:underline">上传图片</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Toggles & Ratios -->
+                                    <div class="space-y-6 pt-4">
+                                        <div class="flex justify-between items-center">
+                                            <label class="text-sm font-bold text-slate-700">行动号召按钮</label>
+                                            <div class="w-10 h-5 bg-slate-200 rounded-full relative cursor-pointer">
+                                                <div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-3">
+                                            <label class="text-xs font-bold text-slate-500 uppercase">缩略图比例</label>
+                                            <div class="flex gap-6">
+                                                <label class="flex items-center gap-2 cursor-pointer group">
+                                                    <div class="w-4 h-4 rounded-full border-2 border-brand-purple flex items-center justify-center">
+                                                        <div class="w-2 h-2 bg-brand-purple rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-slate-700">16:9</span>
+                                                </label>
+                                                <label class="flex items-center gap-2 cursor-pointer group">
+                                                    <div class="w-4 h-4 rounded-full border-2 border-slate-200 flex items-center justify-center"></div>
+                                                    <span class="text-sm font-bold text-slate-400">9:16</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-3">
+                                            <div class="flex justify-between items-center">
+                                                <label class="text-sm font-bold text-slate-700">增强内容</label>
+                                                <div class="w-10 h-5 bg-brand-purple rounded-full relative cursor-pointer">
+                                                    <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-6">
+                                                <label class="flex items-center gap-2 cursor-pointer group">
+                                                    <div class="w-4 h-4 rounded-full border-2 border-brand-purple flex items-center justify-center">
+                                                        <div class="w-2 h-2 bg-brand-purple rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-slate-700">Video</span>
+                                                </label>
+                                                <label class="flex items-center gap-2 cursor-pointer group">
+                                                    <div class="w-4 h-4 rounded-full border-2 border-slate-200 flex items-center justify-center"></div>
+                                                    <span class="text-sm font-bold text-slate-400">Image</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Video Selection -->
+                                    <div class="space-y-4 pt-4">
+                                        <div class="flex gap-3">
+                                            <button class="flex-1 py-3 bg-purple-50 text-brand-purple rounded-xl text-xs font-bold border border-purple-100 flex items-center justify-center gap-2 hover:bg-purple-100 transition-all">
+                                                <i data-lucide="plus-circle" class="w-4 h-4"></i> 添加视频
+                                            </button>
+                                            <button class="flex-1 py-3 bg-white text-slate-400 rounded-xl text-xs font-bold border border-slate-100 flex items-center justify-center gap-2 hover:bg-slate-50 transition-all">
+                                                删除
+                                            </button>
+                                        </div>
+                                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                            <input type="checkbox" class="w-4 h-4 border-slate-300 rounded text-brand-purple focus:ring-brand-purple">
+                                            <div class="w-16 h-10 bg-black rounded-lg overflow-hidden shadow-sm">
+                                                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=64" class="w-full h-full object-cover opacity-80">
+                                            </div>
+                                            <p class="text-xs font-bold text-slate-700 flex-1 truncate">Kingsway-Video---Company-Introduction</p>
+                                            <i data-lucide="grip-vertical" class="w-4 h-4 text-slate-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Pages -->
+                <div id="tab-pages" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[calc(100vh-200px)]">
+                        <!-- Left Panel: Page List and General Info -->
+                        <div class="lg:col-span-7 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col overflow-hidden">
+                            <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+                                <div class="space-y-6">
+                                    <div class="flex justify-between items-center">
+                                        <h3 class="text-xl font-bold text-slate-800">页面</h3>
+                                        <button class="flex items-center gap-2 px-4 py-2 bg-purple-50 text-brand-purple rounded-full text-xs font-bold hover:bg-purple-100 transition-all border border-purple-100">
+                                            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                                            新建页面
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">选择页面</label>
+                                        <div class="relative">
+                                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none appearance-none focus:ring-2 focus:ring-purple-500/10" onchange="selectPage(this.value)">
+                                                <option value="1234">1234</option>
+                                                <option value="about">About Us</option>
+                                                <option value="products">Products</option>
+                                            </select>
+                                            <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-6 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-6">
+                                        <div class="flex justify-between items-center">
+                                            <h4 class="text-sm font-bold text-slate-700">分享页面视频</h4>
+                                            <button class="text-[10px] font-bold text-red-400 bg-red-50 px-3 py-1.5 rounded-lg hover:bg-red-100 transition-all">删除页面</button>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <input type="text" readonly value="https://a94asmtq.kingsway.video/videos/category/1234" class="flex-1 bg-white border border-slate-100 rounded-xl px-4 py-2.5 text-xs font-mono outline-none">
+                                            <button class="p-2.5 bg-white border border-slate-100 text-slate-400 rounded-xl hover:text-brand-purple transition-all"><i data-lucide="qr-code" class="w-4 h-4"></i></button>
+                                            <button class="p-2.5 bg-white border border-slate-100 text-slate-400 rounded-xl hover:text-brand-purple transition-all"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                                        </div>
+                                        <div class="flex flex-col items-center gap-4 py-4">
+                                            <div class="w-32 h-32 bg-white p-2 rounded-xl border border-slate-100 shadow-sm">
+                                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://video.kingsway.com/1234" class="w-full h-full">
+                                            </div>
+                                            <button class="text-[10px] font-bold text-brand-purple hover:underline">下载二维码</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Page Content / Block Order -->
+                                    <div class="space-y-4 pt-4">
+                                        <div class="flex justify-between items-center">
+                                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">页面顺序</h4>
+                                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 text-brand-purple rounded-lg text-[10px] font-bold border border-purple-100">
+                                                <i data-lucide="component" class="w-3 h-3"></i>
+                                                添加区块
+                                            </button>
+                                        </div>
+                                        <div class="space-y-3" id="page-blocks-list">
+                                            <div class="group flex items-center gap-4 p-4 bg-purple-50/30 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-50 transition-all">
+                                                <div class="w-8 h-8 flex items-center justify-center text-slate-300">
+                                                    <i data-lucide="grip-vertical" class="w-4 h-4"></i>
+                                                </div>
+                                                <div class="flex-1 flex items-center gap-3">
+                                                    <i data-lucide="grid-3x3" class="w-4 h-4 text-slate-400"></i>
+                                                    <p class="text-sm font-bold text-slate-700">1234</p>
+                                                </div>
+                                                <div class="flex items-center gap-3">
+                                                    <i data-lucide="eye" class="w-4 h-4 text-slate-400 hover:text-brand-purple"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fixed Footer -->
+                            <div class="p-6 border-t border-slate-100 bg-white rounded-b-[32px] shrink-0">
+                                <button class="w-32 py-3 bg-brand-purple text-white rounded-full text-sm font-bold shadow-lg shadow-purple-200 hover:opacity-90 transition-all">保存</button>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Page Detailed Settings -->
+                        <div class="lg:col-span-5 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col overflow-hidden">
+                            <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-800">页面视频</h3>
+                                    <p class="text-sm text-slate-400 mt-1">设置当前页面的基础信息与内容展示</p>
+                                </div>
+
+                                <div class="space-y-6">
+                                    <!-- Page Name -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">页面名称</label>
+                                        <input type="text" value="1234" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                                    </div>
+
+                                    <!-- Title Settings -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">标题设置</label>
+                                        <div class="flex gap-2">
+                                            <div class="flex-1 flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-3 py-2">
+                                                <i data-lucide="type" class="w-4 h-4 text-slate-400"></i>
+                                                <select class="bg-transparent text-xs w-full outline-none">
+                                                    <option>系统字体</option>
+                                                    <option>Arial</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex-1 flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-3 py-2">
+                                                <select class="bg-transparent text-xs w-full outline-none">
+                                                    <option>16px</option>
+                                                    <option>20px</option>
+                                                    <option>24px</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- URL Slug & Indexing -->
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center">
+                                            <label class="text-xs font-bold text-slate-500 uppercase">页面地址</label>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-[10px] font-bold text-slate-400 uppercase">页面可索引</span>
+                                                <div class="w-10 h-5 bg-brand-purple rounded-full relative cursor-pointer">
+                                                    <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full transition-all"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <input type="text" value="https://a94asmtq.kingsway.video/videos/category/1234" class="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-xs font-mono outline-none">
+                                            <button class="p-2.5 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl hover:text-brand-purple transition-all"><i data-lucide="qr-code" class="w-4 h-4"></i></button>
+                                            <button class="p-2.5 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl hover:text-brand-purple transition-all"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                                        </div>
+                                        <button class="text-[10px] font-bold text-brand-purple bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100">自定义URL</button>
+                                    </div>
+
+                                    <!-- Description Area -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">页面描述</label>
+                                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 min-h-[120px]">
+                                            <p class="text-sm text-slate-400 italic">在此输入页面描述内容...</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Thumbnail Ratio -->
+                                    <div class="space-y-3">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">缩略图比例</label>
+                                        <div class="flex gap-6">
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="w-4 h-4 rounded-full border-2 border-brand-purple flex items-center justify-center">
+                                                    <div class="w-2 h-2 bg-brand-purple rounded-full"></div>
+                                                </div>
+                                                <span class="text-sm font-bold text-slate-700">16:9</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer group">
+                                                <div class="w-4 h-4 rounded-full border-2 border-slate-200 flex items-center justify-center"></div>
+                                                <span class="text-sm font-bold text-slate-400">9:16</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Video Management -->
+                                    <div class="space-y-4 pt-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">视频管理</label>
+                                        <div class="flex gap-3">
+                                            <button class="flex-1 py-3 bg-purple-50 text-brand-purple rounded-xl text-xs font-bold border border-purple-100 flex items-center justify-center gap-2 hover:bg-purple-100 transition-all">
+                                                <i data-lucide="plus-circle" class="w-4 h-4"></i> 添加视频
+                                            </button>
+                                            <button class="flex-1 py-3 bg-white text-slate-400 rounded-xl text-xs font-bold border border-slate-100 flex items-center justify-center gap-2 hover:bg-slate-50 transition-all">
+                                                删除
+                                            </button>
+                                        </div>
+                                        <div class="h-20 bg-slate-50 rounded-2xl border border-dashed border-slate-200 flex items-center justify-center text-slate-400 text-xs font-medium">
+                                            暂无视频
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Navigation -->
+                <div id="tab-navigation" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[calc(100vh-200px)]">
+                        <!-- Left Panel: Nav Order -->
+                        <div class="lg:col-span-7 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col overflow-hidden">
+                            <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+                                <div class="space-y-4">
+                                    <h3 class="text-xl font-bold text-slate-800">导航</h3>
+                                    <div class="space-y-4">
+                                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">导航顺序</h4>
+                                        <button onclick="openSubNavModal('main')" class="flex items-center gap-2 px-4 py-2 bg-purple-50 text-brand-purple rounded-full text-xs font-bold hover:bg-purple-100 transition-all border border-purple-100">
+                                            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                                            添加导航
+                                        </button>
+                                        <div class="space-y-3" id="nav-list">
+                                            <div class="group flex items-center gap-4 p-4 bg-purple-50/30 rounded-2xl border border-purple-100 cursor-pointer hover:bg-purple-50 transition-all" onclick="selectNav('123')">
+                                                <div class="w-8 h-8 flex items-center justify-center text-slate-300">
+                                                    <i data-lucide="grip-vertical" class="w-4 h-4"></i>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-bold text-slate-700">123</p>
+                                                </div>
+                                                <button class="text-slate-400 hover:text-red-500 transition-colors">
+                                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fixed Footer -->
+                            <div class="p-6 border-t border-slate-100 bg-white rounded-b-[32px] shrink-0">
+                                <button class="w-32 py-3 bg-brand-purple text-white rounded-full text-sm font-bold shadow-lg shadow-purple-200 hover:opacity-90 transition-all">保存</button>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Nav Settings -->
+                        <div class="lg:col-span-5 bg-white rounded-[32px] border border-slate-100 shadow-sm flex flex-col overflow-hidden">
+                            <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
+                                <div class="space-y-6">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">导航名称</label>
+                                        <input type="text" value="123" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">导航类型</label>
+                                        <div class="relative">
+                                            <select id="nav-type-select" onchange="toggleNavType(this.value)" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none appearance-none focus:ring-2 focus:ring-purple-500/10">
+                                                <option value="parent">父级导航</option>
+                                                <option value="link">链接</option>
+                                            </select>
+                                            <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Parent Nav: Sub-nav Management -->
+                                    <div id="nav-parent-area" class="space-y-4 pt-4">
+                                        <div class="flex gap-3">
+                                            <button onclick="openSubNavModal('sub')" class="flex-1 py-3 bg-purple-50 text-brand-purple rounded-xl text-xs font-bold border border-purple-100 flex items-center justify-center gap-2 hover:bg-purple-100 transition-all">
+                                                <i data-lucide="plus-circle" class="w-4 h-4"></i> 添加子导航
+                                            </button>
+                                            <button class="flex-1 py-3 bg-white text-slate-400 rounded-xl text-xs font-bold border border-slate-100 flex items-center justify-center gap-2 hover:bg-slate-50 transition-all">
+                                                删除
+                                            </button>
+                                        </div>
+                                        <div class="h-48 bg-slate-50 rounded-2xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 space-y-2">
+                                            <p class="text-xs font-medium">暂无子导航</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Link Type Area: Target Selection -->
+                                    <div id="nav-link-area" class="hidden space-y-6 pt-4 border-t border-slate-50 mt-4">
+                                        <div class="space-y-3">
+                                            <label class="text-xs font-bold text-slate-500 uppercase">类型</label>
+                                            <div class="flex gap-6">
+                                                <label class="flex items-center gap-2 cursor-pointer group" onclick="toggleLinkTarget('custom')">
+                                                    <div id="radio-custom" class="w-4 h-4 rounded-full border-2 border-brand-purple flex items-center justify-center">
+                                                        <div class="w-2 h-2 bg-brand-purple rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-slate-700">自定义链接</span>
+                                                </label>
+                                                <label class="flex items-center gap-2 cursor-pointer group" onclick="toggleLinkTarget('page')">
+                                                    <div id="radio-page" class="w-4 h-4 rounded-full border-2 border-slate-200 flex items-center justify-center">
+                                                        <div class="w-2 h-2 bg-transparent rounded-full"></div>
+                                                    </div>
+                                                    <span class="text-sm font-bold text-slate-400">页面名称</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="link-custom-input" class="space-y-2">
+                                            <label class="text-xs font-bold text-slate-500 uppercase">链接</label>
+                                            <input type="text" placeholder="请输入以http或https开头的链接URL" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                                        </div>
+
+                                        <div id="link-page-select" class="hidden space-y-2">
+                                            <label class="text-xs font-bold text-slate-500 uppercase">选择页面</label>
+                                            <div class="relative">
+                                                <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none appearance-none focus:ring-2 focus:ring-purple-500/10">
+                                                    <option value="">请选择</option>
+                                                    <option value="1234">1234</option>
+                                                </select>
+                                                <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-nav Modal -->
+                <div id="subnav-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+                    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeSubNavModal()"></div>
+                    <div class="relative bg-white rounded-[32px] p-8 w-full max-w-lg transform scale-95 transition-all duration-300 space-y-8">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-slate-800">添加子导航</h3>
+                            <button onclick="closeSubNavModal()" class="p-2 hover:bg-slate-50 rounded-full transition-all text-slate-400"><i data-lucide="x" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase">名称</label>
+                                <input type="text" placeholder="请输入" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                            </div>
+                            <div class="space-y-3">
+                                <label class="text-xs font-bold text-slate-500 uppercase">类型</label>
+                                <div class="flex gap-6">
+                                    <label class="flex items-center gap-2 cursor-pointer group" onclick="toggleModalLinkTarget('custom')">
+                                        <div id="modal-radio-custom" class="w-4 h-4 rounded-full border-2 border-brand-purple flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-brand-purple rounded-full"></div>
+                                        </div>
+                                        <span class="text-sm font-bold text-slate-700">自定义链接</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer group" onclick="toggleModalLinkTarget('page')">
+                                        <div id="modal-radio-page" class="w-4 h-4 rounded-full border-2 border-slate-200 flex items-center justify-center">
+                                            <div class="w-2 h-2 bg-transparent rounded-full"></div>
+                                        </div>
+                                        <span class="text-sm font-bold text-slate-400">页面名称</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="modal-link-input" class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase">链接</label>
+                                <input type="text" placeholder="请输入以http或https开头的链接URL" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                            </div>
+                            <div id="modal-page-select" class="hidden space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase">选择页面</label>
+                                <div class="relative">
+                                    <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none appearance-none focus:ring-2 focus:ring-purple-500/10">
+                                        <option value="">请选择</option>
+                                        <option value="1234">1234</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 pt-4">
+                            <button onclick="closeSubNavModal()" class="flex-1 py-3 bg-slate-50 text-slate-400 rounded-2xl text-sm font-bold hover:bg-slate-100 transition-all">取消</button>
+                            <button class="flex-1 py-3 bg-brand-purple text-white rounded-2xl text-sm font-bold shadow-lg shadow-purple-200 hover:opacity-90 transition-all">确认</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Analytics -->
+                <div id="tab-analytics" class="tab-content space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg"><i data-lucide="eye" class="w-5 h-5"></i></div>
+                                <span class="text-[10px] font-bold text-green-500 bg-green-50 px-2 py-1 rounded-full">+12.5%</span>
+                            </div>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">总浏览量</p>
+                            <h3 class="text-2xl font-bold">24,502</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="star" class="w-5 h-5"></i></div>
+                                <span class="text-[10px] font-bold text-green-500 bg-green-50 px-2 py-1 rounded-full">+8.2%</span>
+                            </div>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">收藏总数</p>
+                            <h3 class="text-2xl font-bold">1,284</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-green-50 text-green-600 rounded-lg"><i data-lucide="message-circle" class="w-5 h-5"></i></div>
+                                <span class="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-1 rounded-full">-2.4%</span>
+                            </div>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">总询盘量</p>
+                            <h3 class="text-2xl font-bold">456</h3>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg"><i data-lucide="search" class="w-5 h-5"></i></div>
+                                <span class="text-[10px] font-bold text-green-500 bg-green-50 px-2 py-1 rounded-full">+15.0%</span>
+                            </div>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">搜索点击数</p>
+                            <h3 class="text-2xl font-bold">892</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm">
+                            <h4 class="font-bold mb-6 text-sm">流量与互动趋势</h4>
+                            <canvas id="trendChart" height="200"></canvas>
+                        </div>
+                        <div class="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm">
+                            <h4 class="font-bold mb-6 text-sm">询盘渠道分布</h4>
+                            <canvas id="conversionChart" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Ranking & Keywords Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Search Keywords -->
+                        <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                                <h4 class="font-bold text-sm">用户历史搜索关键词</h4>
+                                <i data-lucide="history" class="w-3.5 h-3.5 text-slate-300"></i>
+                            </div>
+                            <div class="p-6 flex-1 max-h-[400px] overflow-y-auto no-scrollbar">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100/50 hover:bg-slate-100 transition-all">
+                                        <div>
+                                            <p class="text-sm font-bold text-slate-700">"Moving Head Light"</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">2026-01-25 14:20:12</p>
+                                        </div>
+                                        <span class="text-[10px] font-bold text-brand-purple bg-white px-2 py-1 rounded-full border border-slate-100 shadow-sm">128 次</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100/50 hover:bg-slate-100 transition-all">
+                                        <div>
+                                            <p class="text-sm font-bold text-slate-700">"Stage Lighting Pro"</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">2026-01-25 13:45:05</p>
+                                        </div>
+                                        <span class="text-[10px] font-bold text-brand-purple bg-white px-2 py-1 rounded-full border border-slate-100 shadow-sm">94 次</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100/50 hover:bg-slate-100 transition-all">
+                                        <div>
+                                            <p class="text-sm font-bold text-slate-700">"Waterproof Par"</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">2026-01-25 12:12:30</p>
+                                        </div>
+                                        <span class="text-[10px] font-bold text-brand-purple bg-white px-2 py-1 rounded-full border border-slate-100 shadow-sm">56 次</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100/50 hover:bg-slate-100 transition-all">
+                                        <div>
+                                            <p class="text-sm font-bold text-slate-700">"LED Wall Washer"</p>
+                                            <p class="text-[10px] text-slate-400 mt-1">2026-01-25 11:05:18</p>
+                                        </div>
+                                        <span class="text-[10px] font-bold text-brand-purple bg-white px-2 py-1 rounded-full border border-slate-100 shadow-sm">42 次</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Video Performance Ranking -->
+                        <div class="lg:col-span-2 bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                                <h4 class="font-bold text-sm">视频表现排行榜</h4>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-purple-50 text-brand-purple rounded-lg text-[10px] font-bold border border-purple-100">按观看量</button>
+                                    <button class="px-3 py-1 bg-white text-slate-400 rounded-lg text-[10px] font-bold border border-slate-100 hover:bg-slate-50">按收藏量</button>
+                                    <button class="px-3 py-1 bg-white text-slate-400 rounded-lg text-[10px] font-bold border border-slate-100 hover:bg-slate-50">按取消收藏</button>
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto flex-1">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-slate-50/50 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+                                        <tr>
+                                            <th class="px-6 py-4">视频内容</th>
+                                            <th class="px-6 py-4 text-center">总观看</th>
+                                            <th class="px-6 py-4 text-center">收藏总计</th>
+                                            <th class="px-6 py-4 text-center">取消收藏</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-50">
+                                        <tr class="hover:bg-slate-50/50 transition-all">
+                                            <td class="px-6 py-4 font-bold flex items-center gap-3">
+                                                <div class="w-10 h-6 bg-slate-200 rounded overflow-hidden shadow-sm">
+                                                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=40" class="w-full h-full object-cover">
+                                                </div>
+                                                350W Super Beam 展示视频
+                                            </td>
+                                            <td class="px-6 py-4 text-center font-mono text-slate-600">12,402</td>
+                                            <td class="px-6 py-4 text-center font-mono text-brand-purple">842</td>
+                                            <td class="px-6 py-4 text-center font-mono text-red-400">12</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50/50 transition-all">
+                                            <td class="px-6 py-4 font-bold flex items-center gap-3">
+                                                <div class="w-10 h-6 bg-slate-200 rounded overflow-hidden shadow-sm">
+                                                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=40" class="w-full h-full object-cover">
+                                                </div>
+                                                Factory Tour 2025 Highlights
+                                            </td>
+                                            <td class="px-6 py-4 text-center font-mono text-slate-600">8,210</td>
+                                            <td class="px-6 py-4 text-center font-mono text-brand-purple">520</td>
+                                            <td class="px-6 py-4 text-center font-mono text-red-400">45</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Settings -->
+                <div id="tab-settings" class="tab-content space-y-8">
+                    <!-- Horizontal Sub-Tabs -->
+                    <div class="flex border-b border-slate-200 gap-8">
+                        <button onclick="showSubTab('contact')" class="subtab-item active pb-4 text-sm font-bold border-b-2 border-brand-purple text-brand-purple transition-all" data-subtab="contact">询盘联系人</button>
+                        <button onclick="showSubTab('translation')" class="subtab-item pb-4 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-all" data-subtab="translation">多语言翻译</button>
+                        <button onclick="showSubTab('ga4')" class="subtab-item pb-4 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-all" data-subtab="ga4">GA4 关联</button>
+                        <button onclick="showSubTab('import')" class="subtab-item pb-4 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-all" data-subtab="import">数据导入初始化</button>
+                    </div>
+
+                    <!-- SubTab: Contact -->
+                    <div id="subtab-contact" class="subtab-content space-y-6">
+                        <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                                <h4 class="font-bold text-sm">询盘渠道配置</h4>
+                                <button class="px-4 py-2 bg-brand-purple text-white rounded-xl text-xs font-bold shadow-lg shadow-purple-100">+ 新增联系人</button>
+                            </div>
+                            <div class="p-6">
+                                <table class="w-full text-sm">
+                                    <thead class="text-left text-slate-400"><tr class="border-b border-slate-100 text-[10px] uppercase font-bold tracking-wider"><th class="pb-4">渠道</th><th class="pb-4">详情</th><th class="pb-4">备注</th><th class="pb-4 text-right">操作</th></tr></thead>
+                                    <tbody class="divide-y divide-slate-50">
+                                        <tr>
+                                            <td class="py-4 font-bold text-green-600 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</td>
+                                            <td class="py-4 font-mono">+86 13719343427</td>
+                                            <td class="py-4 text-slate-400">默认销售 A 组</td>
+                                            <td class="py-4 text-right flex justify-end gap-3 text-[10px] font-bold uppercase tracking-wider">
+                                                <button class="text-slate-400 hover:text-brand-purple">编辑</button>
+                                                <button class="text-red-400 hover:underline">移除</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-4 font-bold text-indigo-500 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4"></i> Email</td>
+                                            <td class="py-4 font-mono">inquiry@kingsway.com</td>
+                                            <td class="py-4 text-slate-400">官网咨询总入口</td>
+                                            <td class="py-4 text-right flex justify-end gap-3 text-[10px] font-bold uppercase tracking-wider">
+                                                <button class="text-slate-400 hover:text-brand-purple">编辑</button>
+                                                <button class="text-red-400 hover:underline">移除</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SubTab: Translation -->
+                    <div id="subtab-translation" class="subtab-content hidden space-y-6">
+                        <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
+                                <div class="flex items-center gap-4">
+                                    <h4 class="font-bold text-sm">多语言翻译管理</h4>
+                                    <select class="text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-white outline-none">
+                                        <option>西班牙语 (Spanish)</option>
+                                        <option>德语 (German)</option>
+                                        <option>法语 (French)</option>
+                                    </select>
+                                </div>
+                                <button class="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-indigo-100 transition-all">
+                                    <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> 一键 AI 翻译当前语言
+                                </button>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <div class="group grid grid-cols-12 gap-6 items-center p-4 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100">
+                                            <div class="col-span-5">
+                                                <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">英文原文 (EN)</p>
+                                                <p class="text-sm font-medium">Factory Tour</p>
+                                            </div>
+                                            <div class="col-span-5">
+                                                <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">目标语言译文</p>
+                                                <input type="text" value="工厂参观" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-purple-500/10">
+                                            </div>
+                                            <div class="col-span-2 text-right">
+                                                <button class="text-[10px] font-bold text-brand-purple bg-purple-50 px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">保存</button>
+                                            </div>
+                                        </div>
+                                        <!-- Repeatable rows -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SubTab: GA4 -->
+                    <div id="subtab-ga4" class="subtab-content hidden space-y-6">
+                        <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+                            <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                                <h4 class="font-bold text-sm">Google Analytics 4 关联</h4>
+                            </div>
+                            <div class="p-8 max-w-2xl">
+                                <div class="space-y-6">
+                                    <div class="flex items-start gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                                        <i data-lucide="info" class="w-5 h-5 text-blue-500 mt-0.5"></i>
+                                        <div class="text-xs text-blue-700 leading-relaxed">
+                                            关联 GA4 后，您可以在 Google Analytics 平台查看更详细的用户行为分析。
+                                            <br>请在下方输入您的 **衡量 ID (Measurement ID)**。
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-sm font-bold text-slate-700">衡量 ID (Measurement ID)</label>
+                                        <div class="flex gap-3">
+                                            <input type="text" placeholder="例如：G-XXXXXXXXXX" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-purple-500/20">
+                                            <button class="px-6 py-3 bg-brand-purple text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-100 hover:opacity-90 transition-all">保存关联</button>
+                                        </div>
+                                        <p class="text-[10px] text-slate-400">设置生效后，系统将自动在独立站前端注入 GA4 跟踪代码。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SubTab: Import -->
+                    <div id="subtab-import" class="subtab-content hidden">
+                        <div class="bg-white p-12 rounded-[32px] border border-slate-100 shadow-sm text-center space-y-8">
+                            <div class="w-20 h-20 bg-amber-50 rounded-3xl flex items-center justify-center text-amber-500 mx-auto">
+                                <i data-lucide="copy" class="w-10 h-10"></i>
+                            </div>
+                            <div class="space-y-3 max-w-sm mx-auto">
+                                <h3 class="text-xl font-bold">导入视频独立站数据</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed text-balance">一键复制已有站点的分类结构、视频关联数据，帮助您快速完成新站点的初始化工作。</p>
+                            </div>
+                            <div class="flex flex-col items-center gap-4 w-full max-w-xs mx-auto">
+                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none">
+                                    <option value="">请选择源站点...</option>
+                                    <option value="1">Stage Lighting Pro (Default)</option>
+                                    <option value="2">Factory Demo Site</option>
+                                </select>
+                                <button class="w-full py-3 bg-slate-900 text-white rounded-xl text-sm font-bold shadow-xl shadow-slate-200 hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                    开始同步初始化
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="hidePreviewModal()"></div>
+        <div class="relative bg-white rounded-[32px] p-8 w-full max-w-sm transform scale-95 transition-all duration-300">
+            <h3 class="text-xl font-bold mb-6 text-center">推广独立站</h3>
+            <div class="flex flex-col items-center gap-6">
+                <div class="w-48 h-48 bg-white rounded-2xl flex items-center justify-center p-4 border border-slate-100 shadow-xl shadow-purple-50">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://video.kingsway.com" class="w-full h-full">
+                </div>
+                <div class="w-full space-y-2">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase text-center tracking-widest">扫码或复制链接</p>
+                    <div class="flex gap-2">
+                        <input type="text" readonly value="https://video.kingsway.com" class="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-xs font-mono outline-none">
+                        <button class="p-2.5 bg-brand-purple text-white rounded-xl shadow-lg shadow-purple-100"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+                <button onclick="hidePreviewModal()" class="w-full py-3 bg-slate-900 text-white rounded-2xl text-xs font-bold">我知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.tab === tabId);
+            });
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === 'tab-' + tabId);
+            });
+
+            const config = {
+                home: ['首页管理', '进入预设好的可视化首页管理界面', '首页 / 控制台'],
+                pages: ['页面管理', '管理全站页面结构与预设模板', '首页 / 页面管理'],
+                navigation: ['导航管理', '配置主导航及侧边栏内页锚点规则', '首页 / 导航管理'],
+                analytics: ['数据洞察', '深度洞悉用户互动、搜索及询盘转化', '首页 / 深度分析'],
+                settings: ['系统设置', '配置询盘渠道、多语言翻译及数据同步', '首页 / 系统设置']
+            };
+            
+            document.getElementById('page-title').textContent = config[tabId][0];
+            document.getElementById('page-subtitle').textContent = config[tabId][1];
+            document.getElementById('current-path').textContent = config[tabId][2];
+            
+            lucide.createIcons();
+            if(tabId === 'analytics') initCharts();
+        }
+
+        function selectBlock(blockId) {
+            const listItems = document.querySelectorAll('#home-blocks-list > div');
+            listItems.forEach(item => {
+                const isSelected = item.onclick.toString().includes(`'${blockId}'`);
+                item.classList.toggle('bg-purple-50/30', isSelected);
+                item.classList.toggle('border-purple-100', isSelected);
+                item.classList.toggle('bg-slate-50', !isSelected);
+                item.classList.toggle('border-slate-100', !isSelected);
+            });
+            
+            const titleElement = document.getElementById('setting-block-title');
+            titleElement.textContent = blockId === 'hero' ? '首屏' : '区块: ' + blockId;
+            
+            lucide.createIcons();
+        }
+
+        function selectPage(pageId) {
+            // Implementation for selecting a page
+            console.log('Selected page:', pageId);
+            lucide.createIcons();
+        }
+
+        function selectNav(navId) {
+            console.log('Selected nav:', navId);
+            lucide.createIcons();
+        }
+
+        function toggleNavType(type) {
+            const parentArea = document.getElementById('nav-parent-area');
+            const linkArea = document.getElementById('nav-link-area');
+            if (type === 'parent') {
+                parentArea.classList.remove('hidden');
+                linkArea.classList.add('hidden');
+            } else {
+                parentArea.classList.add('hidden');
+                linkArea.classList.remove('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        function toggleLinkTarget(target) {
+            const customInput = document.getElementById('link-custom-input');
+            const pageSelect = document.getElementById('link-page-select');
+            const radioCustom = document.getElementById('radio-custom');
+            const radioPage = document.getElementById('radio-page');
+            const textCustom = radioCustom.nextElementSibling;
+            const textPage = radioPage.nextElementSibling;
+
+            if (target === 'custom') {
+                customInput.classList.remove('hidden');
+                pageSelect.classList.add('hidden');
+                radioCustom.classList.replace('border-slate-200', 'border-brand-purple');
+                radioCustom.querySelector('div').classList.replace('bg-transparent', 'bg-brand-purple');
+                radioPage.classList.replace('border-brand-purple', 'border-slate-200');
+                radioPage.querySelector('div').classList.replace('bg-brand-purple', 'bg-transparent');
+                textCustom.classList.replace('text-slate-400', 'text-slate-700');
+                textPage.classList.replace('text-slate-700', 'text-slate-400');
+            } else {
+                customInput.classList.add('hidden');
+                pageSelect.classList.remove('hidden');
+                radioPage.classList.replace('border-slate-200', 'border-brand-purple');
+                radioPage.querySelector('div').classList.replace('bg-transparent', 'bg-brand-purple');
+                radioCustom.classList.replace('border-brand-purple', 'border-slate-200');
+                radioCustom.querySelector('div').classList.replace('bg-brand-purple', 'bg-transparent');
+                textPage.classList.replace('text-slate-400', 'text-slate-700');
+                textCustom.classList.replace('text-slate-700', 'text-slate-400');
+            }
+        }
+
+        function openSubNavModal(mode) {
+            const modal = document.getElementById('subnav-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div:last-child').classList.remove('scale-95');
+            modal.querySelector('h3').textContent = mode === 'main' ? '添加导航' : '添加子导航';
+        }
+
+        function closeSubNavModal() {
+            const modal = document.getElementById('subnav-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div:last-child').classList.add('scale-95');
+        }
+
+        function toggleModalLinkTarget(target) {
+            const customInput = document.getElementById('modal-link-input');
+            const pageSelect = document.getElementById('modal-page-select');
+            const radioCustom = document.getElementById('modal-radio-custom');
+            const radioPage = document.getElementById('modal-radio-page');
+            const textCustom = radioCustom.nextElementSibling;
+            const textPage = radioPage.nextElementSibling;
+
+            if (target === 'custom') {
+                customInput.classList.remove('hidden');
+                pageSelect.classList.add('hidden');
+                radioCustom.classList.replace('border-slate-200', 'border-brand-purple');
+                radioCustom.querySelector('div').classList.replace('bg-transparent', 'bg-brand-purple');
+                radioPage.classList.replace('border-brand-purple', 'border-slate-200');
+                radioPage.querySelector('div').classList.replace('bg-brand-purple', 'bg-transparent');
+                textCustom.classList.replace('text-slate-400', 'text-slate-700');
+                textPage.classList.replace('text-slate-700', 'text-slate-400');
+            } else {
+                customInput.classList.add('hidden');
+                pageSelect.classList.remove('hidden');
+                radioPage.classList.replace('border-slate-200', 'border-brand-purple');
+                radioPage.querySelector('div').classList.replace('bg-transparent', 'bg-brand-purple');
+                radioCustom.classList.replace('border-brand-purple', 'border-slate-200');
+                radioCustom.querySelector('div').classList.replace('bg-brand-purple', 'bg-transparent');
+                textPage.classList.replace('text-slate-400', 'text-slate-700');
+                textCustom.classList.replace('text-slate-700', 'text-slate-400');
+            }
+        }
+
+        function showSubTab(subId) {
+            document.querySelectorAll('.subtab-item').forEach(btn => {
+                const isActive = btn.dataset.subtab === subId;
+                btn.classList.toggle('active', isActive);
+                btn.classList.toggle('text-brand-purple', isActive);
+                btn.classList.toggle('border-brand-purple', isActive);
+                btn.classList.toggle('text-slate-400', !isActive);
+                btn.classList.toggle('border-transparent', !isActive);
+                btn.classList.toggle('font-bold', isActive);
+                btn.classList.toggle('font-medium', !isActive);
+            });
+
+            document.querySelectorAll('.subtab-content').forEach(content => {
+                content.classList.toggle('hidden', content.id !== 'subtab-' + subId);
+            });
+            
+            lucide.createIcons();
+        }
+
+        function showPreviewModal() {
+            const modal = document.getElementById('preview-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div:last-child').classList.remove('scale-95');
+        }
+
+        function hidePreviewModal() {
+            const modal = document.getElementById('preview-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div:last-child').classList.add('scale-95');
+        }
+
+        let charts = {};
+        function initCharts() {
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            if(charts.trend) charts.trend.destroy();
+            charts.trend = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月19', '1月20', '1月21', '1月22', '1月23', '1月24', '1月25'],
+                    datasets: [
+                        { label: '流量', data: [1200, 1900, 3000, 2500, 4200, 3800, 5100], borderColor: '#7c3aed', tension: 0.4 },
+                        { label: '互动', data: [100, 150, 400, 300, 600, 550, 800], borderColor: '#f59e0b', tension: 0.4 }
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 10 } } } } }
+            });
+
+            const inquiryCtx = document.getElementById('conversionChart').getContext('2d');
+            if(charts.inquiry) charts.inquiry.destroy();
+            charts.inquiry = new Chart(inquiryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['WhatsApp', 'Email'],
+                    datasets: [{
+                        data: [320, 136],
+                        backgroundColor: ['#22c55e', '#7c3aed'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 10 } } } } }
+            });
+        }
+
+        window.onload = () => {
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>

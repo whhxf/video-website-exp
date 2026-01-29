@@ -1,0 +1,147 @@
+# BMAD Sprint Status
+# Project: bmad-test
+# Level: 1
+# Created: 2026-01-25
+
+version: "6.0.0"
+project_name: "bmad-test"
+project_level: 1
+current_sprint: 1
+sprint_plan_path: "docs/sprint-plan-bmad-test-2026-01-25.md"
+
+sprints:
+  - sprint_number: 1
+    start_date: "2026-01-25"
+    end_date: "2026-02-08"
+    capacity_points: 30
+    committed_points: 56
+    completed_points: 0
+    status: "in_progress"
+    goal: "实现访客端核心交互和管理端站点配置，完成 MVP"
+    stories:
+      - story_id: "STORY-001"
+        title: "页面布局框架"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-002"
+        title: "视频列表展示"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-003"
+        title: "Popover 视频播放"
+        points: 8
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-004"
+        title: "TikTok 滑动切换"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-005"
+        title: "右侧挂件"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-007"
+        title: "收藏功能"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-009"
+        title: "询盘入口"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-014"
+        title: "品牌绑定"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-011"
+        title: "站点创建"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-016"
+        title: "导航配置管理"
+        points: 3
+        status: "completed"
+        assigned_to: "AI Agent"
+      - story_id: "STORY-022"
+        title: "首页可视化配置"
+        points: 5
+        status: "completed"
+        assigned_to: "AI Agent"
+      - story_id: "STORY-023"
+        title: "页面详情与内容管理"
+        points: 5
+        status: "completed"
+        assigned_to: "AI Agent"
+      - story_id: "STORY-018"
+        title: "联系配置"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-012"
+        title: "二维码生成"
+        points: 3
+        status: "in_progress"
+        assigned_to: "AI Agent"
+
+  - sprint_number: 2
+    start_date: "2026-02-09"
+    end_date: "2026-02-22"
+    capacity_points: 30
+    committed_points: 23
+    completed_points: 0
+    status: "planned"
+    goal: "完善访客端功能增强和管理端数据分析"
+    stories:
+      - story_id: "STORY-006"
+        title: "视频详情半浮层"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-008"
+        title: "搜索功能"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-010"
+        title: "收藏列表表单"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-013"
+        title: "行为看板"
+        points: 5
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-019"
+        title: "询盘统计"
+        points: 3
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-020"
+        title: "搜索词记录"
+        points: 2
+        status: "not_started"
+        assigned_to: null
+      - story_id: "STORY-021"
+        title: "内容翻译管理"
+        points: 2
+        status: "not_started"
+        assigned_to: null
+
+velocity:
+  sprint_1: null
+  sprint_2: null
+  rolling_average: null
+
+team:
+  size: 1
+  sprint_length_weeks: 2
+  capacity_per_sprint: 30
+  experience_level: "senior"
