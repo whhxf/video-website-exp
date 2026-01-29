@@ -481,41 +481,6 @@
     </div>
 
     <script>
-        // ============== DATA ==============
-        
-        // Navigation Structure
-        const navStructure = [
-            {
-                id: 'about',
-                label: 'About Us',
-                subItems: [
-                    { id: 'factory', label: 'Factory Tour' },
-                    { id: 'why-us', label: 'Why Us' },
-                    { id: 'reviews', label: 'Client Reviews' }
-                ]
-            },
-            {
-                id: 'stage-lights',
-                label: 'Stage lights',
-                subItems: [
-                    { id: 'beam', label: 'Beam light' },
-                    { id: 'spotlight', label: 'Stage spotlight' },
-                    { id: 'par', label: 'Par lights' },
-                    { id: 'wash', label: 'Wash light' },
-                    { id: 'rgb', label: 'Light rgb led' },
-                    { id: 'follow', label: 'Follow spot light' },
-                    { id: 'used', label: 'Used lighting' }
-                ]
-            },
-            {
-                id: 'light-show',
-                label: 'Light show',
-                subItems: [
-                    { id: 'all-show', label: 'All Shows' }
-                ]
-            }
-        ];
-
         // Content Data (Mock Data extended)
         const contentData = {
             'factory': [
@@ -547,6 +512,10 @@
             ],
             'all-show': [
                 { id: "SHOW-01", title: "New Year Gala 2025", desc: "Full stage setup", thumb: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=400", video: "./videoplayback.webm", type: 'video' }
+            ],
+            'exp2-demo': [
+                { id: "EXP2-01", title: "New Version Demo", desc: "Click to view exp2 preview", thumb: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=600", url: "./exp2/demo.html", type: 'link' },
+                { id: "EXP2-02", title: "Admin Panel", desc: "Backend management preview", thumb: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=600", url: "./exp2/admin.html", type: 'link' }
             ]
         };
 
@@ -580,6 +549,45 @@
         }
 
         // ============== NAVIGATION ==============
+        const navStructure = [
+            {
+                id: 'about',
+                label: 'About Us',
+                subItems: [
+                    { id: 'factory', label: 'Factory Tour' },
+                    { id: 'why-us', label: 'Why Us' },
+                    { id: 'reviews', label: 'Client Reviews' }
+                ]
+            },
+            {
+                id: 'stage-lights',
+                label: 'Stage lights',
+                subItems: [
+                    { id: 'beam', label: 'Beam light' },
+                    { id: 'spotlight', label: 'Stage spotlight' },
+                    { id: 'par', label: 'Par lights' },
+                    { id: 'wash', label: 'Wash light' },
+                    { id: 'rgb', label: 'Light rgb led' },
+                    { id: 'follow', label: 'Follow spot light' },
+                    { id: 'used', label: 'Used lighting' }
+                ]
+            },
+            {
+                id: 'light-show',
+                label: 'Light show',
+                subItems: [
+                    { id: 'all-show', label: 'All Shows' }
+                ]
+            },
+            {
+                id: 'exp2',
+                label: 'Version 2.0',
+                subItems: [
+                    { id: 'exp2-demo', label: 'V2 Preview' }
+                ]
+            }
+        ];
+
         function renderTopNav() {
             const container = document.getElementById('top-nav-container');
             container.innerHTML = navStructure.map(item => `
@@ -667,13 +675,16 @@
         function renderCard(item, categoryId, index) {
             const isFav = favorites.includes(item.id);
             const isVideo = item.type === 'video' || item.video; // Assume all have video
+            const isLink = item.type === 'link';
+            
+            const onclick = isLink ? `window.open('${item.url}', '_blank')` : `openTiktokPlayer('${categoryId}', ${index})`;
             
             return `
-                <div class="flex flex-col gap-2 group cursor-pointer" onclick="openTiktokPlayer('${categoryId}', ${index})">
+                <div class="flex flex-col gap-2 group cursor-pointer" onclick="${onclick}">
                     <div class="card-cover">
                         <img src="${item.thumb}" loading="lazy">
                         <div class="play-btn-overlay">
-                            <i data-lucide="play" class="w-4 h-4 fill-white"></i>
+                            <i data-lucide="${isLink ? 'external-link' : 'play'}" class="w-4 h-4 fill-white"></i>
                         </div>
                     </div>
                     
@@ -682,10 +693,12 @@
                             <h3 class="font-bold text-sm line-clamp-2 leading-tight">${item.name || item.title}</h3>
                             <p class="text-xs text-slate-500 mt-0.5">${item.model || item.desc || item.author || ''}</p>
                         </div>
+                        ${isLink ? '' : `
                         <button onclick="event.stopPropagation(); toggleFavorite('${item.id}')" 
                                 class="shrink-0 p-1 rounded-full ${isFav ? 'text-rose-500' : 'text-slate-300 hover:text-slate-400'}">
                             <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-rose-500' : ''}"></i>
                         </button>
+                        `}
                     </div>
                 </div>
             `;
