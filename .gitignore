@@ -24,6 +24,11 @@ build/
 *~
 .DS_Store
 
+# 本地 AI / 工具生成目录（不入库）
+.claude/
+.cursor/
+_bmad/
+
 # 环境变量和配置
 .env
 .env.local

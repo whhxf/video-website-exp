@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polyv 直播播放器 Demo</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+    }
+    .page {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    header {
+      padding: 10px 16px;
+      background: #111;
+      font-size: 14px;
+    }
+    .player-wrap {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 0;
+    }
+    #player-container {
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 16 / 9;
+      margin: auto;
+      background: #000;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      纯播放器调试页面（Polyv 直播） - 请确认 uid / vid 是否与当前推流一致
+    </header>
+    <div class="player-wrap">
+      <div id="player-container">
+        <div id="player"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://player.polyv.net/resp/live-h5-player/latest/liveplayer.min.js"></script>
+  <script type="text/javascript">
+    // 使用你提供的参数，单独测试播放
+    var livePlayer = polyvLivePlayer({
+      wrap: '#player',
+      width: '100%',
+      height: '100%',
+      uid: 'e6soizn34h',
+      vid: '7468046',
+    });
+  </script>
+</body>
+</html>
+

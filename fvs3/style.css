@@ -1,0 +1,419 @@
+:root {
+    --bg-color: #0b0e14;
+    --panel-bg: #161b22;
+    --border-color: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --accent-color: #58a6ff;
+    --online-color: #3fb950;
+    --danger-color: #f85149;
+    --ptz-btn-bg: #21262d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 顶部导航 */
+.main-header {
+    height: 60px;
+    background-color: var(--panel-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.status-bar {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* 主内容区 */
+.main-content {
+    flex: 1;
+    display: flex;
+    padding: 15px;
+    gap: 15px;
+    overflow: hidden;
+}
+
+.left-panel {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 320px;
+}
+
+/* 视频播放区 */
+.video-section {
+    flex: 1;
+    background-color: #000;
+    border-radius: 8px;
+    position: relative;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.video-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 直播播放器容器，保持与 demo.html 一致的 16:9 比例 */
+#player-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#player {
+    width: 100%;
+    max-width: 1280px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+/* 视频验厂叠加样式（来自 fvs2） */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    font-family: monospace;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.overlay-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cam-id {
+    color: #fff;
+    font-size: 1.1rem;
+    background: rgba(0,0,0,0.4);
+    padding: 4px 8px;
+}
+
+.cam-time {
+    color: #fff;
+    background: rgba(0,0,0,0.4);
+    padding: 4px 8px;
+}
+
+.rec-dot {
+    color: var(--danger-color);
+    font-weight: bold;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* 控制面板 */
+.control-section {
+    height: 180px;
+    background-color: var(--panel-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    padding: 20px;
+    gap: 40px;
+}
+
+.ptz-panel h3 {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+}
+
+.ptz-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.ptz-mid {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ptz-btn {
+    width: 36px;
+    height: 36px;
+    background-color: var(--ptz-btn-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.ptz-btn:hover {
+    background-color: var(--border-color);
+    border-color: var(--accent-color);
+}
+
+.ptz-btn:active {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+.ptz-center {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+.zoom-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 8px 15px;
+    background-color: var(--ptz-btn-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.action-btn:hover {
+    background-color: var(--border-color);
+}
+
+/* 平面图 */
+.floor-plan-section {
+    flex: 1;
+    background-color: var(--panel-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.floor-plan-section h3 {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+}
+
+.floor-plan-container {
+    flex: 1;
+    background: #0d1117;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.floor-plan-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.cam-marker {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cam-marker circle {
+    fill: #30363d;
+    stroke: #8b949e;
+    stroke-width: 1;
+}
+
+.cam-marker.active circle {
+    fill: var(--accent-color);
+    stroke: #fff;
+    filter: drop-shadow(0 0 5px var(--accent-color));
+}
+
+.cam-marker text {
+    fill: #8b949e;
+    font-size: 10px;
+    pointer-events: none;
+}
+
+.cam-marker.active text {
+    fill: #fff;
+    font-weight: bold;
+}
+
+/* 信息展示 */
+.info-section {
+    background-color: var(--panel-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+}
+
+.info-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.info-section p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.status-tags {
+    display: flex;
+    gap: 8px;
+}
+
+.tag {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    background: #21262d;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-secondary);
+}
+
+.tag.online {
+    color: var(--online-color);
+    border-color: rgba(63, 185, 80, 0.3);
+}
+
+/* 底部镜头列表 */
+.bottom-panel {
+    height: 140px;
+    background-color: var(--panel-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 15px 20px;
+}
+
+.camera-list {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.camera-list::-webkit-scrollbar {
+    height: 6px;
+}
+
+.camera-list::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.cam-card {
+    min-width: 160px;
+    height: 100px;
+    background: #0d1117;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.cam-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.cam-card.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
+}
+
+.cam-thumb {
+    width: 100%;
+    height: 70px;
+    background: #21262d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.cam-name {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 0.85rem;
+    background: var(--panel-bg);
+}
+
+.status-dot {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    background: var(--online-color);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
