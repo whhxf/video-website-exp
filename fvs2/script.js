@@ -6,7 +6,7 @@ const cameras = [
         shortName: "车间A",
         description: "主要生产车间，拥有20条自动化产线，日产能达50000件。配备先进的德国进口设备。",
         position: { x: 75, y: 80 },
-        videoUrl: "https://video.kingswayvideo.com/nm67fvir/29cd54201d/640_360_0.mp4",
+        videoUrl: "https://video.kingswayvideo.com/w1o9d6ta/02a112f01e/640_360_0.mp4",
         online: true
     },
     {
@@ -15,7 +15,7 @@ const cameras = [
         shortName: "车间B",
         description: "高精密零件加工区，恒温恒湿环境，确保产品精度符合国际最高标准。",
         position: { x: 280, y: 80 },
-        videoUrl: "https://video.kingswayvideo.com/nm67fvir/29ce17701d/1920_1080_0.mp4",
+        videoUrl: "https://video.kingswayvideo.com/w1o9d6ta/02a3d2101e/640_360_0.mp4",
         online: true
     },
     {
@@ -24,7 +24,7 @@ const cameras = [
         shortName: "仓库",
         description: "现代化物流中心，支持智能仓储管理系统，年货物吞吐量超过100万件。",
         position: { x: 70, y: 210 },
-        videoUrl: "https://video.kingswayvideo.com/nm67fvir/29cfc5201d/640_360_0.mp4",
+        videoUrl: "https://video.kingswayvideo.com/w1o9d6ta/02a2c0a01e/320_240_0.mp4",
         online: true
     },
     {
@@ -33,7 +33,7 @@ const cameras = [
         shortName: "质检区",
         description: "严格的100%全检流程，每一件出厂产品都经过多道质量把关，确保零缺陷交付。",
         position: { x: 250, y: 210 },
-        videoUrl: "https://video.kingswayvideo.com/nm67fvir/29cc69c01d/1920_1080_0.mp4",
+        videoUrl: "https://video.kingswayvideo.com/w1o9d6ta/02a1fd501e/1920_1080_0.mp4",
         online: true
     },
     {
@@ -42,7 +42,7 @@ const cameras = [
         shortName: "研发部",
         description: "汇聚行业顶尖人才，拥有多项技术专利，持续推动产品创新与迭代。",
         position: { x: 350, y: 250 },
-        videoUrl: "https://video.kingswayvideo.com/nm67fvir/29d1e8001d/640_360_0.mp4",
+        videoUrl: "https://video.kingswayvideo.com/w1o9d6ta/02a001801e/1920_1080_0.mp4",
         online: true
     },
     {
@@ -51,7 +51,7 @@ const cameras = [
         shortName: "正门",
         description: "工厂园区主入口，配备人脸识别与车辆追踪系统，全天候保障生产安全。",
         position: { x: 200, y: 280 },
-        videoUrl: "https://video.kingswayvideo.com/nm67fvir/29d088701d/640_360_0.mp4",
+        videoUrl: "https://video.kingswayvideo.com/w1o9d6ta/02a66a201e/640_360_0.mp4",
         online: true
     }
 ];
