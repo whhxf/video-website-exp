@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta name="description" content="RayLED - Professional LED lighting manufacturer.">
+<title>RayLED | LED Lighting Manufacturer</title>
+<script type="application/ld+json">
+[{"@context":"https://schema.org","@type":"VideoObject","name":"RayLED Factory","contentUrl":"#s0"},{"@context":"https://schema.org","@type":"VideoObject","name":"RayLED Assembly","contentUrl":"#s1"}]
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;-webkit-font-smoothing:antialiased}
+body{background:#111;overflow:hidden;height:100dvh;width:100vw}
+
+.app-wrap{display:flex;justify-content:center;align-items:center;height:100dvh;width:100vw;background:#1a1a1a}
+.phone{width:100%;max-width:430px;height:100dvh;background:#000;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.6)}
+
+/* Top bar */
+.topbar{position:absolute;top:0;left:0;right:0;z-index:100;padding:max(env(safe-area-inset-top),10px) 14px 8px;background:linear-gradient(180deg,rgba(0,0,0,.85) 0%,transparent 100%);display:flex;align-items:center;justify-content:space-between}
+.brand-row{display:flex;align-items:center;gap:8px}
+.brand-logo{width:30px;height:30px;flex-shrink:0}
+.brand-name{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.lang-btn{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;color:rgba(255,255,255,.85);font-size:11px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;letter-spacing:0.02em;transition:background .2s,color .2s}
+.lang-btn:hover{background:rgba(255,255,255,.18);color:#fff}
+
+/* Slide dots */
+.slide-dots{position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;gap:6px}
+.slide-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}
+.slide-dot.active{background:#a78bfa;height:18px;border-radius:3px}
+
+/* Feed */
+.feed{width:100%;height:100%;overflow-y:scroll;overflow-x:hidden;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
+.feed::-webkit-scrollbar{display:none}
+
+/* ==================== VIDEO SLIDE (TikTok style) ==================== */
+.slide-v{width:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#000}
+.slide-v video{width:100%;height:100%;object-fit:contain}
+.slide-v .poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:opacity .4s}
+.slide-v .poster.hide{opacity:0;pointer-events:none}
+.slide-v .poster .play{width:56px;height:56px;border-radius:50%;background:rgba(124,58,237,.8);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(124,58,237,.5)}
+.slide-v .poster .play::after{content:'';border:solid transparent;border-width:9px 0 9px 16px;border-left-color:#fff;margin-left:3px}
+
+/* Center play/pause indicator overlay */
+.v-play-indicator{position:absolute;inset:0;z-index:11;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
+.v-play-indicator.show{opacity:1;transform:scale(1)}
+.v-play-indicator .pi{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff}
+
+/* TikTok right sidebar */
+.tt-sidebar{position:absolute;right:8px;bottom:130px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:18px}
+.tt-side-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#fff;cursor:pointer;font-size:10px;font-weight:500}
+.tt-side-btn .icon{width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform .15s}
+.tt-side-btn:active .icon{transform:scale(.85)}
+.tt-side-btn .lbl{text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.tt-side-btn.wa .icon{background:rgba(37,211,102,.7)}
+.tt-side-btn.inquiry .icon{background:rgba(124,58,237,.7)}
+
+/* Video bottom overlay */
+.v-bottom{position:absolute;bottom:0;left:0;right:56px;z-index:8;padding:0 14px 20px}
+.v-bottom .v-name{font-size:13px;font-weight:700;margin-bottom:4px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.v-bottom .v-desc{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:6px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.v-progress{position:absolute;bottom:0;left:0;right:0;z-index:9;height:2px;background:rgba(255,255,255,.12);transition:height .2s ease;cursor:pointer}
+.v-progress::after{content:'';position:absolute;top:-14px;left:0;right:0;bottom:-6px}
+.v-progress.active{height:5px;background:rgba(255,255,255,.2)}
+.v-progress-fill{height:100%;background:#fff;border-radius:0 1px 1px 0;width:0;transition:width .1s linear;box-shadow:0 0 6px rgba(124,58,237,.4);position:relative;z-index:1}
+.v-progress.active .v-progress-fill{box-shadow:0 0 10px rgba(124,58,237,.7)}
+.v-progress-thumb{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);opacity:0;transition:opacity .15s}
+.v-progress.active .v-progress-thumb{opacity:1}
+
+/* ==================== IMAGE NOTE SLIDE (Xiaohongshu style) ==================== */
+.slide-note{width:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#0d0d0d;display:flex;flex-direction:column}
+.note-images{width:100%;height:50%;position:relative;overflow:hidden;background:#111}
+.note-swipe{display:flex;height:100%;overflow-x:scroll;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.note-swipe::-webkit-scrollbar{display:none}
+.note-swipe img{min-width:100%;height:100%;object-fit:cover;scroll-snap-align:center}
+/* Image counter dot overlay */
+.note-img-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:5}
+.note-img-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .2s}
+.note-img-dot.active{background:#fff;width:16px;border-radius:3px}
+.note-img-counter{position:absolute;bottom:10px;right:14px;z-index:5;font-size:11px;color:rgba(255,255,255,.8);background:rgba(0,0,0,.5);padding:3px 8px;border-radius:10px}
+
+/* Note text area */
+.note-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.note-body::-webkit-scrollbar{display:none}
+.note-body h2{font-size:18px;font-weight:800;color:#fff;line-height:1.3}
+.note-body .note-text{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
+.note-specs{display:flex;flex-wrap:wrap;gap:6px}
+.note-spec{font-size:11px;padding:4px 10px;border-radius:8px;background:rgba(124,58,237,.12);color:#a78bfa;font-weight:500}
+.note-cta{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.note-cta .pill{padding:10px 20px;border-radius:22px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:transform .15s}
+.note-cta .pill:active{transform:scale(.95)}
+.note-cta .pill.wa{background:#25D366;color:#fff;flex:1;justify-content:center}
+.note-cta .pill.inquiry{background:#7c3aed;color:#fff;flex:1;justify-content:center}
+
+/* ==================== DOCUMENT SLIDE ==================== */
+.slide-docs{width:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#0a0a0a;display:flex;flex-direction:column;padding-top:48px}
+.docs-header{padding:14px 16px 4px;flex-shrink:0}
+.docs-header h2{font-size:18px;font-weight:800;color:#fff;margin-bottom:2px}
+.docs-header .docs-sub{font-size:12px;color:rgba(255,255,255,.4)}
+
+/* Document grid — 2-column scrollable */
+.docs-grid{flex:1;overflow-y:auto;padding:8px 14px 12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+.docs-grid::-webkit-scrollbar{display:none}
+.doc-card{background:#1a1a1a;border-radius:12px;border:1px solid rgba(255,255,255,.06);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s}
+.doc-card .d-thumb{width:100%;aspect-ratio:1/1.25;background:#111;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.doc-card .d-thumb img{width:90%;height:90%;object-fit:contain}
+.doc-card .d-thumb .badge{position:absolute;top:6px;right:6px;padding:3px 8px;border-radius:5px;font-size:9px;font-weight:700;text-transform:uppercase}
+.doc-card .d-thumb .badge.cert{background:rgba(124,58,237,.85);color:#fff}
+.doc-card .d-thumb .badge.report{background:rgba(37,211,102,.85);color:#fff}
+.doc-card .d-thumb .badge.standard{background:rgba(251,191,36,.85);color:#000}
+.doc-card .d-info{padding:10px 12px 4px;flex:1}
+.doc-card .d-info .d-title{font-size:12px;font-weight:700;color:#fff;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.doc-card .d-info .d-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:3px}
+.doc-card .d-actions{padding:0 12px 10px;display:flex;gap:4px}
+.doc-card .d-actions button{flex:1;padding:7px 0;border-radius:7px;border:none;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:transform .15s}
+.doc-card .d-actions button:active{transform:scale(.95)}
+.doc-card .d-actions .d-preview{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.doc-card .d-actions .d-download{background:#7c3aed;color:#fff}
+
+/* View all row */
+.docs-view-all{padding:8px 14px 18px;flex-shrink:0}
+.docs-view-all button{width:100%;padding:12px;border-radius:10px;border:1px dashed rgba(124,58,237,.4);background:rgba(124,58,237,.06);color:#a78bfa;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.docs-view-all button:hover{background:rgba(124,58,237,.12);border-color:#a78bfa}
+.docs-view-all .arrow{font-size:16px;transition:transform .2s}
+.docs-view-all button:hover .arrow{transform:translateX(3px)}
+
+/* ==================== DOCUMENT LIBRARY MODAL ==================== */
+.doc-lib-modal{position:fixed;inset:0;z-index:250;background:#0a0a0a;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+.doc-lib-modal.open{transform:translateX(0)}
+.doc-lib-header{display:flex;align-items:center;gap:12px;padding:max(env(safe-area-inset-top),12px) 16px 10px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0}
+.doc-lib-header .back-btn{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.08);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.doc-lib-header h3{font-size:16px;font-weight:700;color:#fff;flex:1}
+.doc-lib-header .lib-count{font-size:12px;color:rgba(255,255,255,.35)}
+.doc-lib-search{padding:10px 16px;flex-shrink:0;position:relative}
+.doc-lib-search input{width:100%;padding:10px 14px 10px 36px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;font-size:13px;outline:none;font-family:inherit}
+.doc-lib-search input:focus{border-color:#7c3aed}
+.doc-lib-search .s-icon{position:absolute;left:26px;top:50%;transform:translateY(-50%);font-size:14px;color:rgba(255,255,255,.3);pointer-events:none}
+.doc-lib-grid{flex:1;overflow-y:auto;padding:4px 14px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+.doc-lib-grid::-webkit-scrollbar{display:none}
+
+/* Library card (compact) */
+.lib-card{background:#1a1a1a;border-radius:12px;border:1px solid rgba(255,255,255,.06);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s}
+.lib-card .thumb{width:100%;aspect-ratio:3/4;background:#111;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.lib-card .thumb img{width:90%;height:90%;object-fit:contain}
+.lib-card .thumb .badge{position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:5px;font-size:9px;font-weight:700;text-transform:uppercase}
+.lib-card .thumb .badge.cert{background:rgba(124,58,237,.8);color:#fff}
+.lib-card .thumb .badge.report{background:rgba(37,211,102,.8);color:#fff}
+.lib-card .thumb .badge.standard{background:rgba(251,191,36,.8);color:#000}
+.lib-card .info{padding:10px 12px;flex:1;display:flex;flex-direction:column;gap:4px}
+.lib-card .info .d-title{font-size:12px;font-weight:700;color:#fff;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lib-card .info .d-meta{font-size:10px;color:rgba(255,255,255,.35);display:flex;gap:8px}
+.lib-card .actions{display:flex;gap:4px;padding:0 12px 10px}
+.lib-card .actions button{flex:1;padding:7px 0;border-radius:7px;border:none;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:transform .15s}
+.lib-card .actions button:active{transform:scale(.95)}
+.lib-card .actions .d-preview{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.lib-card .actions .d-download{background:#7c3aed;color:#fff}
+.lib-card.hidden{display:none}
+
+/* Library empty state */
+.lib-empty{display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px;color:rgba(255,255,255,.3);text-align:center;grid-column:1/-1}
+.lib-empty.show{display:flex}
+.lib-empty .e-icon{font-size:40px;margin-bottom:8px}
+
+/* ==================== TRUST SLIDE ==================== */
+.slide-trust{width:100%;min-height:100dvh;scroll-snap-align:start;position:relative;background:linear-gradient(180deg,#08080c 0%,#0f0a18 40%,#0a0a10 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 28px 44px;gap:26px}
+
+.trust-headline{font-size:28px;font-weight:800;color:#fff;text-align:center;line-height:1.15;letter-spacing:-0.015em}
+.trust-headline em{font-style:normal;color:#a78bfa}
+
+.trust-stats{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.trust-stats .stat{font-size:13px;color:rgba(255,255,255,.45);font-weight:500;white-space:nowrap}
+.trust-stats .stat strong{color:#fff;font-weight:700}
+.trust-stats .sep{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.12);flex-shrink:0}
+
+.trust-cert-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.trust-cert-row .b{padding:6px 13px;border-radius:16px;background:rgba(124,58,237,.07);color:#a78bfa;font-size:11px;font-weight:600;border:1px solid rgba(124,58,237,.12)}
+
+.trust-clients-label{font-size:10px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:0.1em;text-align:center;margin-bottom:-14px}
+.trust-clients{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.trust-clients .c{font-size:13px;font-weight:600;color:rgba(255,255,255,.5)}
+
+.trust-cta{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px}
+.trust-cta .big-wa{width:100%;padding:16px;border-radius:14px;border:none;background:#25D366;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 28px rgba(37,211,102,.3);transition:transform .15s,box-shadow .15s;animation:wa-glow 2.8s ease-in-out infinite}
+.trust-cta .big-wa:active{transform:scale(.97)}
+@keyframes wa-glow{0%,100%{box-shadow:0 4px 28px rgba(37,211,102,.3)}50%{box-shadow:0 4px 44px rgba(37,211,102,.5)}}
+.trust-cta .big-inquiry{width:100%;padding:14px;border-radius:14px;border:1.5px solid rgba(124,58,237,.25);background:rgba(124,58,237,.05);color:#a78bfa;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s}
+.trust-cta .big-inquiry:active{background:rgba(124,58,237,.12)}
+.trust-cta .email-link{text-align:center;color:rgba(255,255,255,.25);font-size:12px;text-decoration:none;transition:color .2s}
+.trust-cta .email-link:hover{color:rgba(255,255,255,.45)}
+
+/* ==================== MODALS ==================== */
+.modal-back{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-back.open{opacity:1;pointer-events:auto}
+.modal-sheet{width:92%;max-width:420px;max-height:85dvh;background:#1a1a1a;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.modal-sheet .m-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.modal-sheet .m-header h4{font-size:14px;font-weight:700;color:#fff}
+.modal-sheet .m-close{width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,.1);color:#fff;font-size:14px;cursor:pointer}
+.modal-sheet .m-body{padding:16px;overflow-y:auto;flex:1}
+.modal-sheet .m-body .field{margin-bottom:12px}
+.modal-sheet .m-body label{display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.modal-sheet .m-body input,.modal-sheet .m-body textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:14px;font-family:inherit;outline:none}
+.modal-sheet .m-body input:focus,.modal-sheet .m-body textarea:focus{border-color:#7c3aed}
+.modal-sheet .m-body textarea{resize:none;height:70px}
+.modal-sheet .m-submit{width:100%;padding:12px;border-radius:10px;border:none;background:#7c3aed;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+
+/* Doc preview modal */
+.doc-preview-modal .m-body{padding:0;display:flex;align-items:center;justify-content:center;background:#0a0a0a}
+.doc-preview-modal img{width:100%;display:block}
+
+/* Toast */
+.toast{position:fixed;top:50px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:300;background:#25D366;color:#fff;padding:10px 22px;border-radius:10px;font-weight:600;font-size:13px;box-shadow:0 6px 20px rgba(37,211,102,.3);transition:transform .4s cubic-bezier(.22,.61,.36,1)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Footer */
+.footer{text-align:center;padding:14px 20px 30px;font-size:10px;color:rgba(255,255,255,.15)}
+
+/* ===== Search highlight ===== */
+.doc-card.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="app-wrap">
+<div class="phone">
+
+  <div class="topbar">
+    <div class="brand-row"><svg class="brand-logo" width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M4 26L15 2L26 26Z" fill="white"/><path d="M9 26L15 12L21 26Z" fill="#7c3aed"/></svg><span class="brand-name" data-t="brand">RayLED</span></div>
+    <button class="lang-btn" id="langBtn" onclick="cycleLang()">EN</button>
+  </div>
+
+  <div class="slide-dots" id="slideDots"></div>
+
+  <div class="feed" id="feed">
+
+    <!-- SLIDE 1: Video TikTok-style -->
+    <div class="slide-v" data-slide="0" id="s0">
+      <video playsinline muted preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/e791dcf0ba/1488_720_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231a1a2e' width='400' height='711'/%3E%3Ctext x='200' y='355' text-anchor='middle' fill='%237c3aed' font-size='14' font-family='sans-serif'%3ESMT Production Line%3C/text%3E%3C/svg%3E"></video>
+      <div class="poster" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><div class="play"></div></div>
+      <div class="tt-sidebar">
+        <button class="tt-side-btn inquiry" onclick="openForm('SMT Line')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl" data-t="inquiry">Inquiry</span></button>
+        <button class="tt-side-btn wa" onclick="openWA('SMT Line')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl" data-t="wa">WhatsApp</span></button>
+        <button class="tt-side-btn" onclick="shareLink()"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><span class="lbl" data-t="share">Share</span></button>
+      </div>
+      <div class="v-progress"><div class="v-progress-fill"></div><div class="v-progress-thumb"></div></div>
+      <div class="v-bottom">
+        <div class="v-name" data-t="s1t">SMT Production Line — Full Automation</div>
+        <div class="v-desc" data-t="s1d">4 high-speed SMT lines running 24/7. 80,000 placements/hour. IPC-A-610 Class 3.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Video TikTok-style -->
+    <div class="slide-v" data-slide="1" id="s1">
+      <video playsinline muted preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/e79119a0ba/1280_720_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%23162e1a' width='400' height='711'/%3E%3Ctext x='200' y='355' text-anchor='middle' fill='%2325D366' font-size='14' font-family='sans-serif'%3EAssembly Workshop%3C/text%3E%3C/svg%3E"></video>
+      <div class="poster" style="background:linear-gradient(135deg,#162e1a,#1a2e1a)"><div class="play"></div></div>
+      <div class="tt-sidebar">
+        <button class="tt-side-btn inquiry" onclick="openForm('Assembly')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl" data-t="inquiry">Inquiry</span></button>
+        <button class="tt-side-btn wa" onclick="openWA('Assembly')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl" data-t="wa">WhatsApp</span></button>
+        <button class="tt-side-btn" onclick="shareLink()"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><span class="lbl" data-t="share">Share</span></button>
+      </div>
+      <div class="v-progress"><div class="v-progress-fill"></div><div class="v-progress-thumb"></div></div>
+      <div class="v-bottom">
+        <div class="v-name" data-t="s2t">Assembly & Aging Test Workshop</div>
+        <div class="v-desc" data-t="s2d">5 assembly lines + 48h burn-in testing. 3,000 sqm dust-free workshop.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Image Note (Xiaohongshu style) - High Bay -->
+    <div class="slide-note" data-slide="2">
+      <div class="note-images">
+        <div class="note-swipe" data-note-swipe="0">
+          <img src="https://images.unsplash.com/photo-1635468609223-4e59675ac96d?w=600&h=800&fit=crop&crop=center" alt="Factory Production Floor" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1684695749267-233af13276d0?w=600&h=800&fit=crop&crop=center" alt="Modern Warehouse Interior" loading="lazy">
+          <img src="https://plus.unsplash.com/premium_photo-1682144862274-384a8f3674ac?w=600&h=800&fit=crop&crop=center" alt="Warehouse Storage Area" loading="lazy">
+        </div>
+        <div class="note-img-dots"><span class="note-img-dot active"></span><span class="note-img-dot"></span><span class="note-img-dot"></span></div>
+        <span class="note-img-counter">1/3</span>
+      </div>
+      <div class="note-body">
+        <h2 data-t="n1t">LED High Bay Light — 200W Industrial Grade</h2>
+        <p class="note-text" data-t="n1d">Engineered for warehouses, factories, and large indoor spaces. This 200W high bay delivers 32,000 lumens at 160lm/W efficiency — replacing traditional 400W metal halide fixtures with 60% energy savings.</p>
+        <div class="note-specs">
+          <span class="note-spec">IP65</span><span class="note-spec">160 lm/W</span><span class="note-spec">Mean Well Driver</span><span class="note-spec">50,000h</span><span class="note-spec">5 Year Warranty</span><span class="note-spec">CE / RoHS / UL</span>
+        </div>
+        <div class="note-cta">
+          <button class="pill wa" onclick="openWA('High Bay 200W')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="pill inquiry" onclick="openForm('High Bay 200W')"><i class="fa-solid fa-clipboard-list"></i> Inquiry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Image Note (Xiaohongshu style) - Flood Light -->
+    <div class="slide-note" data-slide="3">
+      <div class="note-images">
+        <div class="note-swipe" data-note-swipe="1">
+          <img src="https://images.unsplash.com/photo-1509928015542-fcc9b3bcd048?w=600&h=800&fit=crop&crop=center" alt="Stadium at Night" loading="lazy">
+          <img src="https://plus.unsplash.com/premium_photo-1664304605904-d0aa3a50a5b7?w=600&h=800&fit=crop&crop=center" alt="Sports Field Lighting" loading="lazy">
+        </div>
+        <div class="note-img-dots"><span class="note-img-dot active"></span><span class="note-img-dot"></span></div>
+        <span class="note-img-counter">1/2</span>
+      </div>
+      <div class="note-body">
+        <h2 data-t="n2t">LED Flood Light — 100W Stadium Grade</h2>
+        <p class="note-text" data-t="n2d">Built for outdoor environments — stadiums, ports, parking lots. IP66 waterproof rating, Philips 3030 chips, and a 360° adjustable bracket. Delivers 14,000 lumens with a 140lm/W efficiency.</p>
+        <div class="note-specs">
+          <span class="note-spec">IP66</span><span class="note-spec">140 lm/W</span><span class="note-spec">Philips 3030</span><span class="note-spec">360° Bracket</span><span class="note-spec">5 Year Warranty</span>
+        </div>
+        <div class="note-cta">
+          <button class="pill wa" onclick="openWA('Flood Light 100W')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="pill inquiry" onclick="openForm('Flood Light 100W')"><i class="fa-solid fa-clipboard-list"></i> Inquiry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Video TikTok-style - QC -->
+    <div class="slide-v" data-slide="4" id="s4">
+      <video playsinline muted preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/0a1d91b0b6/3868_2160_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231e2a1a' width='400' height='711'/%3E%3Ctext x='200' y='355' text-anchor='middle' fill='%2325D366' font-size='14' font-family='sans-serif'%3EQC Laboratory%3C/text%3E%3C/svg%3E"></video>
+      <div class="poster" style="background:linear-gradient(135deg,#1e2a1a,#162e18)"><div class="play"></div></div>
+      <div class="tt-sidebar">
+        <button class="tt-side-btn inquiry" onclick="openForm('QC Lab')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl" data-t="inquiry">Inquiry</span></button>
+        <button class="tt-side-btn wa" onclick="openWA('QC Lab')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl" data-t="wa">WhatsApp</span></button>
+        <button class="tt-side-btn" onclick="shareLink()"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><span class="lbl" data-t="share">Share</span></button>
+      </div>
+      <div class="v-progress"><div class="v-progress-fill"></div><div class="v-progress-thumb"></div></div>
+      <div class="v-bottom">
+        <div class="v-name" data-t="s5t">Quality Control Lab — IES & IP Testing</div>
+        <div class="v-desc" data-t="s5d">Integrating sphere, goniophotometer, IP chamber, salt spray. Every batch tested before shipment.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Documents -->
+    <div class="slide-docs" data-slide="5">
+      <div class="docs-header">
+        <h2 data-t="docsTitle">Documents & Certifications</h2>
+        <p class="docs-sub" data-t="docsSub">Essential certifications — view all in library</p>
+      </div>
+      <div class="docs-grid" id="docsGrid"></div>
+      <div class="docs-view-all">
+        <button onclick="openDocLibrary()">
+          <span data-t="viewAllDocs">View All Documents</span> (6) <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Trust -->
+    <div class="slide-trust" data-slide="6">
+      <h2 class="trust-headline"><span data-t="trustH1">Your LED Partner</span><br><em data-t="trustH2">in China</em></h2>
+      <div class="trust-stats">
+        <span class="stat"><strong>14</strong> <span data-t="t1">Years</span></span><span class="sep"></span>
+        <span class="stat"><strong>60+</strong> <span data-t="t2">Countries</span></span><span class="sep"></span>
+        <span class="stat"><strong>350+</strong> <span data-t="t3">Engineers</span></span><span class="sep"></span>
+        <span class="stat"><strong>99.2%</strong> <span data-t="t4">On-Time</span></span>
+      </div>
+      <div class="trust-cert-row">
+        <span class="b">CE</span><span class="b">RoHS</span><span class="b">UL</span><span class="b">DLC</span><span class="b">ISO 9001</span><span class="b">BSCI</span>
+      </div>
+      <div class="trust-clients-label" data-t="trustedBy">Trusted by</div>
+      <div class="trust-clients">
+        <span class="c">DHL</span><span class="c">Carrefour</span><span class="c">Leroy Merlin</span><span class="c">Amazon</span><span class="c">IKEA</span>
+      </div>
+      <div class="trust-cta">
+        <button class="big-wa" onclick="openWA('General')"><i class="fa-brands fa-whatsapp"></i> <span data-t="waChat">Chat on WhatsApp</span></button>
+        <button class="big-inquiry" onclick="openForm('General')"><i class="fa-solid fa-clipboard-list"></i> <span data-t="sendInquiry">Send Inquiry</span></button>
+        <a class="email-link" href="mailto:sales@rayled.com">sales@rayled.com</a>
+      </div>
+      <div class="footer">© 2026 RayLED Lighting Co., Ltd.</div>
+    </div>
+
+  </div>
+
+  <!-- Inquiry Modal -->
+  <div class="modal-back" id="formModal">
+    <div class="modal-sheet">
+      <div class="m-header"><h4 data-t="formTitle">Send Inquiry</h4><button class="m-close" onclick="closeForm()"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="m-body">
+        <p id="formProduct" style="color:#a78bfa;font-weight:600;font-size:13px;margin-bottom:12px"></p>
+        <div class="field"><label data-t="fName">Name *</label><input id="fName"></div>
+        <div class="field"><label data-t="fEmail">Email *</label><input id="fEmail"></div>
+        <div class="field"><label data-t="fPhone">Phone / WhatsApp</label><input id="fPhone"></div>
+        <div class="field"><label data-t="fMsg">Message</label><textarea id="fMsg"></textarea></div>
+        <button class="m-submit" onclick="submitForm()" data-t="fSubmit">Send Inquiry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doc Preview Modal -->
+  <div class="modal-back doc-preview-modal" id="docModal">
+    <div class="modal-sheet">
+      <div class="m-header"><h4 id="docModalTitle">Document</h4><button class="m-close" onclick="closeDocPreview()"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="m-body"><img id="docModalImg" src="" alt="Document preview"></div>
+    </div>
+  </div>
+
+  <!-- Document Library Modal (full screen slide-in) -->
+  <div class="doc-lib-modal" id="docLibModal">
+    <div class="doc-lib-header">
+      <button class="back-btn" onclick="closeDocLibrary()"><i class="fa-solid fa-arrow-left"></i></button>
+      <h3 data-t="docLibTitle">Document Library</h3>
+      <span class="lib-count" id="libCount">6 docs</span>
+    </div>
+    <div class="doc-lib-search">
+      <span class="s-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="text" id="libSearch" data-placeholder="searchDocs" oninput="filterLibDocs(this.value)">
+    </div>
+    <div class="doc-lib-grid" id="libGrid">
+      <!-- Filled by JS from docData -->
+      <div class="lib-empty" id="libEmpty"><div class="e-icon"><i class="fa-solid fa-folder-open"></i></div><span data-t="noDocs">No documents found</span></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+</div>
+</div>
+
+<script>
+const L={
+en:{
+  brand:'RayLED',inquiry:'Inquiry',wa:'WhatsApp',share:'Share',
+  s1t:'SMT Production Line — Full Automation',s1d:'4 high-speed SMT lines 24/7. 80,000 placements/hour. IPC-A-610 Class 3.',
+  s2t:'Assembly & Aging Test Workshop',s2d:'5 assembly lines + 48h burn-in. 3,000 sqm dust-free workshop.',
+  s5t:'Quality Control Lab — IES & IP Testing',s5d:'Integrating sphere, goniophotometer, IP chamber, salt spray. Every batch tested.',
+  n1t:'LED High Bay Light — 200W Industrial Grade',n1d:'Engineered for warehouses, factories, and large indoor spaces. This 200W high bay delivers 32,000 lumens at 160lm/W efficiency — replacing traditional 400W metal halide fixtures with 60% energy savings.',
+  n2t:'LED Flood Light — 100W Stadium Grade',n2d:'Built for outdoor environments — stadiums, ports, parking lots. IP66 waterproof rating, Philips 3030 chips, and a 360° adjustable bracket. Delivers 14,000 lumens with a 140lm/W efficiency.',
+  docsTitle:'Documents & Certifications',docsSub:'Essential certifications — view all in library',searchDocs:'Search documents...',noDocs:'No documents found',viewAllDocs:'View All Documents',docLibTitle:'Document Library',
+  trustH1:'Your LED Partner',trustH2:'in China',t1:'Years',t2:'Countries',t3:'Engineers',t4:'On-Time',
+  trustedBy:'Trusted by',waChat:'Chat on WhatsApp',sendInquiry:'Send Inquiry',
+  formTitle:'Send Inquiry',fName:'Name *',fEmail:'Email *',fPhone:'Phone / WhatsApp',fMsg:'Message',fSubmit:'Send Inquiry',
+  sent:'Inquiry sent! We reply within 24h.',downloaded:'Download started.',copied:'Link copied!',
+},
+zh:{
+  brand:'RayLED',inquiry:'询盘',wa:'WhatsApp',share:'分享',
+  s1t:'SMT贴片产线 — 全自动化生产',s1d:'4条高速SMT线24小时运转，每小时8万点贴装。IPC-A-610 Class 3标准。',
+  s2t:'组装与老化测试车间',s2d:'5条组装线+48小时老化测试，3000平米无尘车间。',
+  s5t:'品质检测实验室 — IES与IP测试',s5d:'积分球、分布光度计、IP防水测试箱、盐雾测试。每批次出货前必检。',
+  n1t:'LED工矿灯 — 200W工业级',n1d:'专为仓库、工厂和大型室内空间设计。200W工矿灯提供32,000流明，160lm/W光效，可直接替代传统400W金卤灯，节能60%。',
+  n2t:'LED投光灯 — 100W球场级',n2d:'专为户外环境打造——体育场、港口、停车场。IP66防水等级，飞利浦3030芯片，360°可调支架。提供14,000流明，140lm/W光效。',
+  docsTitle:'文档与认证',docsSub:'核心认证 — 点击查看全部',searchDocs:'搜索文档...',noDocs:'未找到匹配的文档',viewAllDocs:'查看全部文档',docLibTitle:'文档库',
+  trustH1:'您的LED',trustH2:'中国合作伙伴',t1:'年经验',t2:'出口国',t3:'工程师',t4:'准时交付',
+  trustedBy:'信赖我们的客户',waChat:'WhatsApp 在线咨询',sendInquiry:'发送询盘',
+  formTitle:'发送询盘',fName:'姓名 *',fEmail:'邮箱 *',fPhone:'电话 / WhatsApp',fMsg:'留言',fSubmit:'发送询盘',
+  sent:'询盘已发送！24小时内回复。',downloaded:'下载已开始。',copied:'链接已复制！',
+},
+es:{
+  brand:'RayLED',inquiry:'Consultar',wa:'WhatsApp',share:'Compartir',
+  s1t:'Línea SMT — Automatización Total',s1d:'4 líneas SMT 24/7. 80,000 colocaciones/hora. IPC-A-610 Clase 3.',
+  s2t:'Taller de Montaje y Pruebas',s2d:'5 líneas + 48h de prueba. Taller libre de polvo de 3,000 m².',
+  s5t:'Laboratorio de Control de Calidad',s5d:'Esfera integradora, goniómetro, cámara IP. Cada lote probado.',
+  n1t:'LED High Bay — 200W Industrial',n1d:'Diseñado para almacenes, fábricas y grandes espacios. 32,000 lúmenes a 160lm/W — reemplaza halogenuros metálicos de 400W con 60% de ahorro energético.',
+  n2t:'LED Proyector — 100W Estadio',n2d:'Para exteriores: estadios, puertos, estacionamientos. IP66, chips Philips 3030, soporte ajustable 360°. 14,000 lúmenes, 140lm/W.',
+  docsTitle:'Documentos y Certificaciones',docsSub:'Certificaciones esenciales — ver todas',searchDocs:'Buscar documentos...',noDocs:'Sin resultados',viewAllDocs:'Ver Todos',docLibTitle:'Biblioteca',
+  trustH1:'Su Socio LED',trustH2:'en China',t1:'Años',t2:'Países',t3:'Ingenieros',t4:'A Tiempo',
+  trustedBy:'Clientes que confían',waChat:'Chatear por WhatsApp',sendInquiry:'Enviar Consulta',
+  formTitle:'Enviar Consulta',fName:'Nombre *',fEmail:'Email *',fPhone:'Teléfono / WhatsApp',fMsg:'Mensaje',fSubmit:'Enviar Consulta',
+  sent:'¡Consulta enviada!',downloaded:'Descarga iniciada.',copied:'¡Enlace copiado!',
+}};
+let lang='en';function t(k){return L[lang]?.[k]||k}
+function cycleLang(){lang=lang==='en'?'zh':lang==='zh'?'es':'en';applyLang()}
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{el.textContent=t(el.getAttribute('data-t'))});
+  document.querySelectorAll('[data-placeholder]').forEach(el=>{el.placeholder=t(el.getAttribute('data-placeholder'))});
+  document.getElementById('langBtn').textContent=lang.toUpperCase();
+}
+
+/* Slide dots */
+function buildDots(){
+  const slides=document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust');
+  const c=document.getElementById('slideDots');c.innerHTML='';
+  slides.forEach((s,i)=>{const d=document.createElement('div');d.className='slide-dot';d.onclick=()=>s.scrollIntoView({behavior:'smooth'});c.appendChild(d)});
+}
+function updateDots(){
+  const feed=document.getElementById('feed');
+  const slides=[...document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust')];
+  const center=feed.scrollTop+feed.clientHeight/2;
+  const dots=document.querySelectorAll('.slide-dot');
+  slides.forEach((s,i)=>{const top=s.offsetTop;dots[i]?.classList.toggle('active',center>=top&&center<top+s.offsetHeight)});
+}
+
+/* Video observer */
+const videoDone=new WeakSet();
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{
+  const v=e.target.querySelector('video');if(!v)return;
+  if(videoDone.has(v))return;
+  if(e.isIntersecting&&e.intersectionRatio>0.6){v.play().catch(()=>{});const p=e.target.querySelector('.poster');if(p)p.classList.add('hide')}
+  else v.pause();
+})},{threshold:[0.6]});
+document.querySelectorAll('.slide-v').forEach(s=>io.observe(s));
+
+/* Poster click */
+document.querySelectorAll('.slide-v .poster').forEach(p=>{p.addEventListener('click',()=>{
+  const v=p.parentElement.querySelector('video');if(v){v.muted=false;v.play().catch(()=>{});p.classList.add('hide')}
+})});
+
+/* Video progress + drag seek + auto next + play/pause */
+document.querySelectorAll('.slide-v').forEach(slide=>{
+  const v=slide.querySelector('video');
+  const progress=slide.querySelector('.v-progress');
+  const fill=slide.querySelector('.v-progress-fill');
+  let dragging=false, wasPlaying=false;
+
+  // Inject play/pause indicator
+  const indicator=document.createElement('div');
+  indicator.className='v-play-indicator';
+  indicator.innerHTML='<div class="pi"><i class="fa-solid fa-pause"></i></div>';
+  slide.appendChild(indicator);
+  const piIcon=indicator.querySelector('i');
+
+  function flashPi(playing){
+    piIcon.className=playing?'fa-solid fa-pause':'fa-solid fa-play';
+    indicator.classList.add('show');
+    clearTimeout(indicator._t);
+    indicator._t=setTimeout(()=>indicator.classList.remove('show'),500);
+  }
+  v.addEventListener('play',()=>flashPi(true));
+  v.addEventListener('pause',()=>flashPi(false));
+
+  function updateFill(){
+    if(!v.duration)return;
+    fill.style.width=(v.currentTime/v.duration*100)+'%';
+    if(!videoDone.has(v)&&v.currentTime>=v.duration-0.3){
+      onVideoEnded();
+    }
+  }
+  v.addEventListener('timeupdate',updateFill);
+
+  function onVideoEnded(){
+    if(videoDone.has(v))return;
+    videoDone.add(v);
+    v.pause();
+    const slides=[...document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust')];
+    const idx=slides.indexOf(slide);
+    if(idx>=0&&idx<slides.length-1){
+      const next=slides[idx+1];
+      next.scrollIntoView({behavior:'smooth'});
+      const nv=next.querySelector('video');
+      if(nv){videoDone.delete(nv);nv.currentTime=0;nv.play().catch(()=>{});const p=nv.parentElement.querySelector('.poster');if(p)p.classList.add('hide')}
+    }
+  }
+
+  v.addEventListener('ended',onVideoEnded);
+
+  // Center tap: toggle play/pause
+  slide.addEventListener('click',e=>{
+    if(e.target.closest('.tt-sidebar,.v-progress,.v-bottom,.poster'))return;
+    if(v.paused){
+      videoDone.delete(v);
+      v.play().catch(()=>{});
+      const p=slide.querySelector('.poster');if(p)p.classList.add('hide');
+    }else{
+      v.pause();
+    }
+  });
+
+  function seekFromEvent(e){
+    const rect=progress.getBoundingClientRect();
+    const cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+    const pct=Math.max(0,Math.min(1,cx/rect.width));
+    if(v.duration)v.currentTime=pct*v.duration;
+  }
+
+  function onStart(e){dragging=true;wasPlaying=!v.paused;progress.classList.add('active');seekFromEvent(e);e.preventDefault()}
+  function onMove(e){if(dragging){seekFromEvent(e);e.preventDefault()}}
+  function onEnd(){
+    if(!dragging)return;
+    dragging=false;
+    progress.classList.remove('active');
+    if(wasPlaying){videoDone.delete(v);v.play().catch(()=>{});const p=slide.querySelector('.poster');if(p)p.classList.add('hide')}
+  }
+
+  progress.addEventListener('mousedown',onStart);
+  progress.addEventListener('touchstart',onStart,{passive:false});
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('mouseup',onEnd);
+  document.addEventListener('touchend',onEnd);
+
+});
+
+/* Note image swipe */
+document.querySelectorAll('.note-swipe').forEach(swipe=>{
+  const slide=swipe.closest('.slide-note');
+  const dots=slide.querySelectorAll('.note-img-dot');
+  const counter=slide.querySelector('.note-img-counter');
+  const items=swipe.querySelectorAll('img');
+  const total=items.length;
+  swipe.addEventListener('scroll',()=>{
+    const idx=Math.round(swipe.scrollLeft/swipe.clientWidth);
+    const i=Math.min(Math.max(idx,0),total-1);
+    dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+    if(counter)counter.textContent=`${i+1}/${total}`;
+  });
+});
+
+/* Inquiry modal */
+function openForm(p){document.getElementById('formProduct').textContent='Re: '+p;document.getElementById('formModal').classList.add('open')}
+function closeForm(){document.getElementById('formModal').classList.remove('open')}
+document.getElementById('formModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeForm()});
+function submitForm(){
+  console.log('📩',JSON.stringify({product:document.getElementById('formProduct').textContent,name:fName.value,email:fEmail.value,phone:fPhone.value,msg:fMsg.value,time:new Date().toISOString()},null,2));
+  closeForm();showToast(t('sent'));['fName','fEmail','fPhone','fMsg'].forEach(id=>document.getElementById(id).value='')
+}
+
+/* Doc data */
+const docData = [
+  {id:'ce',title:{en:'CE Certificate — LVD & EMC',zh:'CE 证书 — LVD & EMC',es:'Certificado CE — LVD & EMC'},badge:'CE',badgeClass:'cert',meta:{en:'PDF · 1.2 MB · Valid until 2028',zh:'PDF · 1.2 MB · 有效期至2028',es:'PDF · 1.2 MB · Válido hasta 2028'},thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafafa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%23003d7a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ccircle cx=%2740%27 cy=%2720%27 r=%279%27 fill=%27%23ffd700%27/%3E%3Ctext x=%27150%27 y=%2725%27 text-anchor=%27middle%27 fill=%27%23ffd700%27 font-size=%2710%27 font-family=%27serif%27 font-weight=%27700%27%3ECERTIFICATE%3C/text%3E%3Ctext x=%27150%27 y=%2765%27 text-anchor=%27middle%27 fill=%27%23333%27 font-size=%279%27%3EThis certifies LED High Bay 200W%3C/text%3E%3Ctext x=%27150%27 y=%2790%27 text-anchor=%27middle%27 fill=%27%23111%27 font-size=%2713%27 font-family=%27serif%27 font-weight=%27700%27%3Ecomplies with EU Directives%3C/text%3E%3C/svg%3E',keywords:'ce certificate lvd emc europe eu directive'},
+  {id:'ies',title:{en:'IES LM-79 Test Report — HB-200W',zh:'IES LM-79 测试报告 — HB-200W',es:'Informe IES LM-79 — HB-200W'},badge:'IES',badgeClass:'report',meta:{en:'PDF · 890 KB · 2025-11-18',zh:'PDF · 890 KB · 2025-11-18',es:'PDF · 890 KB · 2025-11-18'},thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafcfd%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%231a1a2e%27 x=%270%27 y=%270%27 width=%27300%27 height=%2738%27/%3E%3Ctext x=%2720%27 y=%2724%27 fill=%27%23fff%27 font-size=%2710%27 font-weight=%27700%27%3EIES LM-79 REPORT%3C/text%3E%3Crect fill=%27%23eef%27 x=%2715%27 y=%2755%27 width=%27130%27 height=%2765%27 rx=%272%27/%3E%3Ctext x=%2718%27 y=%2770%27 fill=%27%23444%27 font-size=%277%27 font-family=%27monospace%27%3EFLux:%3C/text%3E%3Ctext x=%2718%27 y=%2784%27 fill=%27%23111%27 font-size=%2711%27 font-family=%27monospace%27 font-weight=%27700%27%3E32,080 lm%3C/text%3E%3Ctext x=%2718%27 y=%27100%27 fill=%27%23444%27 font-size=%277%27 font-family=%27monospace%27%3EEfficacy:%3C/text%3E%3Ctext x=%2718%27 y=%27114%27 fill=%27%23111%27 font-size=%2711%27 font-family=%27monospace%27 font-weight=%27700%27%3E160.4 lm/W%3C/text%3E%3Crect fill=%27%23fee%27 x=%27155%27 y=%2755%27 width=%27130%27 height=%2765%27 rx=%272%27/%3E%3Ctext x=%27158%27 y=%2770%27 fill=%27%23444%27 font-size=%277%27 font-family=%27monospace%27%3ECCT / CRI:%3C/text%3E%3Ctext x=%27158%27 y=%2784%27 fill=%27%23111%27 font-size=%2711%27 font-family=%27monospace%27 font-weight=%27700%27%3E5000K / 82.6%3C/text%3E%3C/svg%3E',keywords:'ies report lm-79 photometric test lab'},
+  {id:'rohs',title:{en:'RoHS Compliance Certificate',zh:'RoHS 合规证书',es:'Certificado RoHS'},badge:'RoHS',badgeClass:'cert',meta:{en:'PDF · 620 KB · 2025',zh:'PDF · 620 KB · 2025',es:'PDF · 620 KB · 2025'},thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafdfa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%231a4a1a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ctext x=%27150%27 y=%2726%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-size=%2711%27 font-weight=%27700%27%3ERoHS COMPLIANT%3C/text%3E%3Ctext x=%27150%27 y=%2775%27 text-anchor=%27middle%27 fill=%27%23333%27 font-size=%279%27%3EThis product complies with%3C/text%3E%3Ctext x=%27150%27 y=%27100%27 text-anchor=%27middle%27 fill=%27%23111%27 font-size=%2711%27 font-family=%27serif%27 font-weight=%27700%27%3EEU RoHS 2011/65/EU%3C/text%3E%3C/svg%3E',keywords:'rohs compliance environmental hazardous substances'},
+  {id:'iso',title:{en:'ISO 9001:2015 — Quality Management',zh:'ISO 9001:2015 — 质量管理体系',es:'ISO 9001:2015 — Gestión de Calidad'},badge:'ISO',badgeClass:'standard',meta:{en:'PDF · 1.5 MB · Valid until 2027',zh:'PDF · 1.5 MB · 有效期至2027',es:'PDF · 1.5 MB · Válido hasta 2027'},thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fdfaf5%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%232a4a6a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ctext x=%27150%27 y=%2726%27 text-anchor=%27middle%27 fill=%27%23ffd700%27 font-size=%2711%27 font-weight=%27700%27%3EISO 9001:2015%3C/text%3E%3Ccircle cx=%27150%27 cy=%2790%27 r=%2735%27 fill=%27none%27 stroke=%27%232a4a6a%27 stroke-width=%272%27/%3E%3Ctext x=%27150%27 y=%2795%27 text-anchor=%27middle%27 fill=%27%232a4a6a%27 font-size=%2710%27 font-weight=%27700%27%3EQUALITY%3C/text%3E%3C/svg%3E',keywords:'iso 9001 quality management system factory certification'},
+  {id:'ul',title:{en:'UL 1598 Safety Certification',zh:'UL 1598 安全认证',es:'Certificación UL 1598'},badge:'UL',badgeClass:'cert',meta:{en:'PDF · 2.1 MB',zh:'PDF · 2.1 MB',es:'PDF · 2.1 MB'},thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafafa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%23cc0000%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ccircle cx=%2740%27 cy=%2720%27 r=%2712%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%272%27/%3E%3Ctext x=%2740%27 y=%2725%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-size=%2711%27 font-weight=%27900%27%3EUL%3C/text%3E%3Ctext x=%27120%27 y=%2725%27 fill=%27%23fff%27 font-size=%279%27%3ELISTED%3C/text%3E%3Ctext x=%27150%27 y=%2775%27 text-anchor=%27middle%27 fill=%27%23333%27 font-size=%279%27%3EUL Safety Standard: UL 1598%3C/text%3E%3Ctext x=%27150%27 y=%27100%27 text-anchor=%27middle%27 fill=%27%23111%27 font-size=%2711%27 font-family=%27serif%27 font-weight=%27700%27%3ELuminaires · File: E483921%3C/text%3E%3C/svg%3E',keywords:'ul certificate safety north america usa'},
+  {id:'bsci',title:{en:'BSCI Social Compliance Audit',zh:'BSCI 社会责任审核报告',es:'Auditoría Social BSCI'},badge:'BSCI',badgeClass:'standard',meta:{en:'PDF · 3.4 MB · 2025-2027',zh:'PDF · 3.4 MB · 2025-2027',es:'PDF · 3.4 MB · 2025-2027'},thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafdfa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%231a5a3a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ctext x=%27150%27 y=%2726%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-size=%2711%27 font-weight=%27700%27%3EBSCI AUDIT REPORT%3C/text%3E%3Ccircle cx=%27150%27 cy=%2790%27 r=%2735%27 fill=%27%231a5a3a%27 opacity=%27.15%27/%3E%3Ctext x=%27150%27 y=%2795%27 text-anchor=%27middle%27 fill=%27%231a5a3a%27 font-size=%2710%27 font-weight=%27700%27%3ESOCIAL COMPLIANCE%3C/text%3E%3C/svg%3E',keywords:'bsci social compliance audit factory labor'},
+];
+
+function renderDocLib(){
+  const grid=document.getElementById('libGrid');
+  const empty=document.getElementById('libEmpty');
+  // Remove old cards, keep empty
+  grid.querySelectorAll('.lib-card').forEach(c=>c.remove());
+  docData.forEach(d=>{
+    const card=document.createElement('div');
+    card.className='lib-card';
+    card.setAttribute('data-doc-keywords',d.keywords);
+    card.innerHTML=`
+      <div class="thumb"><img src="${d.thumb}" alt="${d.badge}"><span class="badge ${d.badgeClass}">${d.badge}</span></div>
+      <div class="info"><div class="d-title">${d.title[lang]||d.title.en}</div><div class="d-meta">${d.meta[lang]||d.meta.en}</div></div>
+      <div class="actions">
+        <button class="d-preview" onclick="openDocPreview('${d.title[lang]||d.title.en}', this)"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="d-download" onclick="showToast(t('downloaded'))"><i class="fa-solid fa-download"></i></button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  grid.appendChild(empty);
+  document.getElementById('libCount').textContent=docData.length+' docs';
+}
+
+function openDocLibrary(){
+  renderDocLib();
+  document.getElementById('docLibModal').classList.add('open');
+}
+function closeDocLibrary(){
+  document.getElementById('docLibModal').classList.remove('open');
+}
+
+function filterLibDocs(q){
+  const cards=document.querySelectorAll('#libGrid .lib-card');
+  const empty=document.getElementById('libEmpty');
+  let v=0;
+  cards.forEach(c=>{
+    const kw=(c.getAttribute('data-doc-keywords')||'')+' '+(c.querySelector('.d-title')?.textContent||'');
+    c.classList.toggle('hidden',!!q&&!kw.toLowerCase().includes(q.toLowerCase()));
+    if(!c.classList.contains('hidden'))v++;
+  });
+  empty.classList.toggle('show',v===0);
+}
+
+function renderDocsGrid(){
+  const grid=document.getElementById('docsGrid');
+  if(!grid)return;
+  grid.innerHTML='';
+  docData.forEach(d=>{
+    const card=document.createElement('div');
+    card.className='doc-card';
+    card.setAttribute('data-doc-keywords',d.keywords);
+    card.innerHTML=`
+      <div class="d-thumb"><img src="${d.thumb}" alt="${d.badge}"><span class="badge ${d.badgeClass}">${d.badge}</span></div>
+      <div class="d-info"><div class="d-title">${d.title[lang]||d.title.en}</div><div class="d-meta">${d.meta[lang]||d.meta.en}</div></div>
+      <div class="d-actions">
+        <button class="d-preview" onclick="openDocPreview('${d.title[lang]||d.title.en}',this)"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="d-download" onclick="showToast(t('downloaded'))"><i class="fa-solid fa-download"></i></button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* Update doc grids on lang change */
+function updateDocGrids(){
+  // Update main docs grid
+  const gridCards=document.querySelectorAll('#docsGrid .doc-card');
+  gridCards.forEach((card,i)=>{if(docData[i]){const el=card.querySelector('.d-title');if(el)el.textContent=docData[i].title[lang]||docData[i].title.en;const meta=card.querySelector('.d-meta');if(meta)meta.textContent=docData[i].meta[lang]||docData[i].meta.en;const btn=card.querySelector('.d-preview');if(btn)btn.onclick=()=>openDocPreview(docData[i]?.title[lang]||docData[i]?.title.en||'',btn);}});
+  // Update library cards too if open
+  const libCards=document.querySelectorAll('#libGrid .lib-card');
+  libCards.forEach((card,i)=>{if(docData[i]){const el=card.querySelector('.d-title');if(el)el.textContent=docData[i].title[lang]||docData[i].title.en;const meta=card.querySelector('.d-meta');if(meta)meta.textContent=docData[i].meta[lang]||docData[i].meta.en;}});
+  document.querySelectorAll('#libGrid .d-preview').forEach((btn,i)=>{
+    btn.onclick=()=>openDocPreview(docData[i]?.title[lang]||docData[i]?.title.en||'',btn);
+  });
+}
+
+/* Update applyLang to refresh doc lib if open */
+const origApplyLang=applyLang;
+applyLang=function(){
+  origApplyLang();
+  updateDocGrids();
+  if(document.getElementById('docLibModal').classList.contains('open')) renderDocLib();
+};
+
+/* Utils */
+function openWA(p){window.open(`https://wa.me/8613888888888?text=${encodeURIComponent('Hi! Interested in: '+p)}`,'_blank')}
+function shareLink(){const u=window.location.href;navigator.share?navigator.share({title:'RayLED',url:u}).catch(()=>{}):navigator.clipboard.writeText(u).then(()=>showToast(t('copied'))).catch(()=>{})}
+function showToast(msg){const toast=document.getElementById('toast');toast.textContent=msg;toast.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>toast.classList.remove('show'),2500)}
+
+/* Keyboard */
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='j'){e.preventDefault();scrollBy(1)}
+  else if(e.key==='ArrowUp'||e.key==='k'){e.preventDefault();scrollBy(-1)}
+});
+function scrollBy(dir){
+  const slides=[...document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust')];
+  const feed=document.getElementById('feed');
+  const idx=slides.findIndex(s=>s.offsetTop>=feed.scrollTop+10);
+  const tgt=dir>0?Math.min(idx+1,slides.length-1):Math.max(idx-1,0);
+  if(tgt>=0)slides[tgt].scrollIntoView({behavior:'smooth'})
+}
+
+/* Init */
+buildDots();renderDocsGrid();applyLang();document.getElementById('feed').addEventListener('scroll',updateDots);updateDots();
+const fv=document.querySelector('.slide-v video');if(fv)fv.play().catch(()=>{const p=fv.parentElement.querySelector('.poster');if(p)p.classList.remove('hide')});
+</script>
+</body>
+</html>

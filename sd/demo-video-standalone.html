@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="description" content="RayLED - Professional LED lighting manufacturer. Watch our factory, products, and quality control in one link.">
+<title>RayLED | LED Lighting Manufacturer</title>
+
+<!-- JSON-LD VideoObject -->
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "RayLED Factory Overview",
+  "description": "SMT production line and assembly workshop tour",
+  "thumbnailUrl": "",
+  "uploadDate": "2026-01-15",
+  "contentUrl": "#video-factory-1"
+},{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "LED High Bay Light - Product Demo",
+  "description": "200W industrial high bay light for warehouse and factory",
+  "thumbnailUrl": "",
+  "uploadDate": "2026-03-20",
+  "contentUrl": "#video-product-1"
+}]
+</script>
+
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { background: #0a0a0a; color: #fff; overflow: hidden; height: 100dvh; width: 100vw; }
+
+/* ===== Desktop Wrapper ===== */
+.app-wrapper {
+  display: flex; justify-content: center; align-items: center;
+  height: 100dvh; width: 100vw;
+  background: #111;
+}
+.phone-frame {
+  position: relative;
+  width: 100%; max-width: 430px; height: 100dvh;
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,.6);
+}
+
+/* ===== Top Nav ===== */
+.top-nav {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 100;
+  padding: env(safe-area-inset-top, 12px) 16px 8px;
+  background: linear-gradient(180deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,0) 100%);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.nav-row1 {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 8px; }
+.brand-logo {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: #fff;
+}
+.brand-name { font-size: 14px; font-weight: 600; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.lang-switch {
+  background: rgba(255,255,255,.15); backdrop-filter: blur(10px);
+  border: none; color: #fff; font-size: 12px; font-weight: 600;
+  padding: 6px 12px; border-radius: 20px; cursor: pointer;
+  transition: background .2s;
+}
+.lang-switch:hover { background: rgba(255,255,255,.25); }
+
+/* Category tabs */
+.nav-row2 { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.nav-row2::-webkit-scrollbar { display: none; }
+.cat-tag {
+  flex-shrink: 0; padding: 6px 14px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.25); background: rgba(0,0,0,.4);
+  backdrop-filter: blur(6px); color: #ccc; font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.cat-tag.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+
+/* ===== Video Feed ===== */
+.video-feed {
+  width: 100%; height: 100%;
+  overflow-y: scroll; overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.video-feed::-webkit-scrollbar { display: none; }
+
+/* ===== Video Card ===== */
+.video-card {
+  width: 100%; height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  background: #000;
+}
+.video-card video {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+.video-poster {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+.video-poster.hidden { opacity: 0; pointer-events: none; }
+.video-poster .play-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(124,58,237,.85); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(124,58,237,.5);
+  transition: transform .2s;
+}
+.video-poster .play-icon::after {
+  content: ''; width: 0; height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 18px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 3px;
+}
+.video-poster:hover .play-icon { transform: scale(1.1); }
+
+/* ===== Video Overlay (bottom info) ===== */
+.video-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 0 16px 24px;
+  background: linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.4) 60%, transparent 100%);
+  pointer-events: none;
+}
+.video-overlay > * { pointer-events: auto; }
+.video-title {
+  font-size: 16px; font-weight: 700; margin-bottom: 4px; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.video-desc {
+  font-size: 13px; color: rgba(255,255,255,.7); margin-bottom: 12px; line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar {
+  width: 100%; height: 3px; background: rgba(255,255,255,.2); border-radius: 2px;
+  margin-bottom: 10px; cursor: pointer; position: relative;
+}
+.progress-fill {
+  height: 100%; background: #7c3aed; border-radius: 2px;
+  width: 0%; transition: width .1s linear;
+}
+
+/* ===== CTA Buttons ===== */
+.cta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.cta-btn {
+  flex: 1; min-width: 90px; padding: 10px 12px; border-radius: 10px;
+  border: none; font-size: 13px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: transform .15s, box-shadow .15s;
+}
+.cta-btn:active { transform: scale(.96); }
+.cta-wa {
+  background: #25D366; color: #fff;
+  box-shadow: 0 2px 12px rgba(37,211,102,.4);
+}
+.cta-inquiry {
+  background: #7c3aed; color: #fff;
+  box-shadow: 0 2px 12px rgba(124,58,237,.4);
+}
+.cta-email {
+  background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+  color: #fff; border: 1px solid rgba(255,255,255,.2);
+}
+
+/* ===== Side Actions ===== */
+.side-actions {
+  position: absolute; right: 10px; bottom: 140px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  z-index: 10;
+}
+.side-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: none; border: none; color: #fff; cursor: pointer;
+  font-size: 11px; font-weight: 500;
+}
+.side-btn .icon-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; transition: transform .2s;
+}
+.side-btn:active .icon-circle { transform: scale(.9); }
+.side-btn .count { font-size: 11px; color: rgba(255,255,255,.8); }
+
+/* ===== Inquiry Modal ===== */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: auto; }
+.modal-sheet {
+  width: 100%; max-width: 430px; background: #1a1a1a;
+  border-radius: 20px 20px 0 0; padding: 20px 24px 32px;
+  transform: translateY(100%); transition: transform .35s cubic-bezier(.22,.61,.36,1);
+}
+.modal-backdrop.open .modal-sheet { transform: translateY(0); }
+.modal-sheet h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.modal-sheet p { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 16px; }
+.modal-sheet .field { margin-bottom: 14px; }
+.modal-sheet label {
+  display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.7);
+  margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px;
+}
+.modal-sheet input, .modal-sheet textarea {
+  width: 100%; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
+  color: #fff; font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color .2s;
+}
+.modal-sheet input:focus, .modal-sheet textarea:focus {
+  border-color: #7c3aed;
+}
+.modal-sheet textarea { resize: none; height: 80px; }
+.modal-submit {
+  width: 100%; padding: 14px; border-radius: 12px; border: none;
+  background: #7c3aed; color: #fff; font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-top: 6px; transition: background .2s;
+}
+.modal-submit:hover { background: #6d28d9; }
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: rgba(255,255,255,.1); border: none; color: #fff;
+  width: 32px; height: 32px; border-radius: 50%; font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* Success toast */
+.toast {
+  position: fixed; top: 60px; left: 50%; transform: translateX(-50%) translateY(-120px);
+  z-index: 300; background: #25D366; color: #fff; padding: 12px 24px;
+  border-radius: 12px; font-weight: 600; font-size: 14px;
+  box-shadow: 0 8px 24px rgba(37,211,102,.4);
+  transition: transform .4s cubic-bezier(.22,.61,.36,1);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ===== Trust Card (last card, non-snap) ===== */
+.trust-card {
+  width: 100%; min-height: 100dvh;
+  scroll-snap-align: none;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 60px 24px 40px;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1025 100%);
+}
+.trust-card .trust-heading {
+  font-size: 22px; font-weight: 800; margin-bottom: 28px; text-align: center;
+}
+.trust-stats { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 32px; }
+.stat-item {
+  flex: 0 0 calc(50% - 8px); background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08); border-radius: 14px;
+  padding: 18px 16px; text-align: center;
+}
+.stat-num { font-size: 26px; font-weight: 800; color: #a78bfa; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 4px; }
+
+.trust-clients { margin-bottom: 32px; text-align: center; }
+.trust-clients .subtitle { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 12px; }
+.client-logos { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.client-logo {
+  width: 64px; height: 40px; border-radius: 8px;
+  background: rgba(255,255,255,.06); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: rgba(255,255,255,.4);
+  letter-spacing: .5px;
+}
+.trust-cert { margin-bottom: 32px; text-align: center; }
+.trust-cert .subtitle { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 10px; }
+.cert-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.cert-badge {
+  padding: 8px 16px; border-radius: 20px;
+  background: rgba(124,58,237,.15); color: #a78bfa;
+  font-size: 12px; font-weight: 600;
+}
+
+.trust-contact { text-align: center; }
+.trust-contact .cta-wa {
+  display: inline-flex; padding: 14px 28px; border-radius: 12px;
+  background: #25D366; color: #fff; font-size: 15px; font-weight: 700;
+  text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  align-items: center; gap: 8px; cursor: pointer; border: none;
+}
+.trust-contact .email-link {
+  display: block; margin-top: 12px; color: rgba(255,255,255,.5); font-size: 14px; text-decoration: none;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center; padding: 20px 24px 40px;
+  font-size: 11px; color: rgba(255,255,255,.25);
+  background: #0a0a0a;
+}
+
+/* ===== Category Indicator on cards ===== */
+.cat-indicator {
+  position: absolute; top: 100px; left: 16px;
+  padding: 4px 10px; border-radius: 6px;
+  background: rgba(124,58,237,.7); backdrop-filter: blur(4px);
+  font-size: 11px; font-weight: 600; z-index: 10;
+}
+
+/* ===== Scroll hint arrow ===== */
+.scroll-hint {
+  position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
+  z-index: 20; animation: bounce 2s infinite;
+  opacity: .6; transition: opacity .5s;
+}
+.scroll-hint svg { width: 28px; height: 28px; }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+</style>
+</head>
+<body>
+
+<div class="app-wrapper">
+<div class="phone-frame">
+
+  <!-- Top Nav -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-row1">
+      <div class="brand">
+        <div class="brand-logo">R</div>
+        <span class="brand-name" data-i18n="brandName">RayLED</span>
+      </div>
+      <button class="lang-switch" id="langSwitch" onclick="cycleLang()">EN</button>
+    </div>
+    <div class="nav-row2" id="catTabs">
+      <button class="cat-tag active" data-cat="all" onclick="filterByCat('all', this)">All</button>
+      <button class="cat-tag" data-cat="factory" onclick="filterByCat('factory', this)">Factory</button>
+      <button class="cat-tag" data-cat="products" onclick="filterByCat('products', this)">Products</button>
+      <button class="cat-tag" data-cat="quality" onclick="filterByCat('quality', this)">Quality</button>
+      <button class="cat-tag" data-cat="cases" onclick="filterByCat('cases', this)">Cases</button>
+      <button class="cat-tag" data-cat="team" onclick="filterByCat('team', this)">Team</button>
+    </div>
+  </nav>
+
+  <!-- Video Feed -->
+  <div class="video-feed" id="videoFeed">
+
+    <!-- Video 1: Factory overview -->
+    <article class="video-card" id="video-factory-1" data-category="factory">
+      <div class="cat-indicator" data-i18n="catFactory">Factory</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/e791dcf0ba/1488_720_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231a1a2e' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%237c3aed' font-size='16' font-family='sans-serif'%3ESMT Production Line%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v1title">SMT Production Line — Full Automation</div>
+        <div class="video-desc" data-i18n="v1desc">4 high-speed SMT lines running 24/7. Capable of 80,000 placements per hour. IPC-A-610 Class 3 standard.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('SMT Production Line')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('SMT Production Line')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('SMT Production Line')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 2: Factory workshop -->
+    <article class="video-card" id="video-factory-2" data-category="factory">
+      <div class="cat-indicator" data-i18n="catFactory">Factory</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/e79119a0ba/1280_720_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%23162e1a' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%2325D366' font-size='16' font-family='sans-serif'%3EAssembly Workshop%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #162e1a, #1a2e1a);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v2title">Assembly & Aging Test Workshop</div>
+        <div class="video-desc" data-i18n="v2desc">5 assembly lines + 48h burn-in testing for every batch. 3,000 sqm dust-free workshop.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('Assembly Workshop')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('Assembly Workshop')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('Assembly Workshop')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 3: Product - High Bay -->
+    <article class="video-card" id="video-product-1" data-category="products">
+      <div class="cat-indicator" data-i18n="catProducts">Products</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/d595bdd0ba/1280_720_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%232a1a3e' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%23a78bfa' font-size='16' font-family='sans-serif'%3ELED High Bay Light%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #2a1a3e, #1a1a3e);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v3title">LED High Bay Light — 200W Industrial Grade</div>
+        <div class="video-desc" data-i18n="v3desc">IP65, 160lm/W, Mean Well driver, 50,000h lifespan. Ideal for warehouses, factories, gymnasiums.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('LED High Bay Light 200W')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('LED High Bay Light 200W')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('LED High Bay Light 200W')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 4: Product - Flood Light -->
+    <article class="video-card" id="video-product-2" data-category="products">
+      <div class="cat-indicator" data-i18n="catProducts">Products</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/c8315500b6/3858_2160_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231a2a3e' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%23fbbf24' font-size='16' font-family='sans-serif'%3ELED Flood Light%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #1a2a3e, #1a1a3e);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v4title">LED Flood Light — 100W Stadium Grade</div>
+        <div class="video-desc" data-i18n="v4desc">IP66, 140lm/W, Philips 3030 chips, 360° adjustable bracket. For stadiums, ports, outdoor parking.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('LED Flood Light 100W')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('LED Flood Light 100W')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('LED Flood Light 100W')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 5: Quality Control -->
+    <article class="video-card" id="video-quality-1" data-category="quality">
+      <div class="cat-indicator" data-i18n="catQuality">Quality</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/0a1d91b0b6/3868_2160_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231e2a1a' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%2325D366' font-size='16' font-family='sans-serif'%3EQC Laboratory%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #1e2a1a, #162e18);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v5title">Quality Control Lab — IES Testing & IP Certification</div>
+        <div class="video-desc" data-i18n="v5desc">Integrating sphere, goniophotometer, IP waterproof test chamber, salt spray test. Every batch tested.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('QC Laboratory')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('QC Laboratory')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('QC Laboratory')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 6: Client Case -->
+    <article class="video-card" id="video-case-1" data-category="cases">
+      <div class="cat-indicator" data-i18n="catCases">Cases</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/9effcb2024/486_1080_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%233e1a1a' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%23f87171' font-size='16' font-family='sans-serif'%3EClient Case: DE Warehouse%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #3e1a1a, #2e1a1a);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v6title">500 Units High Bay — German Logistics Center</div>
+        <div class="video-desc" data-i18n="v6desc">Delivered & installed at a 20,000 sqm DHL warehouse in Leipzig. 30% energy savings vs. metal halide.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('German Warehouse Project')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('German Warehouse Project')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('German Warehouse Project')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 7: Team -->
+    <article class="video-card" id="video-team-1" data-category="team">
+      <div class="cat-indicator" data-i18n="catTeam">Team</div>
+      <video playsinline muted loop preload="none"
+             src="https://video.kingswayvideo.com/w1o9d6ta/e7902f40ba/1280_720_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231a2a3e' width='400' height='711'/%3E%3Ctext x='200' y='330' text-anchor='middle' fill='%2360a5fa' font-size='16' font-family='sans-serif'%3EMeet Our Team%3C/text%3E%3C/svg%3E"></video>
+      <div class="video-poster" style="background: linear-gradient(135deg, #1a2a3e, #1a2e3e);">
+        <div class="play-icon"></div>
+      </div>
+      <div class="side-actions">
+        <button class="side-btn" onclick="shareVideo()"><span class="icon-circle">↗</span><span class="count">Share</span></button>
+      </div>
+      <div class="video-overlay">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="video-title" data-i18n="v7title">Meet the RayLED Team</div>
+        <div class="video-desc" data-i18n="v7desc">15 engineers, 5 sales specialists (EN/ES/FR/AR), 24h response. We speak your language.</div>
+        <div class="cta-row">
+          <button class="cta-btn cta-wa" onclick="openWhatsApp('RayLED Team')">💬 <span data-i18n="whatsapp">WhatsApp</span></button>
+          <button class="cta-btn cta-inquiry" onclick="openInquiry('RayLED Team')">📋 <span data-i18n="inquiry">Inquiry</span></button>
+          <button class="cta-btn cta-email" onclick="openEmail('RayLED Team')">✉ <span data-i18n="email">Email</span></button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Trust Summary Card -->
+    <section class="trust-card" id="trustCard">
+      <h2 class="trust-heading" data-i18n="trustHeading">Why Leading Buyers Choose RayLED</h2>
+
+      <div class="trust-stats">
+        <div class="stat-item">
+          <div class="stat-num">14</div>
+          <div class="stat-label" data-i18n="statYears">Years in LED Manufacturing</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">60+</div>
+          <div class="stat-label" data-i18n="statCountries">Countries Exported</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">350+</div>
+          <div class="stat-label" data-i18n="statEmployees">Skilled Workers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">99.2%</div>
+          <div class="stat-label" data-i18n="statRate">On-Time Delivery Rate</div>
+        </div>
+      </div>
+
+      <div class="trust-clients">
+        <div class="subtitle" data-i18n="trustClients">Trusted by Global Brands</div>
+        <div class="client-logos">
+          <span class="client-logo">DHL</span>
+          <span class="client-logo">Carrefour</span>
+          <span class="client-logo">Leroy Merlin</span>
+          <span class="client-logo">Amazon</span>
+          <span class="client-logo">IKEA</span>
+        </div>
+      </div>
+
+      <div class="trust-cert">
+        <div class="subtitle" data-i18n="trustCert">Certifications</div>
+        <div class="cert-row">
+          <span class="cert-badge">CE</span>
+          <span class="cert-badge">RoHS</span>
+          <span class="cert-badge">UL</span>
+          <span class="cert-badge">DLC</span>
+          <span class="cert-badge">ISO 9001</span>
+          <span class="cert-badge">BSCI</span>
+        </div>
+      </div>
+
+      <div class="trust-contact">
+        <button class="cta-wa" onclick="openWhatsApp('General Inquiry')">💬 WhatsApp: +86 138 8888 8888</button>
+        <a class="email-link" href="mailto:sales@rayled.com">sales@rayled.com</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2026 RayLED Lighting Co., Ltd. | Powered by <span style="color:#7c3aed;">Kingsway</span> Video</p>
+    </div>
+
+  </div><!-- /video-feed -->
+
+  <!-- Inquiry Modal -->
+  <div class="modal-backdrop" id="inquiryModal">
+    <div class="modal-sheet">
+      <button class="modal-close" onclick="closeInquiry()">✕</button>
+      <h3 data-i18n="modalTitle">Send Inquiry</h3>
+      <p id="inquiryProduct" style="color:#a78bfa;font-weight:600;"></p>
+      <div class="field">
+        <label data-i18n="fieldName">Name *</label>
+        <input type="text" id="inqName" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label data-i18n="fieldEmail">Email *</label>
+        <input type="email" id="inqEmail" placeholder="you@company.com">
+      </div>
+      <div class="field">
+        <label data-i18n="fieldPhone">Phone / WhatsApp</label>
+        <input type="text" id="inqPhone" placeholder="+1 234 567 890">
+      </div>
+      <div class="field">
+        <label data-i18n="fieldMsg">Message</label>
+        <textarea id="inqMsg" placeholder="I'm interested in..."></textarea>
+      </div>
+      <button class="modal-submit" onclick="submitInquiry()" data-i18n="modalSubmit">Send Inquiry</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scroll Hint -->
+  <div class="scroll-hint" id="scrollHint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+
+</div><!-- /phone-frame -->
+</div><!-- /app-wrapper -->
+
+<script>
+/* ===== i18n ===== */
+const i18n = {
+  en: {
+    brandName: 'RayLED',
+    catFactory: 'Factory', catProducts: 'Products', catQuality: 'Quality', catCases: 'Cases', catTeam: 'Team',
+    whatsapp: 'WhatsApp', inquiry: 'Inquiry', email: 'Email',
+    v1title: 'SMT Production Line — Full Automation', v1desc: '4 high-speed SMT lines running 24/7. Capable of 80,000 placements per hour. IPC-A-610 Class 3 standard.',
+    v2title: 'Assembly & Aging Test Workshop', v2desc: '5 assembly lines + 48h burn-in testing for every batch. 3,000 sqm dust-free workshop.',
+    v3title: 'LED High Bay Light — 200W Industrial Grade', v3desc: 'IP65, 160lm/W, Mean Well driver, 50,000h lifespan. Ideal for warehouses, factories, gymnasiums.',
+    v4title: 'LED Flood Light — 100W Stadium Grade', v4desc: 'IP66, 140lm/W, Philips 3030 chips, 360° adjustable bracket. For stadiums, ports, outdoor parking.',
+    v5title: 'Quality Control Lab — IES Testing & IP Certification', v5desc: 'Integrating sphere, goniophotometer, IP waterproof test chamber, salt spray test. Every batch tested.',
+    v6title: '500 Units High Bay — German Logistics Center', v6desc: 'Delivered & installed at a 20,000 sqm DHL warehouse in Leipzig. 30% energy savings vs. metal halide.',
+    v7title: 'Meet the RayLED Team', v7desc: '15 engineers, 5 sales specialists (EN/ES/FR/AR), 24h response. We speak your language.',
+    trustHeading: 'Why Leading Buyers Choose RayLED',
+    statYears: 'Years in LED Manufacturing', statCountries: 'Countries Exported', statEmployees: 'Skilled Workers', statRate: 'On-Time Delivery Rate',
+    trustClients: 'Trusted by Global Brands', trustCert: 'Certifications',
+    modalTitle: 'Send Inquiry', fieldName: 'Name *', fieldEmail: 'Email *', fieldPhone: 'Phone / WhatsApp', fieldMsg: 'Message', modalSubmit: 'Send Inquiry',
+    toastSuccess: 'Inquiry sent! We will reply within 24 hours.',
+    toastShare: 'Link copied! Share it with your client.',
+  },
+  zh: {
+    brandName: 'RayLED',
+    catFactory: '工厂', catProducts: '产品', catQuality: '质检', catCases: '案例', catTeam: '团队',
+    whatsapp: 'WhatsApp', inquiry: '询盘', email: '邮件',
+    v1title: 'SMT贴片产线 — 全自动化生产', v1desc: '4条高速SMT线24小时运转，每小时8万点贴装能力，IPC-A-610 Class 3标准。',
+    v2title: '组装与老化测试车间', v2desc: '5条组装线 + 每批次48小时老化测试，3000平米无尘车间。',
+    v3title: 'LED工矿灯 — 200W工业级', v3desc: 'IP65防护，160lm/W光效，明纬电源，5万小时寿命。适用于仓库、工厂、体育馆。',
+    v4title: 'LED投光灯 — 100W球场级', v4desc: 'IP66防护，140lm/W光效，飞利浦3030芯片，360°可调支架。适用于体育场、港口、户外停车场。',
+    v5title: '品质检测实验室 — IES测试与IP认证', v5desc: '积分球、分布光度计、IP防水测试箱、盐雾测试。每批次必检。',
+    v6title: '500套工矿灯 — 德国物流中心项目', v6desc: '安装在莱比锡2万平米DHL仓库，对比金卤灯节能30%。',
+    v7title: '认识RayLED团队', v7desc: '15名工程师，5名销售专员（中/英/西/法/阿），24小时响应。我们用你的语言沟通。',
+    trustHeading: '为什么全球买家选择RayLED',
+    statYears: '年LED制造经验', statCountries: '出口国家', statEmployees: '员工人数', statRate: '按时交付率',
+    trustClients: '全球品牌信赖', trustCert: '资质认证',
+    modalTitle: '发送询盘', fieldName: '姓名 *', fieldEmail: '邮箱 *', fieldPhone: '电话 / WhatsApp', fieldMsg: '留言', modalSubmit: '发送询盘',
+    toastSuccess: '询盘已发送！我们将在24小时内回复。',
+    toastShare: '链接已复制！分享给你的客户吧。',
+  },
+  es: {
+    brandName: 'RayLED',
+    catFactory: 'Fábrica', catProducts: 'Productos', catQuality: 'Calidad', catCases: 'Casos', catTeam: 'Equipo',
+    whatsapp: 'WhatsApp', inquiry: 'Consultar', email: 'Email',
+    v1title: 'Línea SMT — Totalmente Automatizada', v1desc: '4 líneas SMT de alta velocidad 24/7. 80,000 colocaciones por hora. Estándar IPC-A-610 Clase 3.',
+    v2title: 'Taller de Montaje y Pruebas', v2desc: '5 líneas de ensamblaje + 48h de prueba de envejecimiento. Taller libre de polvo de 3,000 m².',
+    v3title: 'LED High Bay — 200W Grado Industrial', v3desc: 'IP65, 160lm/W, driver Mean Well, 50,000h de vida. Ideal para almacenes y fábricas.',
+    v4title: 'LED Proyector — 100W Grado Estadio', v4desc: 'IP66, 140lm/W, chips Philips 3030. Para estadios, puertos y estacionamientos.',
+    v5title: 'Laboratorio de Control de Calidad', v5desc: 'Esfera integradora, goniómetro, cámara IP, prueba de niebla salina. Cada lote es probado.',
+    v6title: '500 Unidades — Centro Logístico Alemán', v6desc: 'Instalado en almacén DHL de 20,000 m² en Leipzig. 30% de ahorro energético.',
+    v7title: 'Conoce al Equipo RayLED', v7desc: '15 ingenieros, 5 especialistas en ventas (EN/ES/FR/AR). Respuesta en 24h.',
+    trustHeading: 'Por Qué los Compradores Eligen RayLED',
+    statYears: 'Años en Fabricación LED', statCountries: 'Países Exportados', statEmployees: 'Trabajadores', statRate: 'Entregas a Tiempo',
+    trustClients: 'Marcas que Confían en Nosotros', trustCert: 'Certificaciones',
+    modalTitle: 'Enviar Consulta', fieldName: 'Nombre *', fieldEmail: 'Email *', fieldPhone: 'Teléfono / WhatsApp', fieldMsg: 'Mensaje', modalSubmit: 'Enviar Consulta',
+    toastSuccess: '¡Consulta enviada! Responderemos en 24 horas.',
+    toastShare: '¡Enlace copiado! Compártelo con tu cliente.',
+  }
+};
+
+let currentLang = 'en';
+
+function t(key) { return i18n[currentLang]?.[key] || key; }
+
+function applyLang() {
+  document.documentElement.lang = currentLang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = t(key);
+    } else {
+      el.textContent = t(key);
+    }
+  });
+  // Update category tabs
+  document.querySelectorAll('#catTabs .cat-tag').forEach(btn => {
+    const cat = btn.getAttribute('data-cat');
+    const key = 'cat' + cat.charAt(0).toUpperCase() + cat.slice(1);
+    btn.textContent = t(key) || cat;
+  });
+  document.querySelector('#catTabs .cat-tag[data-cat="all"]').textContent = currentLang === 'zh' ? '全部' : 'All';
+  document.querySelector('#langSwitch').textContent = currentLang.toUpperCase();
+  document.title = `RayLED | LED Lighting Manufacturer`;
+}
+
+function cycleLang() {
+  const langs = ['en', 'zh', 'es'];
+  const idx = langs.indexOf(currentLang);
+  currentLang = langs[(idx + 1) % langs.length];
+  applyLang();
+}
+
+/* ===== Category Filter ===== */
+function filterByCat(cat, btn) {
+  document.querySelectorAll('#catTabs .cat-tag').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (cat === 'all') {
+    // Scroll to top
+    document.getElementById('videoFeed').scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    const first = document.querySelector(`.video-card[data-category="${cat}"]`);
+    if (first) first.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+/* ===== Intersection Observer — Auto play/pause ===== */
+const feed = document.getElementById('videoFeed');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const video = entry.target.querySelector('video');
+    const poster = entry.target.querySelector('.video-poster');
+    if (!video) return;
+    if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+      video.play().catch(() => {});
+      if (poster) poster.classList.add('hidden');
+    } else {
+      video.pause();
+    }
+  });
+}, { threshold: [0.6] });
+
+document.querySelectorAll('.video-card').forEach(card => observer.observe(card));
+
+/* ===== Poster click to play ===== */
+document.querySelectorAll('.video-poster').forEach(poster => {
+  poster.addEventListener('click', () => {
+    const video = poster.parentElement.querySelector('video');
+    if (!video) return;
+    video.muted = false;
+    video.play().catch(() => {});
+    poster.classList.add('hidden');
+  });
+});
+
+/* ===== Progress Bar ===== */
+document.querySelectorAll('.video-card video').forEach(video => {
+  video.addEventListener('timeupdate', () => {
+    const card = video.closest('.video-card');
+    const fill = card.querySelector('.progress-fill');
+    if (fill && video.duration) {
+      fill.style.width = (video.currentTime / video.duration * 100) + '%';
+    }
+  });
+  video.addEventListener('loadedmetadata', () => {
+    // Video ready
+  });
+});
+
+/* ===== Keyboard & Scroll Support ===== */
+let isScrolling = false;
+feed.addEventListener('scroll', () => {
+  isScrolling = true;
+  clearTimeout(window.scrollTimer);
+  window.scrollTimer = setTimeout(() => { isScrolling = false; }, 150);
+  // Hide scroll hint after first scroll
+  const hint = document.getElementById('scrollHint');
+  if (hint) hint.style.opacity = '0';
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'j') {
+    e.preventDefault();
+    scrollToNext();
+  } else if (e.key === 'ArrowUp' || e.key === 'k') {
+    e.preventDefault();
+    scrollToPrev();
+  } else if (e.key === ' ') {
+    const current = getCurrentVideo();
+    if (current && document.activeElement === document.body) {
+      e.preventDefault();
+      if (current.paused) { current.play(); }
+      else { current.pause(); }
+    }
+  }
+});
+
+function getCurrentVideo() {
+  const cards = document.querySelectorAll('.video-card');
+  const center = feed.scrollTop + feed.clientHeight / 2;
+  for (const card of cards) {
+    const top = card.offsetTop;
+    const bottom = top + card.offsetHeight;
+    if (center >= top && center < bottom) return card.querySelector('video');
+  }
+  return null;
+}
+
+function scrollToNext() {
+  const cards = [...document.querySelectorAll('.video-card')];
+  const currentIdx = cards.findIndex(card => {
+    return card.offsetTop > feed.scrollTop + 10;
+  });
+  if (currentIdx >= 0 && currentIdx < cards.length) {
+    cards[currentIdx].scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function scrollToPrev() {
+  const cards = [...document.querySelectorAll('.video-card')];
+  const currentIdx = cards.findIndex(card => {
+    return card.offsetTop >= feed.scrollTop - 10;
+  });
+  if (currentIdx > 0) {
+    cards[currentIdx - 1].scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+/* ===== Inquiry Modal ===== */
+function openInquiry(productName) {
+  document.getElementById('inquiryProduct').textContent = 'Re: ' + productName;
+  document.getElementById('inquiryModal').classList.add('open');
+}
+function closeInquiry() {
+  document.getElementById('inquiryModal').classList.remove('open');
+}
+document.getElementById('inquiryModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeInquiry();
+});
+function submitInquiry() {
+  const data = {
+    product: document.getElementById('inquiryProduct').textContent,
+    name: document.getElementById('inqName').value,
+    email: document.getElementById('inqEmail').value,
+    phone: document.getElementById('inqPhone').value,
+    message: document.getElementById('inqMsg').value,
+    timestamp: new Date().toISOString(),
+  };
+  console.log('📩 Inquiry Submitted:', JSON.stringify(data, null, 2));
+  closeInquiry();
+  showToast(t('toastSuccess'));
+  document.getElementById('inqName').value = '';
+  document.getElementById('inqEmail').value = '';
+  document.getElementById('inqPhone').value = '';
+  document.getElementById('inqMsg').value = '';
+}
+
+/* ===== WhatsApp ===== */
+function openWhatsApp(product) {
+  const msg = encodeURIComponent(`Hi! I'm interested in your product: ${product}. Can you send me more details and pricing?`);
+  window.open(`https://wa.me/8613888888888?text=${msg}`, '_blank');
+}
+
+/* ===== Email ===== */
+function openEmail(product) {
+  const subject = encodeURIComponent(`Inquiry: ${product}`);
+  window.location.href = `mailto:sales@rayled.com?subject=${subject}`;
+}
+
+/* ===== Share ===== */
+function shareVideo() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'RayLED Video', url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => showToast(t('toastShare'))).catch(() => {});
+  }
+}
+
+/* ===== Toast ===== */
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+/* ===== Init ===== */
+applyLang();
+
+// Auto-play first video on load
+const firstVideo = document.querySelector('.video-card video');
+if (firstVideo) {
+  firstVideo.play().catch(() => {
+    // Autoplay blocked, show poster
+    const poster = firstVideo.parentElement.querySelector('.video-poster');
+    if (poster) poster.classList.remove('hidden');
+  });
+}
+
+// Hide scroll hint after 3s
+setTimeout(() => {
+  const hint = document.getElementById('scrollHint');
+  if (hint) hint.style.opacity = '0';
+}, 4000);
+</script>
+
+</body>
+</html>
