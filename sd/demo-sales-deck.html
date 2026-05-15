@@ -39,8 +39,11 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
 .slide-v video{width:100%;height:100%;object-fit:contain}
 .slide-v .poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:opacity .4s}
 .slide-v .poster.hide{opacity:0;pointer-events:none}
-.slide-v .poster .play{width:56px;height:56px;border-radius:50%;background:rgba(124,58,237,.8);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(124,58,237,.5)}
-.slide-v .poster .play::after{content:'';border:solid transparent;border-width:9px 0 9px 16px;border-left-color:#fff;margin-left:3px}
+.slide-v .poster .poster-inner{display:flex;flex-direction:column;align-items:center;gap:16px}
+.slide-v .poster .play{width:60px;height:60px;border-radius:50%;background:rgba(124,58,237,.85);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(124,58,237,.5);animation:play-pulse 2.2s ease-in-out infinite}
+.slide-v .poster .play::after{content:'';border:solid transparent;border-width:10px 0 10px 18px;border-left-color:#fff;margin-left:3px}
+.slide-v .poster .poster-hint{font-size:14px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:0.02em;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+@keyframes play-pulse{0%,100%{transform:scale(1);box-shadow:0 4px 24px rgba(124,58,237,.5)}50%{transform:scale(1.06);box-shadow:0 4px 36px rgba(124,58,237,.7)}}
 
 /* Center play/pause indicator overlay */
 .v-play-indicator{position:absolute;inset:0;z-index:11;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
@@ -238,7 +241,7 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
       <video playsinline muted preload="none"
              src="https://video.kingswayvideo.com/w1o9d6ta/e791dcf0ba/1488_720_0.mp4"
              poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231a1a2e' width='400' height='711'/%3E%3Ctext x='200' y='355' text-anchor='middle' fill='%237c3aed' font-size='14' font-family='sans-serif'%3ESMT Production Line%3C/text%3E%3C/svg%3E"></video>
-      <div class="poster" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><div class="play"></div></div>
+      <div class="poster" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><div class="poster-inner"><div class="play"></div><span class="poster-hint" data-t="tapToStart">Tap to start</span></div></div>
       <div class="tt-sidebar">
         <button class="tt-side-btn inquiry" onclick="openForm('SMT Line')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl" data-t="inquiry">Inquiry</span></button>
         <button class="tt-side-btn wa" onclick="openWA('SMT Line')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl" data-t="wa">WhatsApp</span></button>
@@ -256,7 +259,7 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
       <video playsinline muted preload="none"
              src="https://video.kingswayvideo.com/w1o9d6ta/e79119a0ba/1280_720_0.mp4"
              poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%23162e1a' width='400' height='711'/%3E%3Ctext x='200' y='355' text-anchor='middle' fill='%2325D366' font-size='14' font-family='sans-serif'%3EAssembly Workshop%3C/text%3E%3C/svg%3E"></video>
-      <div class="poster" style="background:linear-gradient(135deg,#162e1a,#1a2e1a)"><div class="play"></div></div>
+      <div class="poster" style="background:linear-gradient(135deg,#162e1a,#1a2e1a)"><div class="poster-inner"><div class="play"></div><span class="poster-hint" data-t="tapToStart">Tap to start</span></div></div>
       <div class="tt-sidebar">
         <button class="tt-side-btn inquiry" onclick="openForm('Assembly')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl" data-t="inquiry">Inquiry</span></button>
         <button class="tt-side-btn wa" onclick="openWA('Assembly')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl" data-t="wa">WhatsApp</span></button>
@@ -321,7 +324,7 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
       <video playsinline muted preload="none"
              src="https://video.kingswayvideo.com/w1o9d6ta/0a1d91b0b6/3868_2160_0.mp4"
              poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Crect fill='%231e2a1a' width='400' height='711'/%3E%3Ctext x='200' y='355' text-anchor='middle' fill='%2325D366' font-size='14' font-family='sans-serif'%3EQC Laboratory%3C/text%3E%3C/svg%3E"></video>
-      <div class="poster" style="background:linear-gradient(135deg,#1e2a1a,#162e18)"><div class="play"></div></div>
+      <div class="poster" style="background:linear-gradient(135deg,#1e2a1a,#162e18)"><div class="poster-inner"><div class="play"></div><span class="poster-hint" data-t="tapToStart">Tap to start</span></div></div>
       <div class="tt-sidebar">
         <button class="tt-side-btn inquiry" onclick="openForm('QC Lab')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl" data-t="inquiry">Inquiry</span></button>
         <button class="tt-side-btn wa" onclick="openWA('QC Lab')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl" data-t="wa">WhatsApp</span></button>
@@ -431,7 +434,7 @@ en:{
   n2t:'LED Flood Light — 100W Stadium Grade',n2d:'Built for outdoor environments — stadiums, ports, parking lots. IP66 waterproof rating, Philips 3030 chips, and a 360° adjustable bracket. Delivers 14,000 lumens with a 140lm/W efficiency.',
   docsTitle:'Documents & Certifications',docsSub:'Essential certifications — view all in library',searchDocs:'Search documents...',noDocs:'No documents found',viewAllDocs:'View All Documents',docLibTitle:'Document Library',
   trustH1:'Your LED Partner',trustH2:'in China',t1:'Years',t2:'Countries',t3:'Engineers',t4:'On-Time',
-  trustedBy:'Trusted by',waChat:'Chat on WhatsApp',sendInquiry:'Send Inquiry',
+  tapToStart:'Tap to start',trustedBy:'Trusted by',waChat:'Chat on WhatsApp',sendInquiry:'Send Inquiry',
   formTitle:'Send Inquiry',fName:'Name *',fEmail:'Email *',fPhone:'Phone / WhatsApp',fMsg:'Message',fSubmit:'Send Inquiry',
   sent:'Inquiry sent! We reply within 24h.',downloaded:'Download started.',copied:'Link copied!',
 },
@@ -444,7 +447,7 @@ zh:{
   n2t:'LED投光灯 — 100W球场级',n2d:'专为户外环境打造——体育场、港口、停车场。IP66防水等级，飞利浦3030芯片，360°可调支架。提供14,000流明，140lm/W光效。',
   docsTitle:'文档与认证',docsSub:'核心认证 — 点击查看全部',searchDocs:'搜索文档...',noDocs:'未找到匹配的文档',viewAllDocs:'查看全部文档',docLibTitle:'文档库',
   trustH1:'您的LED',trustH2:'中国合作伙伴',t1:'年经验',t2:'出口国',t3:'工程师',t4:'准时交付',
-  trustedBy:'信赖我们的客户',waChat:'WhatsApp 在线咨询',sendInquiry:'发送询盘',
+  tapToStart:'点击开始',trustedBy:'信赖我们的客户',waChat:'WhatsApp 在线咨询',sendInquiry:'发送询盘',
   formTitle:'发送询盘',fName:'姓名 *',fEmail:'邮箱 *',fPhone:'电话 / WhatsApp',fMsg:'留言',fSubmit:'发送询盘',
   sent:'询盘已发送！24小时内回复。',downloaded:'下载已开始。',copied:'链接已复制！',
 },
@@ -457,7 +460,7 @@ es:{
   n2t:'LED Proyector — 100W Estadio',n2d:'Para exteriores: estadios, puertos, estacionamientos. IP66, chips Philips 3030, soporte ajustable 360°. 14,000 lúmenes, 140lm/W.',
   docsTitle:'Documentos y Certificaciones',docsSub:'Certificaciones esenciales — ver todas',searchDocs:'Buscar documentos...',noDocs:'Sin resultados',viewAllDocs:'Ver Todos',docLibTitle:'Biblioteca',
   trustH1:'Su Socio LED',trustH2:'en China',t1:'Años',t2:'Países',t3:'Ingenieros',t4:'A Tiempo',
-  trustedBy:'Clientes que confían',waChat:'Chatear por WhatsApp',sendInquiry:'Enviar Consulta',
+  tapToStart:'Toca para empezar',trustedBy:'Clientes que confían',waChat:'Chatear por WhatsApp',sendInquiry:'Enviar Consulta',
   formTitle:'Enviar Consulta',fName:'Nombre *',fEmail:'Email *',fPhone:'Teléfono / WhatsApp',fMsg:'Mensaje',fSubmit:'Enviar Consulta',
   sent:'¡Consulta enviada!',downloaded:'Descarga iniciada.',copied:'¡Enlace copiado!',
 }};
