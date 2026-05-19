@@ -442,34 +442,28 @@ function updateDots(){
   slides.forEach((s,i)=>{const top=s.offsetTop;dots[i]?.classList.toggle('active',center>=top&&center<top+s.offsetHeight)});
 }
 
-	/* Video observer — first slide needs tap for gesture, rest autoplay */
+	/* Video observer */
 	const videoDone=new WeakSet();
 	let userGestureDone=false;
 	const io=new IntersectionObserver(entries=>{entries.forEach(e=>{
 	  const v=e.target.querySelector('video:not(.video-bg)');if(!v)return;
 	  if(videoDone.has(v))return;
 	  if(e.isIntersecting&&e.intersectionRatio>0.6){
-	    if(userGestureDone){
-	      v.muted=false;
-	      v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})});
-	      const p=e.target.querySelector('.poster');if(p)p.classList.add('hide');
-	    }else{
-	      v.muted=true;
-	      v.play().catch(()=>{});
-	    }
+	    if(userGestureDone){v.muted=false;v.play().catch(()=>{v.muted=true;v.play().then(()=>{v.muted=false}).catch(()=>{})})}
+	    else{v.play().catch(()=>{})}
+	    const p=e.target.querySelector('.poster');if(p&&userGestureDone)p.classList.add('hide')
 	  }else{
 	    v.pause();
 	  }
 	})},{threshold:[0.6]});
 	document.querySelectorAll('.slide-v').forEach(s=>io.observe(s));
 
-	/* Video progress + drag seek + auto next + mute toggle + loading state */
+	/* Per-slide video setup */
 	document.querySelectorAll('.slide-v').forEach((slide,slideIdx)=>{
 	  const vBg=slide.querySelector('.video-bg');const v=slide.querySelector('video:not(.video-bg)');
 	  const poster=slide.querySelector('.poster');
-	  const progress=slide.querySelector('.v-progress');
-	  const fill=slide.querySelector('.v-progress-fill');
-	  let dragging=false, wasPlaying=false;
+	  const progress=slide.querySelector('.v-progress');const fill=slide.querySelector('.v-progress-fill');
+	  let dragging=false,wasPlaying=false;
 	  const isFirst=slideIdx===0;
 
 	  /* Loading state on progress bar */
