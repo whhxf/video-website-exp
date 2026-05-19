@@ -498,12 +498,12 @@ function updateDots(){
 	  /* Volume flash indicator */
 	  const indicator=document.createElement('div');
 	  indicator.className='v-play-indicator';
-	  indicator.innerHTML='<div class="pi"><i class="fa-solid fa-volume-high"></i></div>';
+	  indicator.innerHTML='<div class="pi"><i class="fa-solid fa-pause"></i></div>';
 	  slide.appendChild(indicator);
 	  const piIcon=indicator.querySelector('i');
 
 	  function flashPi(unmuted){
-	    piIcon.className=unmuted?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark';
+	    piIcon.className=unmuted?'fa-solid fa-pause':'fa-solid fa-play';
 	    indicator.classList.add('show');
 	    clearTimeout(indicator._t);
 	    indicator._t=setTimeout(()=>indicator.classList.remove('show'),600);
@@ -535,7 +535,7 @@ function updateDots(){
 
 	  v.addEventListener('ended',onVideoEnded);
 
-	  /* Tap video body → toggle mute */
+	  /* Tap video body — first tap starts, then play/pause */
 	  slide.addEventListener('click',e=>{
 	    if(e.target.closest('.tt-sidebar,.v-progress,.v-bottom,.poster'))return;
 	    if(!userGestureDone){
@@ -545,9 +545,14 @@ function updateDots(){
 	      v.play().catch(()=>{});
 	      if(vBg){vBg.currentTime=v.currentTime;vBg.play().catch(()=>{})}
 	      if(poster)poster.classList.add('hide');
+	    }else if(v.paused){
+	      videoDone.delete(v);
+	      v.play().catch(()=>{});
+	      const p=slide.querySelector('.poster');if(p)p.classList.add('hide');
+	      flashPi(true);
 	    }else{
-	      v.muted=!v.muted;
-	      flashPi(!v.muted);
+	      v.pause();
+	      flashPi(false);
 	    }
 	  });
 
