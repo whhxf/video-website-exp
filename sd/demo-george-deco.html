@@ -47,7 +47,7 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
 .v-play-indicator .pi{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff}
 
 /* Sidebar — keep away from dots */
-.tt-sidebar{position:absolute;right:32px;bottom:130px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:16px}
+.tt-sidebar{position:absolute;right:8px;bottom:120px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:14px}
 .tt-side-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#fff;cursor:pointer;font-size:10px;font-weight:500}
 .tt-side-btn .icon{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .15s}
 .tt-side-btn:active .icon{transform:scale(.85)}
@@ -55,7 +55,7 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
 .tt-side-btn.wa .icon{background:rgba(37,211,102,.7)}
 .tt-side-btn.inquiry .icon{background:rgba(201,169,110,.7)}
 
-.v-bottom{position:absolute;bottom:0;left:0;right:72px;z-index:8;padding:0 14px 20px}
+.v-bottom{position:absolute;bottom:0;left:0;right:52px;z-index:8;padding:0 14px 20px}
 .v-bottom .v-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
 .v-bottom .v-desc{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:6px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
 .v-progress{position:absolute;bottom:0;left:0;right:0;z-index:9;height:2px;background:rgba(255,255,255,.12);transition:height .2s ease;cursor:pointer}
@@ -362,7 +362,7 @@ body{background:#111;overflow:hidden;height:100dvh;width:100vw}
         <div class="docs-header"><h2>Certifications &amp; Reports</h2><p>Download quality certificates, test reports &amp; compliance documents</p></div>
         <div class="chat-bubble">
           <div class="chat-avatar">George Deco</div>
-          <div class="chat-msg"><p>Here are our key certifications &amp; reports. Tap to preview, or download directly.<br>Everything in one place — no emails, no attachments.</p></div>
+          <div class="chat-msg"><p>Here are our key certifications &amp; reports. Tap to preview, or download directly.</div>
         </div>
         <!-- File cards injected by JS -->
       </div>
@@ -545,9 +545,12 @@ function updateDots(){
 	      v.play().catch(()=>{});
 	      if(vBg){vBg.currentTime=v.currentTime;vBg.play().catch(()=>{})}
 	      if(poster)poster.classList.add('hide');
+	    }else if(v.muted){
+	      v.muted=false;
+	      flashPi(true);
 	    }else if(v.paused){
 	      videoDone.delete(v);
-	      v.play().catch(()=>{});
+	      v.muted=false; v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})});
 	      const p=slide.querySelector('.poster');if(p)p.classList.add('hide');
 	      flashPi(true);
 	    }else{
