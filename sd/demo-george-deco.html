@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta name="description" content="George Deco — China's Leading One-Stop Building Materials Supplier. 30,000m² Showroom. 1,700+ Professionals. 7 Factories.">
+<title>George Deco | One-Stop Building Materials</title>
+<script type="application/ld+json">
+[{"@context":"https://schema.org","@type":"VideoObject","name":"George Deco Showroom","contentUrl":"#s0"},{"@context":"https://schema.org","@type":"VideoObject","name":"George Deco Factory","contentUrl":"#s1"},{"@context":"https://schema.org","@type":"VideoObject","name":"George Deco QC","contentUrl":"#s2"}]
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;-webkit-font-smoothing:antialiased}
+body{background:#111;overflow:hidden;height:100dvh;width:100vw}
+
+.app-wrap{display:flex;justify-content:center;align-items:center;height:100dvh;width:100vw;background:#0d0f17}
+.phone{width:100%;max-width:430px;height:100dvh;background:#000;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.6)}
+
+/* Top bar */
+.topbar{position:absolute;top:0;left:0;right:0;z-index:100;padding:max(env(safe-area-inset-top),10px) 14px 8px;background:linear-gradient(180deg,rgba(0,0,0,.85) 0%,transparent 100%);display:flex;align-items:center}
+.brand-row{display:flex;align-items:center;gap:8px}
+.brand-logo{height:30px;width:auto;border-radius:5px;object-fit:contain;flex-shrink:0;background:rgba(255,255,255,0.15);padding:5px 8px}
+
+/* Slide dots — narrow hit area, positioned safely */
+.slide-dots{position:absolute;right:2px;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;gap:8px;padding:8px 4px;pointer-events:auto}
+.slide-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s;cursor:pointer}
+.slide-dot.active{background:#c9a96e;height:18px;border-radius:3px}
+
+/* Feed */
+.feed{width:100%;height:100%;overflow-y:scroll;overflow-x:hidden;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
+.feed::-webkit-scrollbar{display:none}
+
+/* ==================== VIDEO SLIDE ==================== */
+.slide-v{width:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#000}
+.slide-v video{width:100%;height:100%;object-fit:cover}
+.slide-v .poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:opacity .4s}
+.slide-v .poster.hide{opacity:0;pointer-events:none}
+.slide-v .poster .poster-inner{display:flex;flex-direction:column;align-items:center;gap:16px}
+.slide-v .poster .play{width:64px;height:64px;border-radius:50%;background:rgba(201,169,110,.85);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 28px rgba(201,169,110,.45);animation:play-pulse 2.2s ease-in-out infinite}
+.slide-v .poster .play::after{content:'';border:solid transparent;border-width:11px 0 11px 20px;border-left-color:#fff;margin-left:4px}
+.slide-v .poster .poster-hint{font-size:14px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:0.04em;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+@keyframes play-pulse{0%,100%{transform:scale(1);box-shadow:0 4px 28px rgba(201,169,110,.45)}50%{transform:scale(1.06);box-shadow:0 4px 40px rgba(201,169,110,.65)}}
+
+.v-play-indicator{position:absolute;inset:0;z-index:11;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
+.v-play-indicator.show{opacity:1;transform:scale(1)}
+.v-play-indicator .pi{width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff}
+
+/* Sidebar — keep away from dots */
+.tt-sidebar{position:absolute;right:32px;bottom:130px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:16px}
+.tt-side-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#fff;cursor:pointer;font-size:10px;font-weight:500}
+.tt-side-btn .icon{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .15s}
+.tt-side-btn:active .icon{transform:scale(.85)}
+.tt-side-btn .lbl{text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.tt-side-btn.wa .icon{background:rgba(37,211,102,.7)}
+.tt-side-btn.inquiry .icon{background:rgba(201,169,110,.7)}
+
+.v-bottom{position:absolute;bottom:0;left:0;right:72px;z-index:8;padding:0 14px 20px}
+.v-bottom .v-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.v-bottom .v-desc{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:6px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.v-progress{position:absolute;bottom:0;left:0;right:0;z-index:9;height:2px;background:rgba(255,255,255,.12);transition:height .2s ease;cursor:pointer}
+.v-progress::after{content:'';position:absolute;top:-14px;left:0;right:0;bottom:-6px}
+.v-progress.active{height:5px;background:rgba(255,255,255,.2)}
+.v-progress-fill{height:100%;background:#c9a96e;border-radius:0 1px 1px 0;width:0;transition:width .1s linear;box-shadow:0 0 6px rgba(201,169,110,.4);position:relative;z-index:1}
+.v-progress.active .v-progress-fill{box-shadow:0 0 10px rgba(201,169,110,.7)}
+.v-progress-thumb{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);opacity:0;transition:opacity .15s}
+.v-progress.active .v-progress-thumb{opacity:1}
+
+/* ==================== PRODUCT NOTE SLIDE ==================== */
+.slide-note{width:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#0d0d0d;display:flex;flex-direction:column}
+.note-images{width:100%;height:50%;position:relative;overflow:hidden;background:#111}
+.note-swipe{display:flex;height:100%;overflow-x:scroll;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.note-swipe::-webkit-scrollbar{display:none}
+.note-swipe img{min-width:100%;height:100%;object-fit:cover;scroll-snap-align:center}
+.note-img-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:5}
+.note-img-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .2s}
+.note-img-dot.active{background:#c9a96e;width:16px;border-radius:3px}
+.note-img-counter{position:absolute;bottom:10px;right:14px;z-index:5;font-size:11px;color:rgba(255,255,255,.8);background:rgba(0,0,0,.5);padding:3px 8px;border-radius:10px}
+
+.note-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.note-body::-webkit-scrollbar{display:none}
+.note-body h2{font-size:18px;font-weight:800;color:#fff;line-height:1.3}
+.note-body .note-text{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
+.note-specs{display:flex;flex-wrap:wrap;gap:6px}
+.note-spec{font-size:11px;padding:4px 10px;border-radius:8px;background:rgba(201,169,110,.12);color:#c9a96e;font-weight:500}
+.note-cta{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.note-cta .pill{padding:10px 20px;border-radius:22px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:transform .15s}
+.note-cta .pill:active{transform:scale(.95)}
+.note-cta .pill.wa{background:#25D366;color:#fff;flex:1;justify-content:center}
+.note-cta .pill.inquiry{background:#c9a96e;color:#0d0f17;flex:1;justify-content:center;font-weight:700}
+
+/* ==================== DOCS SLIDE — WhatsApp chat style ==================== */
+.slide-docs{width:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#0a0b10;display:flex;flex-direction:column}
+.docs-chat{padding:60px 14px 20px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.docs-header{padding:10px 0 6px;margin-bottom:4px}
+.docs-header h2{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
+.docs-header p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.4}
+.docs-chat::-webkit-scrollbar{display:none}
+
+/* Chat bubble */
+.chat-bubble{max-width:88%;align-self:flex-start;display:flex;flex-direction:column;gap:4px}
+.chat-bubble .chat-avatar{font-size:10px;color:rgba(255,255,255,.25);padding-left:4px}
+.chat-bubble .chat-msg{background:#1c1e26;border-radius:2px 12px 12px 12px;padding:12px 14px}
+.chat-bubble .chat-msg p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5}
+.chat-bubble.typing .chat-msg{padding:10px 14px}
+.chat-bubble.typing .dots{display:flex;gap:4px}
+.chat-bubble.typing .dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);animation:type-bounce 1.4s ease-in-out infinite}
+.chat-bubble.typing .dots span:nth-child(2){animation-delay:.2s}
+.chat-bubble.typing .dots span:nth-child(3){animation-delay:.4s}
+@keyframes type-bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+
+/* File card — WhatsApp style */
+.file-card-wrap{max-width:88%;align-self:flex-start;display:flex;flex-direction:column;gap:4px;animation:msg-in .35s ease-out}
+.file-card-wrap:nth-child(2){animation-delay:.05s}
+.file-card-wrap:nth-child(3){animation-delay:.1s}
+@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.file-card{background:#1c1e26;border-radius:2px 12px 12px 12px;padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .15s;position:relative}
+.file-card:active{background:#252830}
+.file-card .fc-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.file-card .fc-icon.pdf{background:rgba(220,53,69,.15);color:#dc3545}
+.file-card .fc-icon.doc{background:rgba(13,110,253,.15);color:#0d6efd}
+.file-card .fc-icon.img{background:rgba(201,169,110,.15);color:#c9a96e}
+.file-card .fc-info{flex:1;min-width:0}
+.file-card .fc-info .fc-name{font-size:13px;font-weight:600;color:#fff;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-card .fc-info .fc-meta{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+.file-card .fc-actions{display:flex;gap:6px;flex-shrink:0}
+.file-card .fc-actions button{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:transform .15s}
+.file-card .fc-actions button:active{transform:scale(.9)}
+.file-card .fc-actions .fc-preview{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+.file-card .fc-actions .fc-dl{background:rgba(201,169,110,.15);color:#c9a96e}
+
+/* Chat input bar at bottom of docs slide */
+.docs-input-bar{padding:10px 14px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0;border-top:1px solid rgba(255,255,255,.04)}
+.docs-input-bar .input-fake{flex:1;padding:10px 14px;border-radius:20px;background:#1c1e26;font-size:12px;color:rgba(255,255,255,.25)}
+
+/* ==================== TRUST SLIDE ==================== */
+
+/* Trust slide — blurred brand image background */
+.trust-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.trust-bg .bg-img{position:absolute;width:100%;height:100%;background-size:cover;background-position:center;filter:blur(60px);opacity:0.18;transform:scale(1.15)}
+.trust-bg .bg-img:nth-child(1){background-image:url(https://georgedeco.com/wp-content/uploads/2025/05/pexels-photo-1202723-1202723-1024x663.jpg)}
+.trust-bg .bg-img:nth-child(2){background-image:url(https://georgedeco.com/wp-content/uploads/2024/12/after.png);opacity:0.12;filter:blur(80px)}
+.trust-bg .bg-img:nth-child(3){background-image:url(https://georgedeco.com/wp-content/uploads/2024/12/void_d1.png);opacity:0.1;filter:blur(100px)}
+.slide-trust .trust-headline,.slide-trust .trust-stats,.slide-trust .trust-cert-row,.slide-trust .trust-clients-label,.slide-trust .trust-clients,.slide-trust .trust-cta,.slide-trust .footer{position:relative;z-index:1}
+
+/* Video background blur layer */
+.video-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;filter:blur(24px) brightness(.45);transform:scale(1.12);pointer-events:none}
+.slide-v.has-blur-bg video:not(.video-bg){position:relative;z-index:1;object-fit:contain}
+.slide-trust{width:100%;min-height:100dvh;scroll-snap-align:start;position:relative;background:linear-gradient(180deg,#08080c 0%,#0d0e1a 40%,#0a0a10 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 28px 44px;gap:26px}
+
+.trust-headline{font-size:28px;font-weight:800;color:#fff;text-align:center;line-height:1.15;letter-spacing:-0.015em}
+.trust-headline em{font-style:normal;color:#c9a96e}
+
+.trust-stats{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.trust-stats .stat{font-size:13px;color:rgba(255,255,255,.45);font-weight:500;white-space:nowrap}
+.trust-stats .stat strong{color:#fff;font-weight:700}
+.trust-stats .sep{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.12);flex-shrink:0}
+
+.trust-cert-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.trust-cert-row .b{padding:6px 13px;border-radius:16px;background:rgba(201,169,110,.07);color:#c9a96e;font-size:11px;font-weight:600;border:1px solid rgba(201,169,110,.12)}
+
+.trust-clients-label{font-size:10px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:0.1em;text-align:center;margin-bottom:-14px}
+.trust-clients{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.trust-clients .c{font-size:13px;font-weight:600;color:rgba(255,255,255,.5)}
+
+.trust-cta{width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px}
+.trust-cta .big-wa{width:100%;padding:16px;border-radius:14px;border:none;background:#25D366;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 28px rgba(37,211,102,.3);transition:transform .15s,box-shadow .15s;animation:wa-glow 2.8s ease-in-out infinite}
+.trust-cta .big-wa:active{transform:scale(.97)}
+@keyframes wa-glow{0%,100%{box-shadow:0 4px 28px rgba(37,211,102,.3)}50%{box-shadow:0 4px 44px rgba(37,211,102,.5)}}
+.trust-cta .big-inquiry{width:100%;padding:14px;border-radius:14px;border:1.5px solid rgba(201,169,110,.25);background:rgba(201,169,110,.05);color:#c9a96e;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s}
+.trust-cta .big-inquiry:active{background:rgba(201,169,110,.12)}
+.trust-cta .email-link{text-align:center;color:rgba(255,255,255,.25);font-size:12px;text-decoration:none;transition:color .2s}
+.trust-cta .email-link:hover{color:rgba(255,255,255,.45)}
+
+/* ==================== MODALS ==================== */
+.modal-back{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-back.open{opacity:1;pointer-events:auto}
+.modal-sheet{width:92%;max-width:420px;max-height:85dvh;background:#1a1a1a;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.modal-sheet .m-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.modal-sheet .m-header h4{font-size:14px;font-weight:700;color:#fff}
+.modal-sheet .m-close{width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,.1);color:#fff;font-size:14px;cursor:pointer}
+.modal-sheet .m-body{padding:16px;overflow-y:auto;flex:1}
+.modal-sheet .m-body .field{margin-bottom:12px}
+.modal-sheet .m-body label{display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.modal-sheet .m-body input,.modal-sheet .m-body textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;font-size:14px;font-family:inherit;outline:none}
+.modal-sheet .m-body input:focus,.modal-sheet .m-body textarea:focus{border-color:#c9a96e}
+.modal-sheet .m-body textarea{resize:none;height:70px}
+.modal-sheet .m-submit{width:100%;padding:12px;border-radius:10px;border:none;background:#c9a96e;color:#0d0f17;font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s}
+.modal-sheet .m-submit:active{transform:scale(.97)}
+
+/* Doc preview modal */
+.doc-preview-modal .m-body{padding:0;display:flex;align-items:center;justify-content:center;background:#0a0a0a}
+.doc-preview-modal img{width:100%;display:block}
+
+/* Toast */
+.toast{position:fixed;top:50px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:300;background:#c9a96e;color:#0d0f17;padding:10px 22px;border-radius:10px;font-weight:600;font-size:13px;box-shadow:0 6px 20px rgba(201,169,110,.3);transition:transform .4s cubic-bezier(.22,.61,.36,1)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.footer{text-align:center;padding:14px 20px 30px;font-size:10px;color:rgba(255,255,255,.15)}
+</style>
+</head>
+<body>
+
+<div class="app-wrap">
+<div class="phone">
+
+  <div class="topbar">
+    <div class="brand-row">
+      <img class="brand-logo" src="data:image/png;base64,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" alt="George Deco" crossorigin="anonymous">
+    </div>
+  </div>
+
+  <div class="slide-dots" id="slideDots"></div>
+
+  <div class="feed" id="feed">
+
+    <!-- SLIDE 1: Showroom Tour -->
+    <div class="slide-v" data-slide="0" id="s0">
+      <video playsinline muted preload="none"
+             src="https://video.kingswayvideo.com/slf1dhzn/278370f021/608_1080_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%230d0f17'/%3E%3Cstop offset='100%25' stop-color='%231a1f2e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='711'/%3E%3Ctext x='200' y='340' text-anchor='middle' fill='%23c9a96e' font-size='13' font-family='sans-serif' font-weight='700'%3E30,000m² Showroom%3C/text%3E%3Ctext x='200' y='365' text-anchor='middle' fill='%23ffffff80' font-size='11' font-family='sans-serif'%3EFoshan, China%3C/text%3E%3C/svg%3E"></video>
+      <div class="poster" style="background:linear-gradient(135deg,#0d0f17,#1a1f2e)">
+        <div class="poster-inner"><div class="play"></div><span class="poster-hint">Tap to explore</span></div>
+      </div>
+      <div class="tt-sidebar">
+        <button class="tt-side-btn inquiry" onclick="openForm('Showroom Tour')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl">Inquiry</span></button>
+        <button class="tt-side-btn wa" onclick="openWA('Showroom Tour')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl">WhatsApp</span></button>
+        <button class="tt-side-btn" onclick="shareLink()"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><span class="lbl">Share</span></button>
+      </div>
+      <div class="v-progress"><div class="v-progress-fill"></div><div class="v-progress-thumb"></div></div>
+      <div class="v-bottom">
+        <div class="v-name">30,000m² Materials Showroom — Foshan</div>
+        <div class="v-desc">12 product zones spanning tiles, marble, sanitary, doors, furniture. See 10,000+ materials in one visit.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Factory Production -->
+      <div class="slide-v has-blur-bg" data-slide="1" id="s1">
+        <video class="video-bg" playsinline muted preload="none"
+               src="https://video.kingswayvideo.com/slf1dhzn/0769e9a016/1920_1080_0.mp4"
+               poster="https://static.kingswayvideo.com/slf1dhzn/vod/0769e9a016/cover.jpg?imageMogr2/format/webp"></video>
+      <video playsinline muted preload="none"
+             src="https://video.kingswayvideo.com/slf1dhzn/0769e9a016/1920_1080_0.mp4"
+             poster="https://static.kingswayvideo.com/slf1dhzn/vod/0769e9a016/cover.jpg?imageMogr2/format/webp"></video>
+      <div class="poster" style="background:linear-gradient(135deg,#121a0e,#1a2a14)">
+        <div class="poster-inner"><div class="play"></div><span class="poster-hint">Tap to explore</span></div>
+      </div>
+      <div class="tt-sidebar">
+        <button class="tt-side-btn inquiry" onclick="openForm('Factory Production')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl">Inquiry</span></button>
+        <button class="tt-side-btn wa" onclick="openWA('Factory Production')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl">WhatsApp</span></button>
+        <button class="tt-side-btn" onclick="shareLink()"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><span class="lbl">Share</span></button>
+      </div>
+      <div class="v-progress"><div class="v-progress-fill"></div><div class="v-progress-thumb"></div></div>
+      <div class="v-bottom">
+        <div class="v-name">7 Automated Production Plants</div>
+        <div class="v-desc">Tile, marble, door & window, kitchen wardrobes — all manufactured in-house across 50,000m²+ facilities.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Tile Collection -->
+    <div class="slide-note" data-slide="2">
+      <div class="note-images">
+        <div class="note-swipe" data-note-swipe="0">
+          <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&h=800&fit=crop&crop=center" alt="Luxury Marble Tile" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=800&fit=crop&crop=center" alt="Modern Interior Tile" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=600&h=800&fit=crop&crop=center" alt="Premium Floor Tile" loading="lazy">
+        </div>
+        <div class="note-img-dots"><span class="note-img-dot active"></span><span class="note-img-dot"></span><span class="note-img-dot"></span></div>
+        <span class="note-img-counter">1/3</span>
+      </div>
+      <div class="note-body">
+        <h2>Premium Tile Collection — Porcelain, Ceramic & Luxury Stone</h2>
+        <p class="note-text">From Italian-inspired marble porcelain to industrial-grade ceramic. Over 5,000 SKUs across floor tiles, wall tiles, mosaics, and large-format slabs (up to 1600×3200mm). Custom colors, textures, and finishes available — MOQ just 100m².</p>
+        <div class="note-specs">
+          <span class="note-spec">5,000+ SKUs</span><span class="note-spec">1600×3200mm</span><span class="note-spec">Custom RAL Colors</span><span class="note-spec">Matte / Gloss / Lapatto</span><span class="note-spec">MOQ 100m²</span>
+        </div>
+        <div class="note-cta">
+          <button class="pill wa" onclick="openWA('Tile Collection')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="pill inquiry" onclick="openForm('Tile Collection')"><i class="fa-solid fa-clipboard-list"></i> Inquiry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Marble & Granite -->
+    <div class="slide-note" data-slide="3">
+      <div class="note-images">
+        <div class="note-swipe" data-note-swipe="1">
+          <img src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=600&h=800&fit=crop&crop=center" alt="Natural Marble Texture" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&h=800&fit=crop&crop=center" alt="Luxury Kitchen Marble" loading="lazy">
+        </div>
+        <div class="note-img-dots"><span class="note-img-dot active"></span><span class="note-img-dot"></span></div>
+        <span class="note-img-counter">1/2</span>
+      </div>
+      <div class="note-body">
+        <h2>Natural Marble & Granite — Direct from Global Quarries</h2>
+        <p class="note-text">Sourced from Italy, Brazil, Turkey, and China. Carrara White, Calacatta Gold, Nero Marquina, and 200+ varieties. Custom cut-to-size, edge profiling, and surface finishing — all processed in our own CNC facility with 7-day sampling.</p>
+        <div class="note-specs">
+          <span class="note-spec">200+ Varieties</span><span class="note-spec">CNC Cut-to-Size</span><span class="note-spec">Polished / Honed / Leathered</span><span class="note-spec">Global Sourcing</span>
+        </div>
+        <div class="note-cta">
+          <button class="pill wa" onclick="openWA('Marble & Granite')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="pill inquiry" onclick="openForm('Marble & Granite')"><i class="fa-solid fa-clipboard-list"></i> Inquiry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Quality Control -->
+    <div class="slide-v" data-slide="4" id="s2">
+      <video playsinline muted preload="none"
+             src="https://video.kingswayvideo.com/slf1dhzn/32f10060ba/1920_1080_0.mp4"
+             poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='711'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2311161a'/%3E%3Cstop offset='100%25' stop-color='%2314202a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='711'/%3E%3Ctext x='200' y='340' text-anchor='middle' fill='%23444CE7' font-size='13' font-family='sans-serif' font-weight='700'%3EQuality Control Center%3C/text%3E%3Ctext x='200' y='365' text-anchor='middle' fill='%23ffffff80' font-size='11' font-family='sans-serif'%3EInspection  Export Packaging%3C/text%3E%3C/svg%3E"></video>
+      <div class="poster" style="background:linear-gradient(135deg,#11161a,#14202a)">
+        <div class="poster-inner"><div class="play"></div><span class="poster-hint">Tap to explore</span></div>
+      </div>
+      <div class="tt-sidebar">
+        <button class="tt-side-btn inquiry" onclick="openForm('QC & Warehouse')"><span class="icon"><i class="fa-solid fa-clipboard-list"></i></span><span class="lbl">Inquiry</span></button>
+        <button class="tt-side-btn wa" onclick="openWA('QC & Warehouse')"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><span class="lbl">WhatsApp</span></button>
+        <button class="tt-side-btn" onclick="shareLink()"><span class="icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span><span class="lbl">Share</span></button>
+      </div>
+      <div class="v-progress"><div class="v-progress-fill"></div><div class="v-progress-thumb"></div></div>
+      <div class="v-bottom">
+        <div class="v-name">Quality Control & Export Warehouse</div>
+        <div class="v-desc">Dedicated QC team inspects every order. Fumigation-certified wood crates. Container loading supervised end-to-end.</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Kitchen & Wardrobe -->
+    <div class="slide-note" data-slide="5">
+      <div class="note-images">
+        <div class="note-swipe" data-note-swipe="2">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=800&fit=crop&crop=center" alt="Modern Kitchen Design" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=800&fit=crop&crop=center" alt="Luxury Interior" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=800&fit=crop&crop=center" alt="Custom Wardrobe" loading="lazy">
+        </div>
+        <div class="note-img-dots"><span class="note-img-dot active"></span><span class="note-img-dot"></span><span class="note-img-dot"></span></div>
+        <span class="note-img-counter">1/3</span>
+      </div>
+      <div class="note-body">
+        <h2>Kitchen & Wardrobe — Full Customization</h2>
+        <p class="note-text">European-grade plywood and MDF, Blum/Hettich hardware, Italian edge-banding. From modern minimalist to classical ornate — each piece designed to your project spec with 3D visualization before production. 15-day sampling, lifetime support.</p>
+        <div class="note-specs">
+          <span class="note-spec">Blum / Hettich</span><span class="note-spec">E1 / E0 Board</span><span class="note-spec">3D Pre-Production</span><span class="note-spec">15-Day Sampling</span><span class="note-spec">Lifetime Support</span>
+        </div>
+        <div class="note-cta">
+          <button class="pill wa" onclick="openWA('Kitchen Wardrobe')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+          <button class="pill inquiry" onclick="openForm('Kitchen Wardrobe')"><i class="fa-solid fa-clipboard-list"></i> Inquiry</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Documents — WhatsApp chat style -->
+    <div class="slide-docs" data-slide="6">
+      <div class="docs-chat" id="docsChat">
+        <div class="docs-header"><h2>Certifications &amp; Reports</h2><p>Download quality certificates, test reports &amp; compliance documents</p></div>
+        <div class="chat-bubble">
+          <div class="chat-avatar">George Deco</div>
+          <div class="chat-msg"><p>Here are our key certifications &amp; reports. Tap to preview, or download directly.<br>Everything in one place — no emails, no attachments.</p></div>
+        </div>
+        <!-- File cards injected by JS -->
+      </div>
+      <div class="docs-input-bar">
+        <div class="input-fake">Tap a file to preview or download…</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Trust — The Big Close -->
+    <div class="slide-trust" data-slide="7">
+<div class="trust-bg"><div class="bg-img"></div><div class="bg-img"></div><div class="bg-img"></div></div>
+      <h2 class="trust-headline">Your One-Stop Building<br><em>Materials Partner in China</em></h2>
+      <div class="trust-stats">
+        <span class="stat"><strong>20+</strong> Years</span><span class="sep"></span>
+        <span class="stat"><strong>1,700+</strong> Professionals</span><span class="sep"></span>
+        <span class="stat"><strong>30,000m²</strong> Showroom</span><span class="sep"></span>
+        <span class="stat"><strong>50,000m²+</strong> Factories</span>
+      </div>
+      <div class="trust-cert-row">
+        <span class="b">ISO 9001</span><span class="b">CE</span><span class="b">FSC</span><span class="b">BSCI</span><span class="b">SGS</span><span class="b">BV</span>
+      </div>
+      <div class="trust-clients-label">Serving projects across</div>
+      <div class="trust-clients">
+        <span class="c">Villas</span><span class="c">Hotels</span><span class="c">Apartments</span><span class="c">Retail</span><span class="c">Restaurants</span>
+      </div>
+      <div class="trust-cta">
+        <button class="big-wa" onclick="openWA('General')"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</button>
+        <button class="big-inquiry" onclick="openForm('General')"><i class="fa-solid fa-clipboard-list"></i> Send Inquiry</button>
+        <a class="email-link" href="mailto:info@georgedeco.com">info@georgedeco.com</a>
+      </div>
+      <div class="footer">&copy; 2026 George Design & Construction Co., Ltd. — Foshan, China</div>
+    </div>
+
+  </div>
+
+  <!-- Inquiry Modal -->
+  <div class="modal-back" id="formModal">
+    <div class="modal-sheet">
+      <div class="m-header"><h4>Send Inquiry</h4><button class="m-close" onclick="closeForm()"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="m-body">
+        <p id="formProduct" style="color:#c9a96e;font-weight:600;font-size:13px;margin-bottom:12px"></p>
+        <div class="field"><label>Name *</label><input id="fName"></div>
+        <div class="field"><label>Email *</label><input id="fEmail"></div>
+        <div class="field"><label>Phone / WhatsApp</label><input id="fPhone"></div>
+        <div class="field"><label>Message</label><textarea id="fMsg"></textarea></div>
+        <button class="m-submit" onclick="submitForm()">Send Inquiry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doc Preview Modal -->
+  <div class="modal-back doc-preview-modal" id="docModal">
+    <div class="modal-sheet">
+      <div class="m-header"><h4 id="docModalTitle">Document</h4><button class="m-close" onclick="closeDocPreview()"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="m-body"><img id="docModalImg" src="" alt="Document preview"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+</div>
+</div>
+
+<script>
+/* Slide dots */
+function buildDots(){
+  const slides=document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust');
+  const c=document.getElementById('slideDots');c.innerHTML='';
+  slides.forEach((s,i)=>{const d=document.createElement('div');d.className='slide-dot';d.onclick=(e)=>{e.stopPropagation();s.scrollIntoView({behavior:'smooth'})};c.appendChild(d)});
+}
+function updateDots(){
+  const feed=document.getElementById('feed');
+  const slides=[...document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust')];
+  const center=feed.scrollTop+feed.clientHeight/2;
+  const dots=document.querySelectorAll('.slide-dot');
+  slides.forEach((s,i)=>{const top=s.offsetTop;dots[i]?.classList.toggle('active',center>=top&&center<top+s.offsetHeight)});
+}
+
+/* Video observer */
+const videoDone=new WeakSet();
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{
+  const v=e.target.querySelector('video:not(.video-bg)');if(!v)return;
+  if(videoDone.has(v))return;
+  if(e.isIntersecting&&e.intersectionRatio>0.6){v.play().catch(()=>{});const p=e.target.querySelector('.poster');if(p)p.classList.add('hide')}
+  else v.pause();
+})},{threshold:[0.6]});
+document.querySelectorAll('.slide-v').forEach(s=>io.observe(s));
+
+/* Poster click */
+document.querySelectorAll('.slide-v .poster').forEach(p=>{p.addEventListener('click',()=>{
+  const v=p.parentElement.querySelector('video:not(.video-bg)');const vBg2=p.parentElement.querySelector('.video-bg');if(v){v.muted=false;v.play().catch(()=>{});if(vBg2){vBg2.currentTime=v.currentTime;vBg2.play().catch(()=>{})}p.classList.add('hide')}
+})});
+
+/* Video progress + drag seek + auto next + play/pause */
+document.querySelectorAll('.slide-v').forEach(slide=>{
+  const vBg=slide.querySelector('.video-bg');const v=slide.querySelector('video:not(.video-bg)');
+  const progress=slide.querySelector('.v-progress');
+  const fill=slide.querySelector('.v-progress-fill');
+  let dragging=false, wasPlaying=false;
+
+  const indicator=document.createElement('div');
+  indicator.className='v-play-indicator';
+  indicator.innerHTML='<div class="pi"><i class="fa-solid fa-pause"></i></div>';
+  slide.appendChild(indicator);
+  const piIcon=indicator.querySelector('i');
+
+  function flashPi(playing){
+    piIcon.className=playing?'fa-solid fa-pause':'fa-solid fa-play';
+    indicator.classList.add('show');
+    clearTimeout(indicator._t);
+    indicator._t=setTimeout(()=>indicator.classList.remove('show'),500);
+  }
+  v.addEventListener('play',()=>flashPi(true));
+  v.addEventListener('pause',()=>flashPi(false));
+  if(vBg){v.addEventListener('play',()=>{vBg.currentTime=v.currentTime;vBg.play().catch(()=>{})});v.addEventListener('pause',()=>vBg.pause());v.addEventListener('seeked',()=>{vBg.currentTime=v.currentTime})}
+
+  function updateFill(){
+    if(!v.duration)return;
+    fill.style.width=(v.currentTime/v.duration*100)+'%';
+    if(!videoDone.has(v)&&v.currentTime>=v.duration-0.3){onVideoEnded()}
+  }
+  v.addEventListener('timeupdate',updateFill);
+
+  function onVideoEnded(){
+    if(videoDone.has(v))return;
+    videoDone.add(v);
+    v.pause();
+    const slides=[...document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust')];
+    const idx=slides.indexOf(slide);
+    if(idx>=0&&idx<slides.length-1){
+      const next=slides[idx+1];
+      next.scrollIntoView({behavior:'smooth'});
+      const nv=next.querySelector('video');
+      if(nv){videoDone.delete(nv);nv.currentTime=0;nv.play().catch(()=>{});const p=nv.parentElement.querySelector('.poster');if(p)p.classList.add('hide')}
+    }
+  }
+
+  v.addEventListener('ended',onVideoEnded);
+
+  slide.addEventListener('click',e=>{
+    if(e.target.closest('.tt-sidebar,.v-progress,.v-bottom,.poster'))return;
+    if(v.paused){
+      videoDone.delete(v);
+      v.play().catch(()=>{});
+      const p=slide.querySelector('.poster');if(p)p.classList.add('hide');
+    }else{
+      v.pause();
+    }
+  });
+
+  function seekFromEvent(e){
+    const rect=progress.getBoundingClientRect();
+    const cx=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+    const pct=Math.max(0,Math.min(1,cx/rect.width));
+    if(v.duration)v.currentTime=pct*v.duration;
+  }
+
+  function onStart(e){dragging=true;wasPlaying=!v.paused;progress.classList.add('active');seekFromEvent(e);e.preventDefault()}
+  function onMove(e){if(dragging){seekFromEvent(e);e.preventDefault()}}
+  function onEnd(){
+    if(!dragging)return;
+    dragging=false;
+    progress.classList.remove('active');
+    if(wasPlaying){videoDone.delete(v);v.play().catch(()=>{});const p=slide.querySelector('.poster');if(p)p.classList.add('hide')}
+  }
+
+  progress.addEventListener('mousedown',onStart);
+  progress.addEventListener('touchstart',onStart,{passive:false});
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('mouseup',onEnd);
+  document.addEventListener('touchend',onEnd);
+});
+
+/* Note image swipe */
+document.querySelectorAll('.note-swipe').forEach(swipe=>{
+  const slide=swipe.closest('.slide-note');
+  const dots=slide.querySelectorAll('.note-img-dot');
+  const counter=slide.querySelector('.note-img-counter');
+  const items=swipe.querySelectorAll('img');
+  const total=items.length;
+  swipe.addEventListener('scroll',()=>{
+    const idx=Math.round(swipe.scrollLeft/swipe.clientWidth);
+    const i=Math.min(Math.max(idx,0),total-1);
+    dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+    if(counter)counter.textContent=`${i+1}/${total}`;
+  });
+});
+
+/* Inquiry modal */
+function openForm(p){document.getElementById('formProduct').textContent='Re: '+p;document.getElementById('formModal').classList.add('open')}
+function closeForm(){document.getElementById('formModal').classList.remove('open')}
+document.getElementById('formModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeForm()});
+function submitForm(){
+  console.log('📩',JSON.stringify({product:document.getElementById('formProduct').textContent,name:fName.value,email:fEmail.value,phone:fPhone.value,msg:fMsg.value,time:new Date().toISOString()},null,2));
+  closeForm();showToast('Inquiry sent! We reply within 24h.');['fName','fEmail','fPhone','fMsg'].forEach(id=>document.getElementById(id).value='')
+}
+
+/* === WhatsApp-chat style doc files === */
+const docFiles=[
+  {id:'iso',name:'ISO 9001 — Quality Management System',ext:'PDF',size:'1.5 MB',icon:'pdf',badge:'ISO',thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fdfaf5%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%232a4a6a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ctext x=%27150%27 y=%2726%27 text-anchor=%27middle%27 fill=%27%23ffd700%27 font-size=%2712%27 font-weight=%27700%27%3EISO 9001:2015%3C/text%3E%3Ccircle cx=%27150%27 cy=%2795%27 r=%2735%27 fill=%27none%27 stroke=%27%232a4a6a%27 stroke-width=%272%27/%3E%3Ctext x=%27150%27 y=%27100%27 text-anchor=%27middle%27 fill=%27%232a4a6a%27 font-size=%2711%27 font-weight=%27700%27%3EQUALITY%3C/text%3E%3C/svg%3E'},
+  {id:'ce',name:'CE Certification — EU Building Materials',ext:'PDF',size:'1.2 MB',icon:'pdf',badge:'CE',thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafafa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%23003d7a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ccircle cx=%2740%27 cy=%2720%27 r=%2710%27 fill=%27%23ffd700%27/%3E%3Ctext x=%27150%27 y=%2725%27 text-anchor=%27middle%27 fill=%27%23ffd700%27 font-size=%2711%27 font-family=%27serif%27 font-weight=%27700%27%3ECERTIFICATE%3C/text%3E%3Ctext x=%27150%27 y=%2785%27 text-anchor=%27middle%27 fill=%27%23333%27 font-size=%2710%27%3EThis certifies building materials%3C/text%3E%3Ctext x=%27150%27 y=%27105%27 text-anchor=%27middle%27 fill=%27%23111%27 font-size=%2714%27 font-family=%27serif%27 font-weight=%27700%27%3Ecomply with EU Standards%3C/text%3E%3C/svg%3E'},
+  {id:'sgs',name:'SGS Product Testing Report — 2025',ext:'PDF',size:'2.1 MB',icon:'pdf',badge:'SGS',thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafcfd%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%231a2e1a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2738%27/%3E%3Ctext x=%2720%27 y=%2724%27 fill=%27%23fff%27 font-size=%2711%27 font-weight=%27700%27%3ESGS TEST REPORT%3C/text%3E%3Ctext x=%27150%27 y=%2795%27 text-anchor=%27middle%27 fill=%27%23333%27 font-size=%2710%27%3EIndependent laboratory testing%3C/text%3E%3Ctext x=%27150%27 y=%27115%27 text-anchor=%27middle%27 fill=%27%23111%27 font-size=%2713%27 font-family=%27serif%27 font-weight=%27700%27%3ETiles · Marble · Wood%3C/text%3E%3C/svg%3E'},
+  {id:'fsc',name:'FSC Chain of Custody — Wood Products',ext:'PDF',size:'980 KB',icon:'doc',badge:'FSC',thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafdfa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%232a5a2a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ctext x=%27150%27 y=%2726%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-size=%2711%27 font-weight=%27700%27%3EFSC CERTIFIED%3C/text%3E%3Ctext x=%27150%27 y=%2785%27 text-anchor=%27middle%27 fill=%27%23333%27 font-size=%2710%27%3EChain of Custody Certification%3C/text%3E%3Ctext x=%27150%27 y=%27110%27 text-anchor=%27middle%27 fill=%27%232a5a2a%27 font-size=%2713%27 font-family=%27serif%27 font-weight=%27700%27%3ESustainable Forestry%3C/text%3E%3C/svg%3E'},
+  {id:'bsci',name:'BSCI Social Compliance Audit',ext:'PDF',size:'3.4 MB',icon:'doc',badge:'BSCI',thumb:'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27300%27 height=%27200%27%3E%3Crect fill=%27%23fafdfa%27 width=%27300%27 height=%27200%27 rx=%273%27/%3E%3Crect fill=%27%231a5a3a%27 x=%270%27 y=%270%27 width=%27300%27 height=%2740%27/%3E%3Ctext x=%27150%27 y=%2726%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-size=%2711%27 font-weight=%27700%27%3EBSCI AUDIT%3C/text%3E%3Ccircle cx=%27150%27 cy=%2795%27 r=%2735%27 fill=%27%231a5a3a%27 opacity=%27.15%27/%3E%3Ctext x=%27150%27 y=%27100%27 text-anchor=%27middle%27 fill=%27%231a5a3a%27 font-size=%2711%27 font-weight=%27700%27%3ESOCIAL COMPLIANCE%3C/text%3E%3C/svg%3E'},
+];
+
+function renderDocFiles(){
+  const chat=document.getElementById('docsChat');
+  // Remove existing file cards
+  chat.querySelectorAll('.file-card-wrap').forEach(c=>c.remove());
+  docFiles.forEach((f,i)=>{
+    const wrap=document.createElement('div');
+    wrap.className='file-card-wrap';
+    wrap.style.animationDelay=(i*0.08)+'s';
+    wrap.innerHTML=`
+      <div class="file-card">
+        <div class="fc-icon ${f.icon}"><i class="fa-solid ${f.icon==='pdf'?'fa-file-pdf':'fa-file-lines'}"></i></div>
+        <div class="fc-info">
+          <div class="fc-name">${f.name}</div>
+          <div class="fc-meta">${f.ext} · ${f.size}</div>
+        </div>
+        <div class="fc-actions">
+          <button class="fc-preview" title="Preview"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button class="fc-dl" title="Download"><i class="fa-solid fa-download"></i></button>
+        </div>
+      </div>`;
+    const card=wrap.querySelector('.file-card');
+    const previewBtn=wrap.querySelector('.fc-preview');
+    const dlBtn=wrap.querySelector('.fc-dl');
+
+    // Preview: click card or preview button
+    previewBtn.addEventListener('click',e=>{e.stopPropagation();openDocPreview(f.name,f.thumb)});
+    card.addEventListener('click',()=>openDocPreview(f.name,f.thumb));
+
+    // Download
+    dlBtn.addEventListener('click',e=>{e.stopPropagation();showToast('Download started.')});
+    chat.appendChild(wrap);
+  });
+}
+
+/* Utils */
+function openDocPreview(title,thumb){
+  document.getElementById('docModalTitle').textContent=title;
+  document.getElementById('docModalImg').src=thumb||'';
+  document.getElementById('docModal').classList.add('open');
+}
+function closeDocPreview(){document.getElementById('docModal').classList.remove('open')}
+document.getElementById('docModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDocPreview()});
+
+function openWA(p){window.open(`https://wa.me/8613888888888?text=${encodeURIComponent('Hi George Deco! Interested in: '+p)}`,'_blank')}
+function shareLink(){const u=window.location.href;navigator.share?navigator.share({title:'George Deco',url:u}).catch(()=>{}):navigator.clipboard.writeText(u).then(()=>showToast('Link copied!')).catch(()=>{})}
+function showToast(msg){const toast=document.getElementById('toast');toast.textContent=msg;toast.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>toast.classList.remove('show'),2500)}
+
+/* Keyboard */
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='j'){e.preventDefault();scrollBy(1)}
+  else if(e.key==='ArrowUp'||e.key==='k'){e.preventDefault();scrollBy(-1)}
+});
+function scrollBy(dir){
+  const slides=[...document.querySelectorAll('.slide-v,.slide-note,.slide-docs,.slide-trust')];
+  const feed=document.getElementById('feed');
+  const idx=slides.findIndex(s=>s.offsetTop>=feed.scrollTop+10);
+  const tgt=dir>0?Math.min(idx+1,slides.length-1):Math.max(idx-1,0);
+  if(tgt>=0)slides[tgt].scrollIntoView({behavior:'smooth'})
+}
+
+/* Init */
+buildDots();renderDocFiles();document.getElementById('feed').addEventListener('scroll',updateDots);updateDots();
+const fv=document.querySelector('.slide-v video');if(fv)fv.play().catch(()=>{const p=fv.parentElement.querySelector('.poster');if(p)p.classList.remove('hide')});
+</script>
+</body>
+</html>
